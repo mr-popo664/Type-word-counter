@@ -660,9 +660,170 @@ body.light-mode div.insta-gradient-bar {
     text-decoration: underline;
     text-underline-offset: 4px;
   }
+    .site-header {
+  width: 100%;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(13, 17, 23, 0.85);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.back-link {
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+
+.back-link:hover {
+  color: #ffffff;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Dropdown styling */
+.tools-dropdown {
+  position: relative;
+}
+
+.dropdown-btn {
+  list-style: none;
+  cursor: pointer;
+  padding: 7px 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  user-select: none;
+}
+
+.dropdown-btn::-webkit-details-marker {
+  display: none;
+}
+
+.dropdown-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 240px;
+  background: #161b22;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 6px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dropdown-menu a {
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 8px 10px;
+  border-radius: 6px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.dropdown-menu a:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+/* Matches your current Light Mode button look */
+.theme-btn {
+  padding: 7px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0f172a;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Light Mode overrides (update selector if your JS toggles a different class) */
+body.light-mode .site-header {
+  background: rgba(255, 255, 255, 0.9);
+  border-bottom-color: #e2e8f0;
+}
+
+body.light-mode .back-link {
+  color: #475569;
+}
+
+body.light-mode .back-link:hover {
+  color: #0f172a;
+}
+
+body.light-mode .dropdown-btn {
+  color: #1e293b;
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+body.light-mode .dropdown-menu {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
+}
+
+body.light-mode .dropdown-menu a {
+  color: #334155;
+}
+
+body.light-mode .dropdown-menu a:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
 </style>
 </head>
 <body>
+  <header class="site-header">
+  <div class="header-inner">
+    <a href="https://mohit-tools.com" class="back-link">← All Tools</a>
+
+    <div class="header-actions">
+      <details class="tools-dropdown" id="toolsDropdown">
+        <summary class="dropdown-btn">More Tools ▾</summary>
+        <nav class="dropdown-menu" aria-label="Other tools">
+          <a href="https://mohit-tools.com">🏠 All Tools Hub</a>
+          <a href="https://ps5.mohit-tools.com">🎮 PS5 GTA 6 Storage Calculator</a>
+          <a href="https://gta6.mohit-tools.com">🕹️ GTA 6 Cheat Code Tracker</a>
+          <a href="https://carousel.mohit-tools.com">🖼️ Instagram Carousel Splitter</a>
+          <a href="https://safezone.mohit-tools.com">📱 Reels & TikTok Safe-Zone Checker</a>
+          <a href="https://resistor.mohit-tools.com">⚡ Resistor Color Code Calculator</a>
+        </nav>
+      </details>
+
+      <!-- Keep your existing id or onclick attribute on this button -->
+      <button id="theme-toggle" class="theme-btn">☀️ Light Mode</button>
+    </div>
+  </div>
+</header>
 
 <button id="themeToggle" style="position: fixed; top: 15px; right: 15px; padding: 10px 15px; cursor: pointer; border-radius: 8px; font-weight: bold; background: #ffffff; color: #121212; border: 1px solid #ccc; z-index: 1000;">☀️ Light Mode</button>
 
@@ -1175,6 +1336,7 @@ body.light-mode div.insta-gradient-bar {
     <a href="privacy-policy.html">Privacy Policy</a> | 
     <a href="terms.html">Terms of Service</a>
 </nav>
+  
   <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
 <script>
 window.addEventListener("load", function(){
@@ -1188,6 +1350,12 @@ window.addEventListener("load", function(){
       "href": "/privacy.html"
     }
   })
+});
+  document.addEventListener('click', (e) => {
+  const dropdown = document.getElementById('toolsDropdown');
+  if (dropdown && !dropdown.contains(e.target)) {
+    dropdown.removeAttribute('open');
+  }
 });
 </script>
 </body>
