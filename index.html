@@ -63,6 +63,7 @@ body {
 body.light-mode {
   --bg-base: #f4f4f9 !important;
   --bg-surface: #e2e8f0 !important;
+  --bg-surface-hover: #f1f5f9 !important;
   --bg-card: #ffffff !important;
   --bg-input: #ffffff !important;
   background-color: #f4f4f9 !important;
@@ -78,6 +79,11 @@ body.light-mode textarea,
 body.light-mode div {
   background-color: var(--bg-input, #ffffff);
   border-color: #ccc !important;
+}
+    /* Keeps stat cards light when hovering in Light Mode */
+body.light-mode .stat-card:hover {
+  background: #f1f5f9 !important;
+  border-color: #94a3b8 !important;
 }
 
 /* Keeps your toggle button visible */
@@ -1196,7 +1202,7 @@ window.addEventListener("load", function(){
     }
   })
 });
-});
+
 </script>
 </body>
 </html>
