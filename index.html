@@ -662,21 +662,18 @@ body.light-mode div.insta-gradient-bar {
   }
 .site-header {
   width: 100%;
-  box-sizing: border-box;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(13, 17, 23, 0.85);
-  backdrop-filter: blur(8px);
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  background: transparent !important;
+  border: none;
 }
 
 .header-inner {
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
-  padding: 12px 20px;
+  padding: 14px 20px;
   box-sizing: border-box;
+  background: transparent !important;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.2);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -705,8 +702,8 @@ body.light-mode div.insta-gradient-bar {
   font-size: 0.85rem;
   font-weight: 500;
   color: #e2e8f0;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(128, 128, 128, 0.12);
+  border: 1px solid rgba(128, 128, 128, 0.25);
   border-radius: 6px;
   user-select: none;
 }
@@ -716,7 +713,7 @@ body.light-mode div.insta-gradient-bar {
 }
 
 .dropdown-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(128, 128, 128, 0.2);
 }
 
 .dropdown-menu {
@@ -725,13 +722,14 @@ body.light-mode div.insta-gradient-bar {
   top: calc(100% + 8px);
   min-width: 240px;
   background: #161b22;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(128, 128, 128, 0.25);
   border-radius: 8px;
   padding: 6px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
   display: flex;
   flex-direction: column;
   gap: 2px;
+  z-index: 200;
 }
 
 .dropdown-menu a {
@@ -744,8 +742,30 @@ body.light-mode div.insta-gradient-bar {
 }
 
 .dropdown-menu a:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(128, 128, 128, 0.15);
   color: #ffffff;
+}
+
+/* Light Mode support for the dropdown list */
+body.light-mode .dropdown-menu,
+body.light .dropdown-menu,
+[data-theme="light"] .dropdown-menu {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+}
+
+body.light-mode .dropdown-menu a,
+body.light .dropdown-menu a,
+[data-theme="light"] .dropdown-menu a {
+  color: #1e293b;
+}
+
+body.light-mode .dropdown-menu a:hover,
+body.light .dropdown-menu a:hover,
+[data-theme="light"] .dropdown-menu a:hover {
+  background: #f1f5f9;
+  color: #0f172a;
 }
 </style>
 </head>
