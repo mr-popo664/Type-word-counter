@@ -1,29 +1,280 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - Mohit Tools</title>
-    <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #333; }
-        h1, h2 { color: #111; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy - Mohit Tools | Data Protection &amp; Cookie Disclosures</title>
+  <meta name="description" content="Read the Privacy Policy for Mohit Tools (mohit-tools.com), detailing local browser processing, log files, cookies, Google AdSense, and user privacy rights.">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-base: #090d16;
+      --bg-surface: #111726;
+      --bg-card: #151d30;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent: #38bdf8;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2.5rem 1.25rem;
+      line-height: 1.7;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    body.light-mode {
+      --bg-base: #f4f4f9;
+      --bg-surface: #e2e8f0;
+      --bg-card: #ffffff;
+      --border-subtle: #cbd5e1;
+      --text-main: #121212;
+      --text-secondary: #334155;
+      --text-muted: #475569;
+      --accent: #0284c7;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 860px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      padding-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--text-main);
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    .last-updated {
+      display: inline-block;
+      margin-top: 0.25rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    p {
+      color: var(--text-secondary);
+      font-size: 0.96rem;
+    }
+
+    ul {
+      padding-left: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      color: var(--text-secondary);
+      font-size: 0.96rem;
+    }
+
+    li strong {
+      color: var(--text-main);
+    }
+
+    a.inline-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    a.inline-link:hover {
+      text-decoration: underline;
+    }
+
+    nav {
+      margin-top: 1rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border-subtle);
+      text-align: center;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    nav a, nav a:visited {
+      color: var(--text-secondary);
+      text-decoration: none;
+      margin: 0 0.35rem;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 700px) {
+      h1 {
+        font-size: 1.65rem;
+      }
+      .card {
+        padding: 1.35rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <h1>Privacy Policy for Mohit Tools</h1>
-    <p>At <strong>mohit-tools.com</strong>, accessible from https://mohit-tools.com, the privacy of our visitors is of extreme importance to us. This Privacy Policy document outlines the types of personal information is received and collected by mohit-tools.com and how it is used.</p>
+  <button id="themeToggle" style="position: fixed; top: 15px; right: 15px; padding: 10px 15px; cursor: pointer; border-radius: 8px; font-weight: bold; background: #ffffff; color: #121212; border: 1px solid #ccc; z-index: 1000;">☀️ Light Mode</button>
 
-    <h2>Google AdSense and Third-Party Cookies</h2>
-    <p>Google, as a third-party vendor, uses cookies to serve ads on mohit-tools.com. Google's use of advertising cookies enables it and its partners to serve ads to our users based on their visit to your sites and/or other sites on the Internet.</p>
-    <p>Users may opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank">Google Ads Settings</a>.</p>
+  <main class="container">
+    <header>
+      <h1>Privacy Policy</h1>
+      <p class="subtitle">How Mohit Tools (mohit-tools.com) handles data, cookies, and third-party advertising.</p>
+      <span class="last-updated">Last Updated: November 15, 2026</span>
+    </header>
 
-    <h2>Log Files</h2>
-    <p>Like many other Web sites, mohit-tools.com makes use of log files. The information inside the log files includes internet protocol (IP) addresses, type of browser, Internet Service Provider (ISP), date/time stamp, referring/exit pages, and number of clicks to analyze trends, administer the site, track user's movement around the site, and gather demographic information.</p>
+    <section class="card">
+      <h2>1. Overview &amp; Local Browser Processing</h2>
+      <p>
+        At <strong>Mohit Tools</strong> (accessible from <strong>https://mohit-tools.com</strong>), the privacy of our visitors is a top priority. This Privacy Policy explains what information is collected when you visit our website and how it is used.
+      </p>
+      <p>
+        <strong>Your Tool Inputs Stay Private:</strong> All text analysis, word and character counts, and formatting operations on Mohit Tools run locally inside your web browser using client-side JavaScript. We do not transmit, store, log, or sell the text or captions you enter into our utilities.
+      </p>
+    </section>
 
-    <h2>Consent</h2>
-    <p>By using our website, you hereby consent to our privacy policy and agree to its terms.</p>
+    <section class="card">
+      <h2>2. Log Files</h2>
+      <p>
+        Like most standard websites, <strong>mohit-tools.com</strong> and our hosting infrastructure make use of log files. The information recorded in log files includes Internet Protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamps, referring/exit pages, and aggregate click counts. This data is not linked to any personally identifiable information and is used strictly to analyze traffic trends, administer the site, and maintain security.
+      </p>
+    </section>
 
-    <h2>Contact Us</h2>
-    <p>If you require any more information or have any questions about our privacy policy, please feel free to contact us.</p>
+    <section class="card">
+      <h2>3. Cookies, Google AdSense &amp; Third-Party Advertising</h2>
+      <p>
+        Mohit Tools uses cookies to store visitor preferences (such as cookie consent choices) and to support advertising that keeps our tools free.
+      </p>
+      <ul>
+        <li>
+          <strong>Google AdSense:</strong> Google is a third-party vendor on <strong>mohit-tools.com</strong> and uses cookies (including the DoubleClick cookie) to serve ads to visitors based on their visits to this website and other websites across the internet.
+        </li>
+        <li>
+          <strong>How Google Uses Partner Data:</strong> Learn more about how Google collects and processes data when you use partner websites by visiting <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer" class="inline-link">How Google uses information from sites or apps that use our services</a>.
+        </li>
+        <li>
+          <strong>Opting Out of Personalized Ads:</strong> Visitors may opt out of personalized advertising at any time by visiting <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer" class="inline-link">Google Ads Settings</a> or by visiting <a href="https://www.aboutads.info" target="_blank" rel="noopener noreferrer" class="inline-link">www.aboutads.info</a>.
+        </li>
+      </ul>
+      <p>
+        Third-party ad servers or ad networks use technologies like cookies, JavaScript, or web beacons in their respective advertisements and links that appear on Mohit Tools, which are sent directly to your browser. They automatically receive your IP address when this occurs. Mohit Tools has no access to or control over cookies used by third-party advertisers.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>4. Analytics &amp; Performance Monitoring</h2>
+      <p>
+        We use <strong>Google Tag Manager</strong> and web analytics tools to understand aggregate usage patterns—such as page views, device types, and page load performance—so we can improve the speed and usability of our utilities. You can disable cookies at any time through your individual browser settings.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>5. Your Privacy Rights (GDPR &amp; CCPA)</h2>
+      <p>
+        Depending on your location (including the European Economic Area, the UK, and California), you have specific rights regarding your personal data, including the right to:
+      </p>
+      <ul>
+        <li><strong>Request Access or Deletion:</strong> Request details about any personal data collected or ask that it be erased.</li>
+        <li><strong>Opt Out of Personalized Advertising:</strong> Withdraw cookie consent or disable personalized ad tracking via <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer" class="inline-link">Google Ads Settings</a>.</li>
+        <li><strong>Browser Cookie Controls:</strong> Block or clear browser cookies through your browser's privacy preferences.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>6. Children's Information</h2>
+      <p>
+        Protecting children while using the internet is important to us. Mohit Tools does not knowingly collect any Personally Identifiable Information from children under the age of 13. If you believe that a child has provided personal information through our website, please contact us immediately and we will promptly remove such records.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>7. Consent &amp; Contact Information</h2>
+      <p>
+        By using <strong>mohit-tools.com</strong>, you hereby consent to this Privacy Policy and agree to its terms. If you have any questions or require more information about our privacy practices, please reach out via our <a href="Contact.html" class="inline-link">Contact Us</a> page or email us directly at <a href="mailto:mohitsonar13@gmail.com" class="inline-link">mohitsonar13@gmail.com</a>.
+      </p>
+    </section>
+
+    <nav aria-label="Footer navigation">
+      <a href="index.html">Home</a> |
+      <a href="about.html">About Us</a> |
+      <a href="Contact.html">Contact Us</a> |
+      <a href="privacy-policy.html">Privacy Policy</a> |
+      <a href="terms.html">Terms of Service</a>
+    </nav>
+
+    <footer>
+      <span>&copy; 2026 Mohit Tools (mohit-tools.com) &middot; All rights reserved</span>
+    </footer>
+  </main>
+
+  <script>
+    const toggleBtn = document.getElementById('themeToggle');
+    toggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('light-mode');
+      if (document.body.classList.contains('light-mode')) {
+        toggleBtn.innerText = '🌙 Dark Mode';
+        toggleBtn.style.background = '#121212';
+        toggleBtn.style.color = '#ffffff';
+      } else {
+        toggleBtn.innerText = '☀️ Light Mode';
+        toggleBtn.style.background = '#ffffff';
+        toggleBtn.style.color = '#121212';
+      }
+    });
+  </script>
 </body>
 </html>
