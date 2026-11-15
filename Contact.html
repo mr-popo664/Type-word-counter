@@ -1,25 +1,424 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Mohit Tools</title>
-    <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #333; }
-        h1, h2 { color: #111; }
-        .contact-box { background: #f9f9f9; padding: 20px; border-radius: 5px; border-left: 4px solid #0066cc; margin-top: 20px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - Mohit Tools | Support, Feedback &amp; Inquiries</title>
+  <meta name="description" content="Get in touch with Mohit Tools (mohit-tools.com) for feedback, bug reports, tool suggestions, or general inquiries.">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-base: #090d16;
+      --bg-surface: #111726;
+      --bg-card: #151d30;
+      --bg-input: #0d1322;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-focus: #38bdf8;
+      --text-main: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.2);
+      --success: #10b981;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2.5rem 1.25rem;
+      line-height: 1.65;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    body.light-mode {
+      --bg-base: #f4f4f9;
+      --bg-surface: #e2e8f0;
+      --bg-card: #ffffff;
+      --bg-input: #ffffff;
+      --border-subtle: #cbd5e1;
+      --border-focus: #0284c7;
+      --text-main: #121212;
+      --text-secondary: #334155;
+      --text-muted: #475569;
+      --accent: #0284c7;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 860px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--text-main);
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: 1.25rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .info-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .info-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    .email-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .email-link {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.975rem;
+      text-decoration: none;
+      word-break: break-all;
+    }
+
+    .email-link:hover {
+      text-decoration: underline;
+    }
+
+    .btn-small {
+      font-family: inherit;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.35rem 0.7rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      color: var(--text-main);
+      cursor: pointer;
+      transition: border-color 0.15s ease;
+    }
+
+    .btn-small:hover {
+      border-color: var(--accent);
+    }
+
+    ul.topics {
+      padding-left: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    input, select, textarea {
+      width: 100%;
+      background-color: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 0.65rem 0.85rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: var(--text-main);
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .btn-submit {
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 0.75rem 1.25rem;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: var(--accent);
+      color: #090d16;
+      cursor: pointer;
+      transition: opacity 0.15s ease;
+      margin-top: 0.25rem;
+    }
+
+    body.light-mode .btn-submit {
+      color: #ffffff;
+    }
+
+    .btn-submit:hover {
+      opacity: 0.9;
+    }
+
+    .form-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .status-msg {
+      font-size: 0.85rem;
+      color: var(--success);
+      font-weight: 500;
+      display: none;
+    }
+
+    nav {
+      margin-top: 1rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border-subtle);
+      text-align: center;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    nav a, nav a:visited {
+      color: var(--text-secondary);
+      text-decoration: none;
+      margin: 0 0.35rem;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 768px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+      h1 {
+        font-size: 1.65rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <h1>Contact Us</h1>
-    <p>Have questions, feedback, or suggestions for new tools? We would love to hear from you!</p>
+  <button id="themeToggle" style="position: fixed; top: 15px; right: 15px; padding: 10px 15px; cursor: pointer; border-radius: 8px; font-weight: bold; background: #ffffff; color: #121212; border: 1px solid #ccc; z-index: 1000;">☀️ Light Mode</button>
 
-    <div class="contact-box">
-        <h2>Get in Touch</h2>
-        <p>You can reach out to us directly via email:</p>
-        <p><strong>Email:</strong> <a href="mailto:mohitsonar13@gmail.com">mohitsonar13@gmail.com</a></p>
+  <main class="container">
+    <header>
+      <h1>Contact Us</h1>
+      <p class="subtitle">Have a question, bug report, or idea for a new utility? Reach out anytime.</p>
+    </header>
+
+    <div class="contact-grid">
+      <!-- Left Column: Direct Details -->
+      <section class="card">
+        <h2>Direct Contact</h2>
+        <p>
+          We welcome feedback from users, creators, and partners. For the fastest response, reach out via email:
+        </p>
+
+        <div class="info-box">
+          <span class="info-label">Official Support Email</span>
+          <div class="email-row">
+            <a href="mailto:mohitsonar13@gmail.com" class="email-link">mohitsonar13@gmail.com</a>
+            <button type="button" id="copyEmailBtn" class="btn-small">Copy Email</button>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <span class="info-label">Response Time &amp; Location</span>
+          <p style="font-size: 0.875rem;">Typically within 24–48 hours &middot; Maharashtra, India</p>
+        </div>
+
+        <div>
+          <span class="info-label" style="display: block; margin-bottom: 0.5rem;">How We Can Help</span>
+          <ul class="topics">
+            <li>Reporting display or calculation bugs on any tool</li>
+            <li>Suggesting new features or free web utilities</li>
+            <li>Questions regarding our Privacy Policy or Terms</li>
+            <li>Advertising, media, or collaboration inquiries</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Right Column: Interactive Message Composer -->
+      <section class="card">
+        <h2>Send a Message</h2>
+        <p>Fill in the details below to draft an email directly to our inbox.</p>
+
+        <form id="contactForm">
+          <div style="display: flex; flex-direction: column; gap: 0.9rem;">
+            <div class="form-group">
+              <label for="senderName">Your Name</label>
+              <input type="text" id="senderName" name="name" placeholder="Enter your name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="senderEmail">Your Email</label>
+              <input type="email" id="senderEmail" name="email" placeholder="you@example.com" required>
+            </div>
+
+            <div class="form-group">
+              <label for="subject">Topic</label>
+              <select id="subject" name="subject">
+                <option value="General Inquiry">General Inquiry</option>
+                <option value="Bug Report">Bug Report</option>
+                <option value="New Tool Suggestion">New Tool Suggestion</option>
+                <option value="Privacy / Legal Question">Privacy / Legal Question</option>
+                <option value="Business / Advertising">Business / Advertising</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Open in Email App &rarr;</button>
+            <p id="formStatus" class="status-msg">Opening your email client addressed to mohitsonar13@gmail.com...</p>
+            <p class="form-note">Or email <strong>mohitsonar13@gmail.com</strong> directly from Gmail or any mail app.</p>
+          </div>
+        </form>
+      </section>
     </div>
 
-    <p style="margin-top: 40px;"><a href="index.html">&larr; Back to Home</a></p>
+    <nav aria-label="Footer navigation">
+      <a href="index.html">Home</a> |
+      <a href="about.html">About Us</a> |
+      <a href="Contact.html">Contact Us</a> |
+      <a href="privacy-policy.html">Privacy Policy</a> |
+      <a href="terms.html">Terms of Service</a>
+    </nav>
+
+    <footer>
+      <span>&copy; 2026 Mohit Tools (mohit-tools.com) &middot; All rights reserved</span>
+    </footer>
+  </main>
+
+  <script>
+    // Light / Dark Mode Toggle
+    const toggleBtn = document.getElementById('themeToggle');
+    toggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('light-mode');
+      if (document.body.classList.contains('light-mode')) {
+        toggleBtn.innerText = '🌙 Dark Mode';
+        toggleBtn.style.background = '#121212';
+        toggleBtn.style.color = '#ffffff';
+      } else {
+        toggleBtn.innerText = '☀️ Light Mode';
+        toggleBtn.style.background = '#ffffff';
+        toggleBtn.style.color = '#121212';
+      }
+    });
+
+    // Copy Email Button
+    const copyEmailBtn = document.getElementById('copyEmailBtn');
+    copyEmailBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText('mohitsonar13@gmail.com').then(() => {
+        copyEmailBtn.innerText = 'Copied!';
+        setTimeout(() => {
+          copyEmailBtn.innerText = 'Copy Email';
+        }, 2000);
+      });
+    });
+
+    // Mailto Form Handler (works cleanly on GitHub Pages without a backend)
+    const contactForm = document.getElementById('contactForm');
+    const formStatus = document.getElementById('formStatus');
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('senderName').value.trim();
+      const email = document.getElementById('senderEmail').value.trim();
+      const topic = document.getElementById('subject').value;
+      const bodyText = document.getElementById('message').value.trim();
+
+      const mailSubject = encodeURIComponent(`[Mohit Tools - ${topic}] from ${name}`);
+      const mailBody = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nTopic: ${topic}\n\nMessage:\n${bodyText}`);
+
+      formStatus.style.display = 'block';
+      window.location.href = `mailto:mohitsonar13@gmail.com?subject=${mailSubject}&body=${mailBody}`;
+    });
+  </script>
 </body>
 </html>
