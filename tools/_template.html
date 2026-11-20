@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{TOOL_TITLE}} — Mohit Tools</title>
+    <meta name="description" content="{{TOOL_META_DESCRIPTION}}" />
+    <link rel="canonical" href="https://mohit-tools.com/tools/{{TOOL_SLUG}}/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mohit Tools" />
+    <meta property="og:url" content="https://mohit-tools.com/tools/{{TOOL_SLUG}}/" />
+    <meta property="og:title" content="{{TOOL_TITLE}} — Mohit Tools" />
+    <meta property="og:description" content="{{TOOL_META_DESCRIPTION}}" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{TOOL_TITLE}} — Mohit Tools" />
+    <meta name="twitter:description" content="{{TOOL_META_DESCRIPTION}}" />
+
+    <!-- Schema.org: WebApplication -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "{{TOOL_TITLE}}",
+        "url": "https://mohit-tools.com/tools/{{TOOL_SLUG}}/",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "All",
+        "browserRequirements": "Requires JavaScript. Works in all modern desktop and mobile browsers.",
+        "description": "{{TOOL_META_DESCRIPTION}}",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Mohit Sonar",
+          "url": "https://mohit-tools.com/about.html"
+        }
+      }
+    </script>
+
+    <!-- Schema.org: FAQPage (Populate all 6 Q&A pairs for each tool) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "{{FAQ_Q1}}",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "{{FAQ_A1}}"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "{{FAQ_Q2}}",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "{{FAQ_A2}}"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "{{FAQ_Q3}}",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "{{FAQ_A3}}"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "{{FAQ_Q4}}",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "{{FAQ_A4}}"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "{{FAQ_Q5}}",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "{{FAQ_A5}}"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "{{FAQ_Q6}}",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "{{FAQ_A6}}"
+            }
+          }
+        ]
+      }
+    </script>
+
+    <!-- Prevent Theme Flash Before First Paint -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('mt_theme');
+          if (t === 'dark' || (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS CDN (Class-Based Dark Mode) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'monospace'],
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Shared Stylesheet -->
+    <link rel="stylesheet" href="/assets/css/style.css" />
+
+    <!-- Google Analytics 4 (Uncomment and replace G-XXXXXXXXXX when deploying)
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    -->
+
+    <!-- Google AdSense (Uncomment and replace ca-pub-XXXXXXXXXXXXXXXX after approval)
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+    -->
+  </head>
+
+  <body
+    data-tool-id="{{TOOL_ID}}"
+    class="bg-[#F8FAFC] dark:bg-[#09090B] text-[#0F172A] dark:text-[#F4F4F5] antialiased"
+  >
+    <header id="site-header"></header>
+
+    <main>
+      <!-- =================================================================
+           ZONE 1: ABOVE THE FOLD — Breadcrumb, H1, Subtitle & Tool Workspace
+           ================================================================= -->
+      <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12">
+        <!-- Breadcrumb Navigation -->
+        <nav aria-label="Breadcrumb" class="mb-6">
+          <ol class="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-zinc-400">
+            <li><a href="/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Home</a></li>
+            <li aria-hidden="true">/</li>
+            <li><a href="/#tools-directory" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Tools</a></li>
+            <li aria-hidden="true">/</li>
+            <li class="text-slate-900 dark:text-zinc-100 font-medium" aria-current="page">{{TOOL_SHORT_TITLE}}</li>
+          </ol>
+        </nav>
+
+        <!-- Single H1 + Concise Subtitle -->
+        <div class="max-w-3xl space-y-3 mb-8">
+          <h1 class="text-2xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+            {{TOOL_TITLE}}
+          </h1>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+            {{TOOL_SUBTITLE}}
+          </p>
+        </div>
+
+        <!-- Interactive Tool Workspace Container -->
+        <div
+          id="tool-workspace"
+          class="mt-surface rounded-2xl p-6 sm:p-8 shadow-sm"
+        >
+          <!-- Replace with tool-specific interactive HTML controls and output panels -->
+          <p class="text-sm text-slate-500 dark:text-zinc-400">
+            Interactive tool workspace placeholder. Implement inputs, live visualizers, and action buttons here while keeping at least 36px–48px vertical spacing before Zone 2 content or ad placements.
+          </p>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           ZONE 2: BELOW THE FOLD — 900+ Words Crawlable Technical Content
+           AdSense-safe 48px vertical padding separating interactive controls
+           ================================================================= -->
+      <article class="mt-adsense-buffer border-t border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950/60">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16 space-y-12">
+          <!-- Section 1: How to Use -->
+          <section class="space-y-4">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+              How to Use the {{TOOL_SHORT_TITLE}}
+            </h2>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              Provide a clear step-by-step walkthrough (200–250 words) explaining every input field, interactive toggle, and output readout so first-time visitors can get accurate results immediately without guesswork.
+            </p>
+            <ol class="list-decimal pl-5 space-y-2.5 text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              <li><strong class="text-slate-900 dark:text-zinc-100">Configure your primary input:</strong> Describe what values or media the user enters or uploads.</li>
+              <li><strong class="text-slate-900 dark:text-zinc-100">Adjust options or parameters:</strong> Explain presets, standard modes, or platform selectors.</li>
+              <li><strong class="text-slate-900 dark:text-zinc-100">Inspect real-time metrics:</strong> Detail how the live readout updates and how to export or copy results.</li>
+            </ol>
+          </section>
+
+          <!-- Section 2: Technical Breakdown / How It Works -->
+          <section class="space-y-4 pt-8 border-t border-slate-200 dark:border-zinc-800">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+              Technical Breakdown &amp; Underlying Logic
+            </h2>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              Include 250–350 words covering exact engineering formulas, industry standards, edge cases, and why client-side execution preserves both speed and privacy. Include clean reference tables or monospace equations where helpful.
+            </p>
+            <h3 class="text-base sm:text-lg font-semibold text-slate-900 dark:text-zinc-100 pt-2">
+              Standards, Formulas &amp; Precision Guarantees
+            </h3>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              Explain the specific standards (for example, RFC 4632 CIDR math, IEC 60062 resistor bands, 1080x1920 safe margins, or Gibibyte vs Gigabyte conversion ratios) used inside the browser script.
+            </p>
+          </section>
+
+          <!-- Section 3: Practical Use Cases -->
+          <section class="space-y-4 pt-8 border-t border-slate-200 dark:border-zinc-800">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+              Practical Real-World Use Cases
+            </h2>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              Write 200–250 words detailing concrete scenarios for professionals, students, and creators using this tool in daily workflows.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
+              <div class="mt-surface rounded-xl p-5 space-y-2">
+                <h3 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">Primary Workflow</h3>
+                <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                  Concrete practitioner scenario demonstrating measurable time savings or error prevention.
+                </p>
+              </div>
+              <div class="mt-surface rounded-xl p-5 space-y-2">
+                <h3 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">Verification &amp; Auditing</h3>
+                <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                  Secondary review or educational scenario verifying complex specs before shipping or publishing.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Section 4: 6-Question Detailed FAQ -->
+          <section class="space-y-5 pt-8 border-t border-slate-200 dark:border-zinc-800">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+              Frequently Asked Questions
+            </h2>
+            <div class="space-y-3">
+              <details class="mt-surface rounded-xl p-5" open>
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>{{FAQ_Q1}}</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">{{FAQ_A1}}</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>{{FAQ_Q2}}</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">{{FAQ_A2}}</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>{{FAQ_Q3}}</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">{{FAQ_A3}}</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>{{FAQ_Q4}}</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">{{FAQ_A4}}</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>{{FAQ_Q5}}</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">{{FAQ_A5}}</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>{{FAQ_Q6}}</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">{{FAQ_A6}}</p>
+              </details>
+            </div>
+          </section>
+        </div>
+      </article>
+
+      <!-- Auto-Rendered Related Tools Section -->
+      <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 border-t border-slate-200 dark:border-zinc-800">
+        <div class="flex items-center justify-between gap-4 mb-8">
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+            Related Utilities
+          </h2>
+          <a href="/#tools-directory" class="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:underline whitespace-nowrap">
+            View all tools &rarr;
+          </a>
+        </div>
+        <div
+          id="related-tools"
+          data-current-tool="{{TOOL_ID}}"
+          class="grid grid-cols-1 md:grid-cols-3 gap-6"
+        ></div>
+      </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="/assets/js/tools-data.js"></script>
+    <script src="/assets/js/layout.js"></script>
+    <script>
+      // Tool-specific Vanilla ES6+ logic goes here
+    </script>
+  </body>
+</html>

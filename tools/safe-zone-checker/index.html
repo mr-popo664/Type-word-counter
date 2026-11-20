@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TikTok, Reels &amp; Shorts Safe-Zone Overlay Checker — Mohit Tools</title>
+    <meta
+      name="description"
+      content="Upload vertical 9:16 images or videos locally to preview TikTok, Instagram Reels, and YouTube Shorts UI overlays and verify captions stay inside safe areas."
+    />
+    <link rel="canonical" href="https://mohit-tools.com/tools/safe-zone-checker/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mohit Tools" />
+    <meta property="og:url" content="https://mohit-tools.com/tools/safe-zone-checker/" />
+    <meta property="og:title" content="TikTok, Reels &amp; Shorts Safe-Zone Overlay Checker — Mohit Tools" />
+    <meta
+      property="og:description"
+      content="Preview vertical 9:16 video and image assets under accurate TikTok, Reels, and Shorts UI dead-zone overlays without server uploads."
+    />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="TikTok, Reels &amp; Shorts Safe-Zone Overlay Checker" />
+    <meta
+      name="twitter:description"
+      content="Verify 9:16 captions and subjects stay clear of TikTok, Reels, and Shorts UI overlays."
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "TikTok, Reels & Shorts Safe-Zone Overlay Checker",
+        "url": "https://mohit-tools.com/tools/safe-zone-checker/",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "All",
+        "description": "Preview vertical 9:16 images and videos under accurate TikTok, Instagram Reels, and YouTube Shorts UI safe-zone overlays directly in the browser.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Mohit Sonar",
+          "url": "https://mohit-tools.com/about.html"
+        }
+      }
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the recommended safe zone for 1080x1920 vertical videos?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Keep essential text, subtitles, and logos at least 220px from the top, 420px from the bottom, 60px from the left, and 170px from the right edge on a 1080x1920 canvas to clear UI controls across all three platforms."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are my unreleased videos or client reels uploaded to a server?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Files are loaded exclusively into local browser memory via URL.createObjectURL, so unreleased edits and client campaigns never leave your computer."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which platform has the largest bottom UI dead zone?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "TikTok and Instagram Reels both occupy significant lower-third space when multi-line captions, music tickers, and shopping or location tags are active, requiring higher subtitle placement."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What video and image file formats are supported?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Any format natively supported by modern browsers, including MP4 (H.264/H.265), WebM, MOV, PNG, JPG, and WebP."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why should I also check the 4:5 center crop on Instagram Reels?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Instagram displays Reels inside both the 9:16 Reels tab and a cropped 4:5 or 3:4 feed preview on your profile grid, so centering key headlines prevents top and bottom clipping."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I toggle the green safe-area guide frame on and off?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Use the Safe Margin Guide checkbox and Overlay Opacity slider to inspect both exact pixel boundaries and realistic in-feed readability."
+            }
+          }
+        ]
+      }
+    </script>
+
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('mt_theme');
+          if (t === 'dark' || (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'monospace'],
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="/assets/css/style.css" />
+  </head>
+
+  <body
+    data-tool-id="safe-zone-checker"
+    class="bg-[#F8FAFC] dark:bg-[#09090B] text-[#0F172A] dark:text-[#F4F4F5] antialiased"
+  >
+    <header id="site-header"></header>
+
+    <main>
+      <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12">
+        <nav aria-label="Breadcrumb" class="mb-6">
+          <ol class="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-zinc-400">
+            <li><a href="/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Home</a></li>
+            <li aria-hidden="true">/</li>
+            <li><a href="/#tools-directory" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Tools</a></li>
+            <li aria-hidden="true">/</li>
+            <li class="text-slate-900 dark:text-zinc-100 font-medium" aria-current="page">Safe-Zone Checker</li>
+          </ol>
+        </nav>
+
+        <div class="max-w-3xl space-y-3 mb-8">
+          <h1 class="text-2xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+            TikTok, Reels &amp; Shorts Safe-Zone Overlay Checker
+          </h1>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+            Preview 9:16 images or videos locally under real platform UI overlays so your subtitles, hooks, and logos never get obscured by buttons or captions.
+          </p>
+        </div>
+
+        <div id="tool-workspace" class="mt-surface rounded-2xl p-5 sm:p-8 shadow-sm">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <!-- Controls Column -->
+            <div class="lg:col-span-5 space-y-6">
+              <div class="space-y-2">
+                <label for="sz-file-input" class="block text-sm font-medium text-slate-700 dark:text-zinc-300">
+                  Upload 9:16 Image or Video
+                </label>
+                <input
+                  id="sz-file-input"
+                  type="file"
+                  accept="image/*,video/*"
+                  class="block w-full text-xs text-slate-600 dark:text-zinc-300 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-700 cursor-pointer border border-slate-200 dark:border-zinc-800 rounded-lg p-2 bg-slate-50 dark:bg-zinc-950"
+                />
+                <button
+                  id="sz-demo-btn"
+                  type="button"
+                  class="text-xs font-medium text-indigo-600 dark:text-indigo-400 hover:underline cursor-pointer"
+                >
+                  Load built-in 1080×1920 sample frame
+                </button>
+              </div>
+
+              <div class="space-y-2">
+                <span class="block text-sm font-medium text-slate-700 dark:text-zinc-300">Target Platform Overlay</span>
+                <div role="group" aria-label="Platform overlay" class="grid grid-cols-3 gap-2">
+                  <button type="button" data-platform="tiktok" class="sz-plat-btn py-2 px-3 rounded-lg border border-indigo-600 bg-indigo-600 text-white text-xs sm:text-sm font-medium cursor-pointer">TikTok</button>
+                  <button type="button" data-platform="reels" class="sz-plat-btn py-2 px-3 rounded-lg border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-900 text-slate-700 dark:text-zinc-300 text-xs sm:text-sm font-medium cursor-pointer">Reels</button>
+                  <button type="button" data-platform="shorts" class="sz-plat-btn py-2 px-3 rounded-lg border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-900 text-slate-700 dark:text-zinc-300 text-xs sm:text-sm font-medium cursor-pointer">Shorts</button>
+                </div>
+              </div>
+
+              <div class="space-y-4 pt-2 border-t border-slate-200 dark:border-zinc-800">
+                <label class="flex items-center justify-between gap-3 cursor-pointer">
+                  <span class="text-sm font-medium text-slate-700 dark:text-zinc-300">Show Safe Margin Guide Box</span>
+                  <input id="sz-guide-toggle" type="checkbox" checked class="w-4 h-4 accent-indigo-600" />
+                </label>
+
+                <div class="space-y-1.5">
+                  <div class="flex items-center justify-between text-xs">
+                    <label for="sz-opacity-slider" class="font-medium text-slate-700 dark:text-zinc-300">UI Overlay Opacity</label>
+                    <span id="sz-opacity-label" class="font-mono text-slate-500 dark:text-zinc-400">85%</span>
+                  </div>
+                  <input id="sz-opacity-slider" type="range" min="20" max="100" value="85" class="w-full h-2 bg-slate-200 dark:bg-zinc-800 rounded-lg accent-indigo-600 cursor-pointer" />
+                </div>
+              </div>
+
+              <!-- Platform Pixel Spec Table -->
+              <div class="rounded-xl border border-slate-200 dark:border-zinc-800 bg-slate-50/70 dark:bg-zinc-950/70 p-4 space-y-2 text-xs">
+                <h2 class="font-semibold text-slate-900 dark:text-zinc-100" id="sz-spec-title">TikTok 1080×1920 Safe Margins</h2>
+                <div class="grid grid-cols-2 gap-2 font-mono text-slate-600 dark:text-zinc-400 tabular-nums">
+                  <div>Top Clearance: <span id="sz-spec-top" class="text-slate-900 dark:text-zinc-100">210px</span></div>
+                  <div>Bottom Dead Zone: <span id="sz-spec-bottom" class="text-slate-900 dark:text-zinc-100">430px</span></div>
+                  <div>Right Icon Stack: <span id="sz-spec-right" class="text-slate-900 dark:text-zinc-100">170px</span></div>
+                  <div>Left Padding: <span id="sz-spec-left" class="text-slate-900 dark:text-zinc-100">60px</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 9:16 Phone Preview Frame -->
+            <div class="lg:col-span-7 flex justify-center">
+              <div
+                id="sz-phone-frame"
+                class="relative w-full max-w-[330px] aspect-[9/16] rounded-[28px] border-4 border-slate-800 dark:border-zinc-700 bg-zinc-950 overflow-hidden shadow-xl select-none"
+              >
+                <img id="sz-preview-img" alt="9:16 Safe Zone Media Preview" class="w-full h-full object-cover" />
+                <video id="sz-preview-video" controls playsinline loop muted class="hidden w-full h-full object-cover"></video>
+
+                <!-- Safe Margin Boundary Box -->
+                <div
+                  id="sz-safe-box"
+                  class="pointer-events-none absolute border-2 border-dashed border-emerald-400/90 bg-emerald-500/5 flex items-start justify-end p-2"
+                  style="top: 11%; bottom: 22.5%; left: 5.5%; right: 16%;"
+                >
+                  <span class="px-1.5 py-0.5 rounded bg-emerald-600/90 text-[10px] font-mono text-white">SAFE AREA</span>
+                </div>
+
+                <!-- Simulated Platform UI Overlay -->
+                <div id="sz-ui-overlay" class="pointer-events-none absolute inset-0 flex flex-col justify-between p-4 text-white" style="opacity: 0.85;">
+                  <!-- Top Bar -->
+                  <div id="sz-overlay-top" class="flex items-center justify-between pt-2 text-xs font-semibold drop-shadow">
+                    <span>Following &nbsp;|&nbsp; <span class="underline underline-offset-4">For You</span></span>
+                    <span class="font-mono text-[11px]">Search</span>
+                  </div>
+
+                  <!-- Bottom & Right Rail -->
+                  <div class="flex items-end justify-between gap-3 pb-3">
+                    <div class="space-y-1.5 max-w-[74%] drop-shadow">
+                      <p id="sz-overlay-handle" class="text-xs font-bold">@mohit_tools</p>
+                      <p class="text-[11px] leading-snug text-white/90">
+                        Always keep subtitles and lower-third hooks above the caption block and away from the right action stack.
+                      </p>
+                      <p class="text-[10px] font-mono text-white/80">Original Audio · Precision Framing</p>
+                    </div>
+
+                    <div class="flex flex-col items-center gap-3.5 text-[10px] font-mono drop-shadow">
+                      <div class="w-8 h-8 rounded-full bg-white/25 border border-white/60 flex items-center justify-center">Avatar</div>
+                      <div class="text-center"><div class="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center mx-auto">♥</div><span>24.8K</span></div>
+                      <div class="text-center"><div class="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center mx-auto">💬</div><span>412</span></div>
+                      <div class="text-center"><div class="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center mx-auto">↗</div><span>1.9K</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ZONE 2: BELOW THE FOLD (900+ words) -->
+      <article class="mt-adsense-buffer border-t border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950/60">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16 space-y-12">
+          <section class="space-y-4">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+              How to Use the 9:16 Safe-Zone Overlay Checker
+            </h2>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              Short-form video platforms place interactive engagement buttons, account handles, audio tickers, and search bars directly over your 1080×1920 video canvas. Designing subtitles or product callouts inside Premiere Pro, CapCut, or DaVinci Resolve without verifying those overlays often leaves crucial hooks covered in the feed.
+            </p>
+            <ol class="list-decimal pl-5 space-y-2.5 text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              <li><strong class="text-slate-900 dark:text-zinc-100">Drop your 9:16 export:</strong> Select an exported MP4, MOV, or PNG storyboard frame from your computer—it stays locally in browser memory.</li>
+              <li><strong class="text-slate-900 dark:text-zinc-100">Switch between TikTok, Reels &amp; Shorts:</strong> Inspect each platform’s unique bottom caption height, right-side icon rail, and top navigation clearance.</li>
+              <li><strong class="text-slate-900 dark:text-zinc-100">Verify inside the emerald safe boundary:</strong> Ensure all burned-in captions, sponsor logos, and focal faces remain strictly inside the dashed safe-area rectangle.</li>
+            </ol>
+          </section>
+
+          <section class="space-y-4 pt-8 border-t border-slate-200 dark:border-zinc-800">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+              Technical Breakdown: 1080×1920 Dead Zones Across Platforms
+            </h2>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              While all three major vertical platforms share a <span class="font-mono text-xs">9:16</span> aspect ratio (<span class="font-mono text-xs">1080 × 1920 px</span>), their overlay geometry differs subtly across iOS and Android aspect ratios (such as 19.5:9 tall screens that crop left/right edges slightly).
+            </p>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              On <strong>TikTok</strong>, the top Following/For You header occupies roughly <span class="font-mono text-xs">210 px</span>, while a two-line caption plus music ticker claims <span class="font-mono text-xs">430 px</span> from the bottom. <strong>Instagram Reels</strong> sits slightly higher at the bottom (<span class="font-mono text-xs">400 px</span>) when shopping or Remix tags appear, and <strong>YouTube Shorts</strong> reserves <span class="font-mono text-xs">360 px</span> at the bottom for the channel subscribe bar and video title. Building a universal template with <span class="font-mono text-xs">220 px</span> top, <span class="font-mono text-xs">430 px</span> bottom, and <span class="font-mono text-xs">170 px</span> right clearance guarantees zero obstruction across every network.
+            </p>
+          </section>
+
+          <section class="space-y-4 pt-8 border-t border-slate-200 dark:border-zinc-800">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+              Practical Creator &amp; Agency Use Cases
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
+              <div class="mt-surface rounded-xl p-5 space-y-2">
+                <h3 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">UGC &amp; Paid Social Ad QA</h3>
+                <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                  Audit sponsor CTA banners and promo codes before launching paid Reels or TikTok Spark Ads so conversion URLs are never covered by "Learn More" overlays.
+                </p>
+              </div>
+              <div class="mt-surface rounded-xl p-5 space-y-2">
+                <h3 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">Cross-Posting Master Exports</h3>
+                <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                  Validate a single clean master edit across all three overlay presets so editors can publish simultaneously to TikTok, Reels, and Shorts without re-rendering three caption passes.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section class="space-y-5 pt-8 border-t border-slate-200 dark:border-zinc-800">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">Frequently Asked Questions</h2>
+            <div class="space-y-3">
+              <details class="mt-surface rounded-xl p-5" open>
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>What is the recommended safe zone for 1080x1920 vertical videos?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">Keep essential text, subtitles, and logos at least 220px from the top, 420px from the bottom, 60px from the left, and 170px from the right edge on a 1080x1920 canvas.</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>Are my unreleased videos or client reels uploaded to a server?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">No. Files are loaded exclusively into local browser memory via URL.createObjectURL, so unreleased edits never leave your computer.</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>Which platform has the largest bottom UI dead zone?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">TikTok and Instagram Reels both occupy significant lower-third space when multi-line captions, music tickers, and shopping tags are active.</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>What video and image file formats are supported?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">Any format natively supported by modern browsers, including MP4, WebM, MOV, PNG, JPG, and WebP.</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>Why should I also check the 4:5 center crop on Instagram Reels?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">Instagram displays Reels inside both the 9:16 Reels tab and a cropped feed preview on your profile grid, so centering key headlines prevents top and bottom clipping.</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>Can I toggle the green safe-area guide frame on and off?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">Yes. Use the Safe Margin Guide checkbox and UI Overlay Opacity slider to inspect both pixel boundaries and realistic in-feed readability.</p>
+              </details>
+            </div>
+          </section>
+        </div>
+      </article>
+
+      <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 border-t border-slate-200 dark:border-zinc-800">
+        <div class="flex items-center justify-between gap-4 mb-8">
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">Related Utilities</h2>
+          <a href="/#tools-directory" class="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:underline whitespace-nowrap">View all tools &rarr;</a>
+        </div>
+        <div id="related-tools-grid" data-current-tool="safe-zone-checker" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+      </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="/assets/js/tools-data.js"></script>
+    <script src="/assets/js/layout.js"></script>
+    <script>
+      (function () {
+        'use strict';
+
+        var PLATFORMS = {
+          tiktok: {
+            title: 'TikTok 1080×1920 Safe Margins',
+            top: '210px',
+            bottom: '430px',
+            right: '170px',
+            left: '60px',
+            box: { top: '11%', bottom: '22.5%', left: '5.5%', right: '16%' },
+            topHtml: '<span>Following &nbsp;|&nbsp; <span class="underline underline-offset-4">For You</span></span><span class="font-mono text-[11px]">Search</span>',
+            handle: '@mohit_tools'
+          },
+          reels: {
+            title: 'Instagram Reels 1080×1920 Safe Margins',
+            top: '220px',
+            bottom: '400px',
+            right: '160px',
+            left: '60px',
+            box: { top: '11.5%', bottom: '21%', left: '5.5%', right: '15%' },
+            topHtml: '<span class="font-bold">Reels</span><span class="font-mono text-[11px]">Camera</span>',
+            handle: 'mohit.tools · Follow'
+          },
+          shorts: {
+            title: 'YouTube Shorts 1080×1920 Safe Margins',
+            top: '180px',
+            bottom: '360px',
+            right: '155px',
+            left: '55px',
+            box: { top: '9.5%', bottom: '19%', left: '5%', right: '14.5%' },
+            topHtml: '<span class="font-bold">Shorts</span><span class="font-mono text-[11px]">Search · Menu</span>',
+            handle: '@MohitTools · Subscribe'
+          }
+        };
+
+        var fileInput = document.getElementById('sz-file-input');
+        var demoBtn = document.getElementById('sz-demo-btn');
+        var previewImg = document.getElementById('sz-preview-img');
+        var previewVideo = document.getElementById('sz-preview-video');
+        var safeBox = document.getElementById('sz-safe-box');
+        var guideToggle = document.getElementById('sz-guide-toggle');
+        var opacitySlider = document.getElementById('sz-opacity-slider');
+        var opacityLabel = document.getElementById('sz-opacity-label');
+        var uiOverlay = document.getElementById('sz-ui-overlay');
+
+        var currentObjectUrl = null;
+
+        function loadSampleCanvas() {
+          var canvas = document.createElement('canvas');
+          canvas.width = 540;
+          canvas.height = 960;
+          var ctx = canvas.getContext('2d');
+          var grad = ctx.createLinearGradient(0, 0, 540, 960);
+          grad.addColorStop(0, '#1e1b4b');
+          grad.addColorStop(0.5, '#312e81');
+          grad.addColorStop(1, '#09090b');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, 540, 960);
+
+          ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+          ctx.lineWidth = 1;
+          for (var x = 0; x < 540; x += 45) {
+            ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 960); ctx.stroke();
+          }
+          for (var y = 0; y < 960; y += 45) {
+            ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(540, y); ctx.stroke();
+          }
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 34px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText('9:16 Safe-Zone Check', 270, 400);
+          ctx.fillStyle = '#c7d2fe';
+          ctx.font = '20px sans-serif';
+          ctx.fillText('Keep hooks & captions inside', 270, 445);
+          ctx.fillText('the emerald boundary box', 270, 475);
+
+          previewVideo.classList.add('hidden');
+          previewVideo.pause();
+          previewImg.classList.remove('hidden');
+          previewImg.src = canvas.toDataURL('image/png');
+        }
+
+        function setPlatform(key) {
+          var cfg = PLATFORMS[key] || PLATFORMS.tiktok;
+          document.getElementById('sz-spec-title').textContent = cfg.title;
+          document.getElementById('sz-spec-top').textContent = cfg.top;
+          document.getElementById('sz-spec-bottom').textContent = cfg.bottom;
+          document.getElementById('sz-spec-right').textContent = cfg.right;
+          document.getElementById('sz-spec-left').textContent = cfg.left;
+
+          safeBox.style.top = cfg.box.top;
+          safeBox.style.bottom = cfg.box.bottom;
+          safeBox.style.left = cfg.box.left;
+          safeBox.style.right = cfg.box.right;
+
+          document.getElementById('sz-overlay-top').innerHTML = cfg.topHtml;
+          document.getElementById('sz-overlay-handle').textContent = cfg.handle;
+
+          document.querySelectorAll('.sz-plat-btn').forEach(function (btn) {
+            var active = btn.getAttribute('data-platform') === key;
+            btn.className = active
+              ? 'sz-plat-btn py-2 px-3 rounded-lg border border-indigo-600 bg-indigo-600 text-white text-xs sm:text-sm font-medium cursor-pointer'
+              : 'sz-plat-btn py-2 px-3 rounded-lg border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-900 text-slate-700 dark:text-zinc-300 text-xs sm:text-sm font-medium cursor-pointer';
+          });
+        }
+
+        fileInput.addEventListener('change', function (e) {
+          var file = e.target.files && e.target.files[0];
+          if (!file) return;
+          if (currentObjectUrl) URL.revokeObjectURL(currentObjectUrl);
+          currentObjectUrl = URL.createObjectURL(file);
+
+          if (file.type.indexOf('video/') === 0) {
+            previewImg.classList.add('hidden');
+            previewVideo.classList.remove('hidden');
+            previewVideo.src = currentObjectUrl;
+          } else {
+            previewVideo.classList.add('hidden');
+            previewVideo.pause();
+            previewImg.classList.remove('hidden');
+            previewImg.src = currentObjectUrl;
+          }
+        });
+
+        demoBtn.addEventListener('click', loadSampleCanvas);
+
+        document.querySelectorAll('.sz-plat-btn').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            setPlatform(btn.getAttribute('data-platform'));
+          });
+        });
+
+        guideToggle.addEventListener('change', function () {
+          safeBox.classList.toggle('hidden', !guideToggle.checked);
+        });
+
+        opacitySlider.addEventListener('input', function () {
+          var val = opacitySlider.value;
+          opacityLabel.textContent = val + '%';
+          uiOverlay.style.opacity = String(parseInt(val, 10) / 100);
+        });
+
+        loadSampleCanvas();
+        setPlatform('tiktok');
+      })();
+    </script>
+  </body>
+</html>

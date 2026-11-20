@@ -1,276 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Us - Mohit Tools | Free Online Creator &amp; Productivity Utilities</title>
-  <meta name="description" content="Learn about Mohit Tools (mohit-tools.com), our mission to build fast, privacy-first browser utilities for writers, creators, and students.">
-  <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Mohit Tools — Privacy-First Static Web Utilities</title>
+    <meta
+      name="description"
+      content="Learn about mohit-tools.com: our mission to build fast, privacy-first, client-side web utilities that run 100% locally in your browser without server uploads."
+    />
+    <link rel="canonical" href="https://mohit-tools.com/about.html" />
 
-    :root {
-      --bg-base: #090d16;
-      --bg-surface: #111726;
-      --bg-card: #151d30;
-      --border-subtle: rgba(255, 255, 255, 0.08);
-      --text-main: #f8fafc;
-      --text-secondary: #94a3b8;
-      --text-muted: #64748b;
-      --accent: #38bdf8;
-      --radius-md: 10px;
-      --radius-lg: 14px;
-      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    }
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mohit Tools" />
+    <meta property="og:url" content="https://mohit-tools.com/about.html" />
+    <meta property="og:title" content="About Mohit Tools — Privacy-First Static Web Utilities" />
+    <meta
+      property="og:description"
+      content="Our engineering philosophy, zero-upload browser architecture, and commitment to accessible, ad-safe utility software."
+    />
 
-    body {
-      background-color: var(--bg-base);
-      color: var(--text-main);
-      font-family: var(--font-sans);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 2.5rem 1.25rem;
-      line-height: 1.7;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="About Mohit Tools — Privacy-First Static Web Utilities" />
+    <meta
+      name="twitter:description"
+      content="Learn how mohit-tools.com delivers instant, browser-native calculators and creator workflows."
+    />
 
-    body.light-mode {
-      --bg-base: #f4f4f9;
-      --bg-surface: #e2e8f0;
-      --bg-card: #ffffff;
-      --border-subtle: #cbd5e1;
-      --text-main: #121212;
-      --text-secondary: #334155;
-      --text-muted: #475569;
-      --accent: #0284c7;
-    }
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('mt_theme');
+          if (t === 'dark' || (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
 
-    .container {
-      width: 100%;
-      max-width: 860px;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'monospace'],
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="/assets/css/style.css" />
 
-    header {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-      padding-bottom: 0.5rem;
-    }
+    <!-- Google Analytics 4 (Uncomment and replace G-XXXXXXXXXX when deploying)
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    -->
 
-    h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      letter-spacing: -0.025em;
-      color: var(--text-main);
-    }
+    <!-- Google AdSense (Uncomment and replace ca-pub-XXXXXXXXXXXXXXXX after approval)
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+    -->
+  </head>
 
-    .subtitle {
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-    }
+  <body class="bg-[#F8FAFC] dark:bg-[#09090B] text-[#0F172A] dark:text-[#F4F4F5] antialiased">
+    <header id="site-header"></header>
 
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-lg);
-      padding: 1.75rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    h2 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--text-main);
-    }
-
-    p {
-      color: var(--text-secondary);
-      font-size: 0.975rem;
-    }
-
-    ul {
-      padding-left: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      color: var(--text-secondary);
-      font-size: 0.975rem;
-    }
-
-    li strong {
-      color: var(--text-main);
-    }
-
-    .highlight-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-top: 0.25rem;
-    }
-
-    .highlight-box {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      padding: 1.1rem;
-    }
-
-    .highlight-box h3 {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--accent);
-      margin-bottom: 0.35rem;
-    }
-
-    .highlight-box p {
-      font-size: 0.875rem;
-      line-height: 1.5;
-    }
-
-    a.inline-link {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    a.inline-link:hover {
-      text-decoration: underline;
-    }
-
-    nav {
-      margin-top: 1rem;
-      padding-top: 1.25rem;
-      border-top: 1px solid var(--border-subtle);
-      text-align: center;
-      font-size: 0.875rem;
-      color: var(--text-muted);
-    }
-
-    nav a, nav a:visited {
-      color: var(--text-secondary);
-      text-decoration: none;
-      margin: 0 0.35rem;
-      transition: color 0.2s ease;
-    }
-
-    nav a:hover {
-      color: var(--accent);
-      text-decoration: underline;
-      text-underline-offset: 4px;
-    }
-
-    footer {
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    @media (max-width: 700px) {
-      .highlight-grid {
-        grid-template-columns: 1fr;
-      }
-      h1 {
-        font-size: 1.65rem;
-      }
-    }
-  </style>
-</head>
-<body>
-  <button id="themeToggle" style="position: fixed; top: 15px; right: 15px; padding: 10px 15px; cursor: pointer; border-radius: 8px; font-weight: bold; background: #ffffff; color: #121212; border: 1px solid #ccc; z-index: 1000;">☀️ Light Mode</button>
-
-  <main class="container">
-    <header>
-      <h1>About Mohit Tools</h1>
-      <p class="subtitle">Fast, lightweight, and privacy-first web utilities built for creators, writers, and everyday productivity.</p>
-    </header>
-
-    <section class="card">
-      <h2>Our Mission</h2>
-      <p>
-        <strong>Mohit Tools (mohit-tools.com)</strong> was created with a simple goal: everyday online utilities should be instant, clean, and free to use without mandatory sign-ups, bloated downloads, or cluttered interfaces.
-      </p>
-      <p>
-        Whether you are drafting an Instagram caption, checking word counts for an assignment, or planning storage space on your console, our tools are engineered to load rapidly on both desktop and mobile browsers and deliver accurate results in real time.
-      </p>
-
-      <div class="highlight-grid">
-        <div class="highlight-box">
-          <h3>100% Browser-Based</h3>
-          <p>All calculations and text transformations happen locally inside your browser with zero server lag.</p>
+    <main>
+      <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16 space-y-12">
+        <div class="space-y-4 border-b border-slate-200 dark:border-zinc-800 pb-8">
+          <nav aria-label="Breadcrumb" class="mb-4">
+            <ol class="flex items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-zinc-400">
+              <li><a href="/" class="hover:text-indigo-600 dark:hover:text-indigo-400">Home</a></li>
+              <li aria-hidden="true">/</li>
+              <li class="text-slate-900 dark:text-zinc-100 font-medium" aria-current="page">About</li>
+            </ol>
+          </nav>
+          <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+            About Mohit Tools
+          </h1>
+          <p class="text-base sm:text-lg text-slate-600 dark:text-zinc-400 leading-relaxed">
+            Building fast, transparent, browser-native utilities without accounts, server uploads, or interface clutter.
+          </p>
         </div>
-        <div class="highlight-box">
-          <h3>Privacy First</h3>
-          <p>We never store, log, or upload the text or data you enter into our tools.</p>
-        </div>
-        <div class="highlight-box">
-          <h3>Always Free</h3>
-          <p>Every utility on Mohit Tools is accessible without accounts, paywalls, or hidden limits.</p>
-        </div>
-      </div>
-    </section>
 
-    <section class="card">
-      <h2>What We Build</h2>
-      <p>
-        We focus on practical single-purpose utilities designed around real workflows:
-      </p>
-      <ul>
-        <li>
-          <strong>Advanced Word &amp; Character Counter:</strong> Our flagship text analytics tool tracks words, characters (with and without spaces), sentences, paragraphs, reading time, and speaking time in real time—complete with a visual 2,200-character Instagram caption progress bar, multi-platform limit checks (X/Twitter, LinkedIn, TikTok), and instant text case converters.
-        </li>
-        <li>
-          <strong>Creator &amp; Tech Utilities:</strong> Alongside our writing tools, we build specialized micro-utilities across the Mohit Tools network—such as our <a href="https://ps5.mohit-tools.com" class="inline-link">PS5 Storage Calculator</a> and social media formatting helpers—to solve specific technical and content-creation tasks in seconds.
-        </li>
-      </ul>
-    </section>
+        <!-- Mission -->
+        <section class="space-y-4">
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-zinc-100">
+            Our Mission: Utility Software Without Friction
+          </h2>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+            <strong>mohit-tools.com</strong> was created by software developer and technical builder Mohit Sonar to solve a recurring everyday problem: simple single-purpose web tools have become unnecessarily slow, invasive, and bloated. Tasks that should take two seconds—like verifying an IPv4 CIDR subnet mask, slicing a panoramic image for an Instagram carousel, decoding a 5-band resistor, or checking vertical 9:16 safe zones—often force users through registration modals, file upload queues, and laggy server round-trips.
+          </p>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+            Mohit Tools replaces that friction with focused, single-screen workspaces engineered for clarity. Each tool pairs live visual telemetry with comprehensive technical documentation so engineers, students, content creators, and gamers can both execute their task and verify the underlying math.
+          </p>
+        </section>
 
-    <section class="card">
-      <h2>About the Creator</h2>
-      <p>
-        Mohit Tools is independently developed and maintained by <strong>Mohit Sonar</strong>, a computer technology student and web developer based in Maharashtra, India. Driven by an interest in clean front-end engineering and practical software, Mohit builds lightweight web applications that stay fast and accessible on any device.
-      </p>
-      <p>
-        Have an idea for a new utility or spotted something we can improve? Visit our <a href="Contact.html" class="inline-link">Contact Us</a> page or email directly at <a href="mailto:mohitsonar13@gmail.com" class="inline-link">mohitsonar13@gmail.com</a>.
-      </p>
-    </section>
+        <!-- Privacy-First Architecture -->
+        <section class="space-y-4 pt-6 border-t border-slate-200 dark:border-zinc-800">
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-zinc-100">
+            100% Client-Side, Privacy-First Architecture
+          </h2>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+            Every calculator, media previewer, and text analyzer on this domain executes locally inside your browser’s JavaScript engine. When you drop a high-resolution image into the Carousel Splitter or preview a vertical video inside the Safe-Zone Overlay Checker, the file stays strictly inside local browser memory via the HTML5 Canvas and File APIs—zero bytes are uploaded to remote servers.
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-2">
+            <div class="mt-surface rounded-xl p-5 space-y-2">
+              <h3 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">Zero Server Processing</h3>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                Documents, network topologies, and media assets never leave your machine.
+              </p>
+            </div>
+            <div class="mt-surface rounded-xl p-5 space-y-2">
+              <h3 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">Instant Static Delivery</h3>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                Pure HTML5, CSS, and Vanilla ES6+ JavaScript hosted globally via edge CDN.
+              </p>
+            </div>
+            <div class="mt-surface rounded-xl p-5 space-y-2">
+              <h3 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">Transparent Standards</h3>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                Calculations adhere to RFC 4632, IEC 60062, and verified platform framing specs.
+              </p>
+            </div>
+          </div>
+        </section>
 
-    <nav aria-label="Footer navigation">
-      <a href="index.html">Home</a> |
-      <a href="about.html">About Us</a> |
-      <a href="Contact.html">Contact Us</a> |
-      <a href="privacy-policy.html">Privacy Policy</a> |
-      <a href="terms.html">Terms of Service</a>
-    </nav>
+        <!-- Tech Stack Transparency -->
+        <section class="space-y-4 pt-6 border-t border-slate-200 dark:border-zinc-800">
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-zinc-100">
+            Technology Stack Transparency
+          </h2>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+            We believe lightweight engineering produces better user experiences. Rather than shipping megabytes of client-side framework bundles for straightforward utilities, mohit-tools.com is built directly on open web standards:
+          </p>
+          <ul class="list-disc pl-5 space-y-2 text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+            <li><strong class="text-slate-900 dark:text-zinc-100">Semantic HTML5 &amp; Schema.org JSON-LD:</strong> Structured markup ensures high accessibility for screen readers and accurate indexing by search engines.</li>
+            <li><strong class="text-slate-900 dark:text-zinc-100">Vanilla ES6+ JavaScript:</strong> Deterministic bitwise math, real-time DOM updates, and localStorage state persistence without runtime overhead.</li>
+            <li><strong class="text-slate-900 dark:text-zinc-100">HTML5 Canvas &amp; SVG:</strong> Crisp vector resistor diagrams and lossless client-side image slicing directly in browser memory.</li>
+            <li><strong class="text-slate-900 dark:text-zinc-100">GitHub Pages Static Hosting:</strong> Zero database attack surface, automatic HTTPS encryption, and consistent sub-second page loads.</li>
+          </ul>
+        </section>
 
-    <footer>
-      <span>&copy; 2026 Mohit Tools (mohit-tools.com) &middot; Built for speed and simplicity</span>
-    </footer>
-  </main>
+        <!-- Creator Contact -->
+        <section class="mt-surface rounded-xl p-6 sm:p-8 space-y-4">
+          <h2 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-zinc-100">
+            Creator &amp; Editorial Contact
+          </h2>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+            Mohit Tools is independently maintained by <strong class="text-slate-900 dark:text-zinc-100">Mohit Sonar</strong>. If you spot a calculation edge case, want to suggest a new utility, or have partnership and advertising inquiries, reach out anytime.
+          </p>
+          <div class="flex flex-wrap items-center gap-4 pt-2">
+            <a
+              href="mailto:contact@mohit-tools.com"
+              class="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium transition-colors"
+            >
+              contact@mohit-tools.com
+            </a>
+            <a
+              href="/contact.html"
+              class="inline-flex items-center justify-center px-4 py-2 rounded-lg border border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-800 hover:border-slate-300 dark:hover:border-zinc-600 text-slate-700 dark:text-zinc-200 text-sm font-medium transition-colors"
+            >
+              Open Contact Form
+            </a>
+          </div>
+        </section>
+      </section>
+    </main>
 
-  <script>
-    const toggleBtn = document.getElementById('themeToggle');
-    toggleBtn.addEventListener('click', () => {
-      document.body.classList.toggle('light-mode');
-      if (document.body.classList.contains('light-mode')) {
-        toggleBtn.innerText = '🌙 Dark Mode';
-        toggleBtn.style.background = '#121212';
-        toggleBtn.style.color = '#ffffff';
-      } else {
-        toggleBtn.innerText = '☀️ Light Mode';
-        toggleBtn.style.background = '#ffffff';
-        toggleBtn.style.color = '#121212';
-      }
-    });
-  </script>
-</body>
+    <footer id="site-footer"></footer>
+
+    <script src="/assets/js/tools-data.js"></script>
+    <script src="/assets/js/layout.js"></script>
+  </body>
 </html>

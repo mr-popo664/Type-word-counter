@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /tools/_template.html
 
 Sitemap: https://mohit-tools.com/sitemap.xml

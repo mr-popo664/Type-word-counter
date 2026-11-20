@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resistor Color Code Decoder (4, 5 &amp; 6-Band) — Mohit Tools</title>
+    <meta
+      name="description"
+      content="Decode 4-band, 5-band, and 6-band axial resistors with a live interactive SVG resistor body, exact Ohm values, tolerance ranges, and temperature coefficient (PPM)."
+    />
+    <link rel="canonical" href="https://mohit-tools.com/tools/resistor-decoder/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mohit Tools" />
+    <meta property="og:url" content="https://mohit-tools.com/tools/resistor-decoder/" />
+    <meta property="og:title" content="Resistor Color Code Decoder — Mohit Tools" />
+    <meta
+      property="og:description"
+      content="Interactive IEC 60062 resistor color code calculator with live SVG band visualization and min/max tolerance specs."
+    />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Resistor Color Code Decoder — Mohit Tools" />
+    <meta
+      name="twitter:description"
+      content="Decode 4-band, 5-band, and 6-band resistors visually in your browser."
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Resistor Color Code Decoder",
+        "url": "https://mohit-tools.com/tools/resistor-decoder/",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "All",
+        "description": "Interactive 4-band, 5-band, and 6-band axial resistor color code decoder with live SVG preview, tolerance range, and PPM specs.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Mohit Sonar",
+          "url": "https://mohit-tools.com/about.html"
+        }
+      }
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do I know which end of a resistor to read first?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Start from the end where the color bands are grouped closer together. The tolerance band (often gold or silver) is usually spaced slightly farther apart or sits closer to the opposite lead."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between 4-band and 5-band resistors?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "4-band resistors provide two significant digits, a multiplier, and a tolerance band (typically ±5% carbon film). 5-band resistors add a third significant digit for higher precision (±1% or ±0.5% metal film)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What does the 6th band on a precision resistor represent?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The 6th band indicates the Temperature Coefficient of Resistance (TCR) measured in parts per million per Kelvin (ppm/K), showing how much the resistance drifts per degree of temperature change."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What do gold and silver mean when used as multiplier bands?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "When placed in the multiplier slot, Gold divides the significant digits by 10 (×0.1 Ω) and Silver divides by 100 (×0.01 Ω), enabling sub-Ohm current-sense resistor values."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why are resistor values standardized around E12 and E24 series?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Preferred number series (E6, E12, E24, E96) space nominal resistor values logarithmically so adjacent tolerances overlap cleanly without wasting manufacturing SKUs."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Should I still verify high-precision resistors with a multimeter?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Color bands can fade under heat or appear ambiguous under warm lighting. Always confirm critical analog reference or safety resistors with a calibrated digital multimeter."
+            }
+          }
+        ]
+      }
+    </script>
+
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('mt_theme');
+          if (t === 'dark' || (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'monospace'],
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="/assets/css/style.css" />
+  </head>
+
+  <body
+    data-tool-id="resistor-decoder"
+    class="bg-[#F8FAFC] dark:bg-[#09090B] text-[#0F172A] dark:text-[#F4F4F5] antialiased"
+  >
+    <header id="site-header"></header>
+
+    <main>
+      <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12">
+        <nav aria-label="Breadcrumb" class="mb-6">
+          <ol class="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-zinc-400">
+            <li><a href="/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Home</a></li>
+            <li aria-hidden="true">/</li>
+            <li><a href="/#tools-directory" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Tools</a></li>
+            <li aria-hidden="true">/</li>
+            <li class="text-slate-900 dark:text-zinc-100 font-medium" aria-current="page">Resistor Decoder</li>
+          </ol>
+        </nav>
+
+        <div class="max-w-3xl space-y-3 mb-8">
+          <h1 class="text-2xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+            Resistor Color Code Decoder
+          </h1>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+            Decode 4-band, 5-band, and 6-band axial resistors with a live SVG band diagram, exact min/max tolerance ranges, and temperature coefficient specs.
+          </p>
+        </div>
+
+        <div id="tool-workspace" class="mt-surface rounded-2xl p-5 sm:p-8 shadow-sm space-y-8">
+          <!-- Mode Switcher & Common Presets -->
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-5 border-b border-slate-200 dark:border-zinc-800">
+            <div role="group" aria-label="Resistor band count" class="inline-flex p-1 rounded-lg bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800">
+              <button type="button" data-bands="4" class="rd-mode-btn px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-colors cursor-pointer bg-white dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 shadow-sm">4-Band</button>
+              <button type="button" data-bands="5" class="rd-mode-btn px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-colors cursor-pointer text-slate-600 dark:text-zinc-400">5-Band</button>
+              <button type="button" data-bands="6" class="rd-mode-btn px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-colors cursor-pointer text-slate-600 dark:text-zinc-400">6-Band</button>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 text-xs">
+              <span class="text-slate-500 dark:text-zinc-400">Common:</span>
+              <button type="button" data-preset="220" class="rd-preset px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-zinc-800 hover:border-indigo-500 font-mono cursor-pointer">220 Ω (LED)</button>
+              <button type="button" data-preset="4700" class="rd-preset px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-zinc-800 hover:border-indigo-500 font-mono cursor-pointer">4.7 kΩ (I2C)</button>
+              <button type="button" data-preset="10000" class="rd-preset px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-zinc-800 hover:border-indigo-500 font-mono cursor-pointer">10 kΩ (Pull-Up)</button>
+            </div>
+          </div>
+
+          <!-- Live SVG Resistor Preview & Primary Readout -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+            <div class="lg:col-span-7 rounded-xl border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950 p-6 flex items-center justify-center">
+              <svg id="resistor-svg" viewBox="0 0 460 120" class="w-full max-w-md h-auto" role="img" aria-label="Live axial resistor color band preview">
+                <!-- Metal Leads -->
+                <rect x="10" y="55" width="85" height="10" rx="2" fill="#94A3B8" />
+                <rect x="365" y="55" width="85" height="10" rx="2" fill="#94A3B8" />
+                <!-- Ceramic Body -->
+                <path d="M95 34 Q95 24 108 24 L138 24 Q146 24 152 30 L308 30 Q314 24 322 24 L352 24 Q365 24 365 34 L365 86 Q365 96 352 96 L322 96 Q314 96 308 90 L152 90 Q146 96 138 96 L108 96 Q95 96 95 86 Z" fill="#E6D2B5" stroke="#B49B78" stroke-width="2" />
+                <!-- Color Bands (6 max) -->
+                <rect id="svg-band-1" x="122" y="24" width="16" height="72" fill="#EAB308" />
+                <rect id="svg-band-2" x="164" y="30" width="16" height="60" fill="#7C3AED" />
+                <rect id="svg-band-3" x="196" y="30" width="16" height="60" fill="#000000" class="hidden" />
+                <rect id="svg-band-mult" x="234" y="30" width="16" height="60" fill="#DC2626" />
+                <rect id="svg-band-tol" x="292" y="30" width="16" height="60" fill="#D4AF37" />
+                <rect id="svg-band-ppm" x="328" y="24" width="16" height="72" fill="#78350F" class="hidden" />
+              </svg>
+            </div>
+
+            <div class="lg:col-span-5 grid grid-cols-2 gap-4">
+              <div class="col-span-2 rounded-xl border border-slate-200 dark:border-zinc-800 bg-slate-50/70 dark:bg-zinc-950/70 p-4">
+                <p class="text-xs text-slate-500 dark:text-zinc-400 mb-1">Nominal Resistance</p>
+                <p id="rd-ohm-value" class="text-3xl font-bold font-mono tabular-nums text-indigo-600 dark:text-indigo-400">4.70 kΩ</p>
+              </div>
+              <div class="rounded-xl border border-slate-200 dark:border-zinc-800 p-4">
+                <p class="text-xs text-slate-500 dark:text-zinc-400 mb-1">Tolerance</p>
+                <p id="rd-tol-value" class="text-lg font-bold font-mono tabular-nums text-slate-900 dark:text-zinc-100">±5%</p>
+              </div>
+              <div class="rounded-xl border border-slate-200 dark:border-zinc-800 p-4">
+                <p id="rd-ppm-label" class="text-xs text-slate-500 dark:text-zinc-400 mb-1">Temp. Coeff (PPM)</p>
+                <p id="rd-ppm-value" class="text-lg font-bold font-mono tabular-nums text-slate-900 dark:text-zinc-100">—</p>
+              </div>
+              <div class="col-span-2 rounded-xl border border-slate-200 dark:border-zinc-800 p-4">
+                <p class="text-xs text-slate-500 dark:text-zinc-400 mb-1">Acceptable Min / Max Range</p>
+                <p id="rd-range-value" class="text-sm font-semibold font-mono tabular-nums text-slate-900 dark:text-zinc-100">4.47 kΩ – 4.94 kΩ</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Band Selectors -->
+          <div id="rd-selectors-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4"></div>
+        </div>
+      </section>
+
+      <!-- ZONE 2: BELOW THE FOLD (900+ words) -->
+      <article class="mt-adsense-buffer border-t border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950/60">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16 space-y-12">
+          <section class="space-y-4">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+              How to Use the Resistor Color Code Decoder
+            </h2>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              Reading tiny painted stripes on axial through-hole resistors under workbench lighting can easily lead to misread multipliers. This interactive decoder maps the international IEC 60062 color standard directly onto a live SVG diagram so you can confirm both the visual pattern and exact electrical limits in seconds.
+            </p>
+            <ol class="list-decimal pl-5 space-y-2.5 text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              <li><strong class="text-slate-900 dark:text-zinc-100">Select the band count:</strong> Count the colored rings on your physical resistor and choose <strong>4-Band</strong>, <strong>5-Band</strong>, or <strong>6-Band</strong> mode.</li>
+              <li><strong class="text-slate-900 dark:text-zinc-100">Match each band color:</strong> Starting from the tightly grouped end of the resistor, pick the color for each digit, multiplier, tolerance, and optional temperature coefficient band.</li>
+              <li><strong class="text-slate-900 dark:text-zinc-100">Verify against your target circuit:</strong> Compare the SVG preview with the physical component and inspect the calculated minimum and maximum Ohm tolerance boundaries.</li>
+            </ol>
+          </section>
+
+          <section class="space-y-4 pt-8 border-t border-slate-200 dark:border-zinc-800">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+              Technical Breakdown: IEC 60062 Band Equations &amp; TCR Specs
+            </h2>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              Every axial resistor encodes resistance logarithmically using significant digits multiplied by a power of ten. In a <strong>4-band</strong> resistor, resistance equals <span class="font-mono text-xs">(10 × D1 + D2) × 10^M</span>, where <span class="font-mono text-xs">D1</span> and <span class="font-mono text-xs">D2</span> span 0–9 and <span class="font-mono text-xs">M</span> covers multipliers from <span class="font-mono text-xs">0.01</span> (Silver) up to <span class="font-mono text-xs">10^9</span> (White).
+            </p>
+            <h3 class="text-base sm:text-lg font-semibold text-slate-900 dark:text-zinc-100 pt-2">
+              5-Band &amp; 6-Band Precision Encoding
+            </h3>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              Precision metal-film resistors use 5 or 6 bands because tighter tolerances (such as <span class="font-mono text-xs">±1%</span> Brown or <span class="font-mono text-xs">±0.1%</span> Violet) require three significant digits: <span class="font-mono text-xs">(100 × D1 + 10 × D2 + D3) × 10^M</span>. A 6th band specifies the Temperature Coefficient of Resistance (TCR) in <span class="font-mono text-xs">ppm/K</span>. For example, a Brown 6th band (<span class="font-mono text-xs">100 ppm/K</span>) shifts resistance by at most <span class="font-mono text-xs">0.01%</span> per degree Celsius, making it ideal for precision op-amp gain dividers and instrumentation amplifiers.
+            </p>
+          </section>
+
+          <section class="space-y-4 pt-8 border-t border-slate-200 dark:border-zinc-800">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+              Practical Electronics &amp; Lab Use Cases
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
+              <div class="mt-surface rounded-xl p-5 space-y-2">
+                <h3 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">Breadboard &amp; Microcontroller Prototyping</h3>
+                <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                  Quickly distinguish look-alike <span class="font-mono text-xs">220 Ω</span> LED current limiters from <span class="font-mono text-xs">10 kΩ</span> I2C pull-ups when sorting mixed component bins.
+                </p>
+              </div>
+              <div class="mt-surface rounded-xl p-5 space-y-2">
+                <h3 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">Analog Tolerance Budget Checks</h3>
+                <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                  Evaluate worst-case min/max voltage divider drift using the Tolerance Range readout before finalizing ADC sensor scaling schematics.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section class="space-y-5 pt-8 border-t border-slate-200 dark:border-zinc-800">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+              Frequently Asked Questions
+            </h2>
+            <div class="space-y-3">
+              <details class="mt-surface rounded-xl p-5" open>
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>How do I know which end of a resistor to read first?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">Start from the end where the color bands are grouped closer together. The tolerance band (often gold or silver) is usually spaced slightly farther apart or sits closer to the opposite lead.</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>What is the difference between 4-band and 5-band resistors?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">4-band resistors provide two significant digits, a multiplier, and a tolerance band. 5-band resistors add a third significant digit for higher precision (±1% or ±0.5% metal film).</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>What does the 6th band on a precision resistor represent?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">The 6th band indicates the Temperature Coefficient of Resistance (TCR) measured in ppm/K, showing how much the resistance drifts per degree Kelvin of temperature change.</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>What do gold and silver mean when used as multiplier bands?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">When placed in the multiplier slot, Gold divides the significant digits by 10 (×0.1 Ω) and Silver divides by 100 (×0.01 Ω), enabling sub-Ohm current-sense resistor values.</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>Why are resistor values standardized around E12 and E24 series?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">Preferred number series space nominal resistor values logarithmically so adjacent tolerances overlap cleanly without redundant manufacturing SKUs.</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>Should I still verify high-precision resistors with a multimeter?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">Yes. Color bands can fade under heat or appear ambiguous under warm lighting. Always confirm critical analog reference or safety resistors with a calibrated digital multimeter.</p>
+              </details>
+            </div>
+          </section>
+        </div>
+      </article>
+
+      <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 border-t border-slate-200 dark:border-zinc-800">
+        <div class="flex items-center justify-between gap-4 mb-8">
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">Related Utilities</h2>
+          <a href="/#tools-directory" class="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:underline whitespace-nowrap">View all tools &rarr;</a>
+        </div>
+        <div id="related-tools-grid" data-current-tool="resistor-decoder" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+      </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="/assets/js/tools-data.js"></script>
+    <script src="/assets/js/layout.js"></script>
+    <script>
+      (function () {
+        'use strict';
+
+        var COLORS = {
+          black:  { name: 'Black',  hex: '#111827', digit: 0, mult: 1,         tol: null,  ppm: 250 },
+          brown:  { name: 'Brown',  hex: '#78350F', digit: 1, mult: 10,        tol: 1,     ppm: 100 },
+          red:    { name: 'Red',    hex: '#DC2626', digit: 2, mult: 100,       tol: 2,     ppm: 50 },
+          orange: { name: 'Orange', hex: '#EA580C', digit: 3, mult: 1000,      tol: null,  ppm: 15 },
+          yellow: { name: 'Yellow', hex: '#EAB308', digit: 4, mult: 10000,     tol: null,  ppm: 25 },
+          green:  { name: 'Green',  hex: '#16A34A', digit: 5, mult: 100000,    tol: 0.5,   ppm: 20 },
+          blue:   { name: 'Blue',   hex: '#2563EB', digit: 6, mult: 1000000,   tol: 0.25,  ppm: 10 },
+          violet: { name: 'Violet', hex: '#7C3AED', digit: 7, mult: 10000000,  tol: 0.1,   ppm: 5 },
+          grey:   { name: 'Grey',   hex: '#64748B', digit: 8, mult: 100000000, tol: 0.05,  ppm: 1 },
+          white:  { name: 'White',  hex: '#F8FAFC', digit: 9, mult: 1000000000,tol: null,  ppm: null },
+          gold:   { name: 'Gold',   hex: '#D4AF37', digit: null, mult: 0.1,    tol: 5,     ppm: null },
+          silver: { name: 'Silver', hex: '#CBD5E1', digit: null, mult: 0.01,   tol: 10,    ppm: null }
+        };
+
+        var bandCount = 4;
+        var state = {
+          d1: 'yellow',
+          d2: 'violet',
+          d3: 'black',
+          mult: 'red',
+          tol: 'gold',
+          ppm: 'brown'
+        };
+
+        function formatOhms(ohms) {
+          if (ohms >= 1e9) return (ohms / 1e9).toFixed(2).replace(/\.00$/, '') + ' GΩ';
+          if (ohms >= 1e6) return (ohms / 1e6).toFixed(2).replace(/\.00$/, '') + ' MΩ';
+          if (ohms >= 1e3) return (ohms / 1e3).toFixed(2).replace(/\.00$/, '') + ' kΩ';
+          if (ohms < 1) return ohms.toFixed(2) + ' Ω';
+          return Number(ohms.toFixed(2)) + ' Ω';
+        }
+
+        function getOptionsForSlot(slot) {
+          return Object.keys(COLORS).filter(function (k) {
+            var c = COLORS[k];
+            if (slot === 'd1') return c.digit !== null && c.digit !== 0;
+            if (slot === 'd2' || slot === 'd3') return c.digit !== null;
+            if (slot === 'mult') return c.mult !== null;
+            if (slot === 'tol') return c.tol !== null;
+            if (slot === 'ppm') return c.ppm !== null;
+            return false;
+          });
+        }
+
+        function renderSelectors() {
+          var slots = [
+            { id: 'd1', label: 'Band 1 (1st Digit)' },
+            { id: 'd2', label: 'Band 2 (2nd Digit)' }
+          ];
+          if (bandCount >= 5) {
+            slots.push({ id: 'd3', label: 'Band 3 (3rd Digit)' });
+          }
+          slots.push({ id: 'mult', label: 'Multiplier' });
+          slots.push({ id: 'tol', label: 'Tolerance' });
+          if (bandCount === 6) {
+            slots.push({ id: 'ppm', label: 'Temp Coeff (PPM)' });
+          }
+
+          var colClassMap = { 4: 'lg:grid-cols-4', 5: 'lg:grid-cols-5', 6: 'lg:grid-cols-6' };
+          var grid = document.getElementById('rd-selectors-grid');
+          grid.className = 'grid grid-cols-1 sm:grid-cols-2 ' + (colClassMap[slots.length] || 'lg:grid-cols-4') + ' gap-4';
+
+          grid.innerHTML = slots.map(function (slot) {
+            var opts = getOptionsForSlot(slot.id).map(function (key) {
+              var c = COLORS[key];
+              var detail =
+                slot.id.charAt(0) === 'd'
+                  ? c.digit
+                  : slot.id === 'mult'
+                  ? '×' + c.mult
+                  : slot.id === 'tol'
+                  ? '±' + c.tol + '%'
+                  : c.ppm + ' ppm';
+              var selected = state[slot.id] === key ? ' selected' : '';
+              return '<option value="' + key + '"' + selected + '>' + c.name + ' (' + detail + ')</option>';
+            }).join('');
+
+            return (
+              '<div class="space-y-1.5">' +
+              '  <label for="sel-' + slot.id + '" class="block text-xs font-medium text-slate-600 dark:text-zinc-400">' + slot.label + '</label>' +
+              '  <div class="flex items-center gap-2">' +
+              '    <span class="w-4 h-9 rounded border border-slate-300 dark:border-zinc-700 shrink-0" style="background:' + COLORS[state[slot.id]].hex + '"></span>' +
+              '    <select id="sel-' + slot.id + '" data-slot="' + slot.id + '" class="rd-slot-select w-full h-9 px-2.5 rounded-lg border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950 text-xs font-medium text-slate-900 dark:text-zinc-100 focus:border-indigo-500 focus:outline-none">' +
+              opts +
+              '    </select>' +
+              '  </div>' +
+              '</div>'
+            );
+          }).join('');
+
+          grid.querySelectorAll('.rd-slot-select').forEach(function (sel) {
+            sel.addEventListener('change', function () {
+              state[sel.getAttribute('data-slot')] = sel.value;
+              renderSelectors();
+              updateCalculation();
+            });
+          });
+        }
+
+        function updateCalculation() {
+          var d1 = COLORS[state.d1].digit;
+          var d2 = COLORS[state.d2].digit;
+          var d3 = COLORS[state.d3].digit;
+          var mult = COLORS[state.mult].mult;
+          var tol = COLORS[state.tol].tol;
+          var ppm = COLORS[state.ppm].ppm;
+
+          var base = bandCount >= 5 ? (d1 * 100 + d2 * 10 + d3) : (d1 * 10 + d2);
+          var ohms = base * mult;
+          var minOhms = ohms * (1 - tol / 100);
+          var maxOhms = ohms * (1 + tol / 100);
+
+          document.getElementById('rd-ohm-value').textContent = formatOhms(ohms);
+          document.getElementById('rd-tol-value').textContent = '±' + tol + '%';
+          document.getElementById('rd-range-value').textContent = formatOhms(minOhms) + ' – ' + formatOhms(maxOhms);
+          document.getElementById('rd-ppm-value').textContent = bandCount === 6 ? ppm + ' ppm/K' : 'N/A';
+
+          // Update SVG bands
+          document.getElementById('svg-band-1').setAttribute('fill', COLORS[state.d1].hex);
+          document.getElementById('svg-band-2').setAttribute('fill', COLORS[state.d2].hex);
+          var b3 = document.getElementById('svg-band-3');
+          if (bandCount >= 5) {
+            b3.classList.remove('hidden');
+            b3.setAttribute('fill', COLORS[state.d3].hex);
+          } else {
+            b3.classList.add('hidden');
+          }
+          document.getElementById('svg-band-mult').setAttribute('fill', COLORS[state.mult].hex);
+          document.getElementById('svg-band-tol').setAttribute('fill', COLORS[state.tol].hex);
+          var bPpm = document.getElementById('svg-band-ppm');
+          if (bandCount === 6) {
+            bPpm.classList.remove('hidden');
+            bPpm.setAttribute('fill', COLORS[state.ppm].hex);
+          } else {
+            bPpm.classList.add('hidden');
+          }
+        }
+
+        document.querySelectorAll('.rd-mode-btn').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            bandCount = parseInt(btn.getAttribute('data-bands'), 10);
+            document.querySelectorAll('.rd-mode-btn').forEach(function (b) {
+              var active = b === btn;
+              b.className = active
+                ? 'rd-mode-btn px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-colors cursor-pointer bg-white dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 shadow-sm'
+                : 'rd-mode-btn px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-colors cursor-pointer text-slate-600 dark:text-zinc-400';
+            });
+            renderSelectors();
+            updateCalculation();
+          });
+        });
+
+        document.querySelectorAll('.rd-preset').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var val = parseInt(btn.getAttribute('data-preset'), 10);
+            bandCount = 4;
+            document.querySelector('.rd-mode-btn[data-bands="4"]').click();
+            if (val === 220) {
+              state.d1 = 'red'; state.d2 = 'red'; state.mult = 'brown'; state.tol = 'gold';
+            } else if (val === 4700) {
+              state.d1 = 'yellow'; state.d2 = 'violet'; state.mult = 'red'; state.tol = 'gold';
+            } else if (val === 10000) {
+              state.d1 = 'brown'; state.d2 = 'black'; state.mult = 'orange'; state.tol = 'gold';
+            }
+            renderSelectors();
+            updateCalculation();
+          });
+        });
+
+        renderSelectors();
+        updateCalculation();
+      })();
+    </script>
+  </body>
+</html>

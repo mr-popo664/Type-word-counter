@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visual IPv4 / CIDR Subnet Calculator — Mohit Tools</title>
+    <meta
+      name="description"
+      content="Free visual IPv4 CIDR subnet calculator with live 32-bit binary octet blocks, network and broadcast boundaries, wildcard masks, and usable host ranges."
+    />
+    <link rel="canonical" href="https://mohit-tools.com/tools/subnet-calculator/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mohit Tools" />
+    <meta property="og:url" content="https://mohit-tools.com/tools/subnet-calculator/" />
+    <meta property="og:title" content="Visual IPv4 / CIDR Subnet Calculator — Mohit Tools" />
+    <meta
+      property="og:description"
+      content="Calculate IPv4 subnet masks, network and broadcast addresses, wildcard masks, and usable host ranges with an interactive 32-bit binary visualizer."
+    />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Visual IPv4 / CIDR Subnet Calculator — Mohit Tools" />
+    <meta
+      name="twitter:description"
+      content="Interactive visual IPv4 CIDR subnet calculator running 100% locally in your browser."
+    />
+
+    <!-- Schema.org: WebApplication -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Visual IPv4 / CIDR Subnet Calculator",
+        "url": "https://mohit-tools.com/tools/subnet-calculator/",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "All",
+        "browserRequirements": "Requires JavaScript. Works in all modern desktop and mobile browsers.",
+        "description": "Visual IPv4 CIDR subnet calculator with live 32-bit binary octet toggling, network/broadcast range output, wildcard masks, and RFC scope detection.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Mohit Sonar",
+          "url": "https://mohit-tools.com/about.html"
+        }
+      }
+    </script>
+
+    <!-- Schema.org: FAQPage -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What does CIDR notation like /24 or /28 mean in an IPv4 address?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "CIDR (Classless Inter-Domain Routing) notation specifies how many leading bits of a 32-bit IPv4 address form the fixed network prefix, leaving the remaining bits for host assignment. For example, a /24 prefix locks the first 24 bits (255.255.255.0) and leaves 8 host bits (256 total addresses, 254 usable hosts), whereas a /28 prefix locks 28 bits (255.255.255.240) and leaves 4 host bits (16 total addresses, 14 usable hosts)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is the usable host count equal to 2^(32 - prefix) minus 2?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In standard IPv4 subnets from /0 through /30, two addresses inside every block are reserved by protocol rules and cannot be assigned to client endpoints. The first address (where all host bits equal 0) identifies the subnet itself in routing tables, and the final address (where all host bits equal 1) acts as the subnet's directed broadcast address."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does this visual IPv4 CIDR subnet calculator handle /31 and /32 prefixes?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Following RFC 3021, a /31 subnet is designed specifically for point-to-point router interfaces that do not require a broadcast address, providing exactly 2 usable host IPs. A /32 prefix designates a single host route (such as a loopback interface or firewall host rule) with 1 usable IP address and no host range."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a Wildcard Mask and when should I use it instead of a Subnet Mask?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A wildcard mask is the exact bitwise inverse of a standard subnet mask (calculated by subtracting each subnet octet from 255). While operating systems and DHCP servers require a standard subnet mask, Cisco IOS Access Control Lists (ACLs), OSPF network statements, and EIGRP wildcard matches require the wildcard mask where 0 bits mean 'must match' and 1 bits mean 'ignore'."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I toggle individual binary bits directly in the 32-bit visualizer?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Clicking any of the 32 interactive bit tiles flips that bit between 0 and 1 in real time. Toggling bits inside the indigo network section moves the IP into a neighboring subnet, while toggling bits inside the neutral host section changes the host IP within the same subnet boundary."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are my internal RFC 1918 network addresses or VPC CIDRs sent to any server?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Every bitwise calculation runs 100% locally inside your browser using JavaScript unsigned 32-bit integer arithmetic. Your corporate VLAN layouts, cloud VPC CIDR blocks, and firewall ranges never leave your device."
+            }
+          }
+        ]
+      }
+    </script>
+
+    <!-- Prevent Theme Flash Before First Paint -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('mt_theme');
+          if (t === 'dark' || (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS CDN (Class-Based Dark Mode) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'monospace'],
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Shared Stylesheet -->
+    <link rel="stylesheet" href="/assets/css/style.css" />
+
+    <!-- Google Analytics 4 (Uncomment and replace G-XXXXXXXXXX when deploying)
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    -->
+
+    <!-- Google AdSense (Uncomment and replace ca-pub-XXXXXXXXXXXXXXXX after approval)
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+    -->
+  </head>
+
+  <body
+    data-tool-id="subnet-calculator"
+    class="bg-[#F8FAFC] dark:bg-[#09090B] text-[#0F172A] dark:text-[#F4F4F5] antialiased"
+  >
+    <header id="site-header"></header>
+
+    <main>
+      <!-- =================================================================
+           ZONE 1: ABOVE THE FOLD — Breadcrumb, H1, Subtitle & Tool Workspace
+           ================================================================= -->
+      <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12">
+        <!-- Breadcrumb Trail -->
+        <nav aria-label="Breadcrumb" class="mb-6">
+          <ol class="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-zinc-400">
+            <li><a href="/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Home</a></li>
+            <li aria-hidden="true">&gt;</li>
+            <li><a href="/#tools-directory" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Tools</a></li>
+            <li aria-hidden="true">&gt;</li>
+            <li class="text-slate-900 dark:text-zinc-100 font-medium" aria-current="page">Visual IPv4 / CIDR Subnet Calculator</li>
+          </ol>
+        </nav>
+
+        <!-- Single H1 + Concise Subtitle -->
+        <div class="max-w-3xl space-y-3 mb-8">
+          <h1 class="text-2xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+            Visual IPv4 / CIDR Subnet Calculator
+          </h1>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+            Inspect network boundaries, broadcast addresses, wildcard masks, and usable host ranges with live interactive 32-bit binary octet visualization.
+          </p>
+        </div>
+
+        <!-- Interactive Tool Workspace -->
+        <div id="tool-workspace" class="mt-surface rounded-2xl p-5 sm:p-8 shadow-sm space-y-7">
+          <!-- Primary Controls Row -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">
+            <div class="lg:col-span-4 space-y-1.5">
+              <label for="ip-input" class="block text-sm font-medium text-slate-700 dark:text-zinc-300">
+                IPv4 Address
+              </label>
+              <input
+                id="ip-input"
+                type="text"
+                value="192.168.10.42"
+                placeholder="e.g. 192.168.10.42"
+                class="w-full h-11 px-3.5 rounded-lg border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950 font-mono text-sm text-slate-900 dark:text-zinc-100 focus:border-indigo-600 dark:focus:border-indigo-500 focus:outline-none transition-colors"
+              />
+            </div>
+
+            <div class="lg:col-span-4 space-y-1.5">
+              <div class="flex items-center justify-between">
+                <label for="cidr-slider" class="text-sm font-medium text-slate-700 dark:text-zinc-300">
+                  CIDR Prefix Length
+                </label>
+                <span id="cidr-badge" class="font-mono text-sm font-semibold text-indigo-600 dark:text-indigo-400">/24</span>
+              </div>
+              <input
+                id="cidr-slider"
+                type="range"
+                min="0"
+                max="32"
+                value="24"
+                class="w-full h-2 bg-slate-200 dark:bg-zinc-800 rounded-lg accent-indigo-600 cursor-pointer"
+              />
+            </div>
+
+            <div class="lg:col-span-4 space-y-1.5">
+              <label for="cidr-select" class="block text-sm font-medium text-slate-700 dark:text-zinc-300">
+                Subnet Mask
+              </label>
+              <select
+                id="cidr-select"
+                class="w-full h-11 px-3 rounded-lg border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950 font-mono text-xs text-slate-900 dark:text-zinc-100 focus:border-indigo-600 focus:outline-none transition-colors"
+              ></select>
+            </div>
+          </div>
+
+          <!-- Presets + Copy / Reset Action Bar -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-200 dark:border-zinc-800">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="text-xs font-medium text-slate-500 dark:text-zinc-400 mr-1">Presets:</span>
+              <button type="button" data-preset-ip="192.168.10.42" data-preset-cidr="24" class="sc-preset-btn px-3 py-1.5 rounded-lg border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-900 hover:border-indigo-500 text-xs font-mono text-slate-700 dark:text-zinc-300 transition-colors cursor-pointer">192.168.10.42/24</button>
+              <button type="button" data-preset-ip="10.0.0.0" data-preset-cidr="16" class="sc-preset-btn px-3 py-1.5 rounded-lg border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-900 hover:border-indigo-500 text-xs font-mono text-slate-700 dark:text-zinc-300 transition-colors cursor-pointer">10.0.0.0/16 (VPC)</button>
+              <button type="button" data-preset-ip="172.16.40.15" data-preset-cidr="28" class="sc-preset-btn px-3 py-1.5 rounded-lg border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-900 hover:border-indigo-500 text-xs font-mono text-slate-700 dark:text-zinc-300 transition-colors cursor-pointer">172.16.40.15/28</button>
+              <button type="button" data-preset-ip="100.64.12.1" data-preset-cidr="30" class="sc-preset-btn px-3 py-1.5 rounded-lg border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-900 hover:border-indigo-500 text-xs font-mono text-slate-700 dark:text-zinc-300 transition-colors cursor-pointer">100.64.12.1/30</button>
+            </div>
+
+            <div class="flex items-center gap-2.5 shrink-0">
+              <button
+                id="sc-reset-btn"
+                type="button"
+                class="px-3.5 py-2 rounded-lg border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:border-slate-300 dark:hover:border-zinc-600 text-xs sm:text-sm font-medium text-slate-700 dark:text-zinc-200 transition-colors whitespace-nowrap cursor-pointer"
+              >
+                Reset
+              </button>
+              <button
+                id="sc-copy-btn"
+                type="button"
+                class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-semibold transition-colors whitespace-nowrap cursor-pointer"
+              >
+                Copy Result
+              </button>
+            </div>
+          </div>
+
+          <p id="ip-error-msg" role="alert" class="hidden text-sm text-red-600 dark:text-red-400 font-medium"></p>
+
+          <!-- Interactive 32-Bit Binary Octet Visualizer -->
+          <div class="rounded-xl border border-slate-200 dark:border-zinc-800 bg-slate-50/70 dark:bg-zinc-950/70 p-5 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <h2 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">
+                  Interactive 32-Bit Binary Visualizer
+                </h2>
+                <p class="text-xs text-slate-500 dark:text-zinc-400 mt-0.5">
+                  Click any bit block to flip 0/1. Indigo bits belong to the Network Prefix; neutral bits belong to the Host ID.
+                </p>
+              </div>
+              <div class="flex items-center gap-4 text-xs">
+                <span class="inline-flex items-center gap-1.5 text-slate-700 dark:text-zinc-300">
+                  <span class="w-3 h-3 rounded-sm bg-indigo-600 inline-block"></span>
+                  Network (<span id="net-bits-count" class="font-mono tabular-nums">24</span>)
+                </span>
+                <span class="inline-flex items-center gap-1.5 text-slate-700 dark:text-zinc-300">
+                  <span class="w-3 h-3 rounded-sm bg-slate-300 dark:bg-zinc-700 inline-block"></span>
+                  Host (<span id="host-bits-count" class="font-mono tabular-nums">8</span>)
+                </span>
+              </div>
+            </div>
+
+            <div id="binary-octets-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+          </div>
+
+          <!-- Subnet Results Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="rounded-xl border border-slate-200 dark:border-zinc-800 p-4">
+              <p class="text-xs text-slate-500 dark:text-zinc-400 mb-1">Network Address</p>
+              <p id="out-network" class="text-lg font-bold font-mono tabular-nums text-indigo-600 dark:text-indigo-400">192.168.10.0</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 dark:border-zinc-800 p-4">
+              <p class="text-xs text-slate-500 dark:text-zinc-400 mb-1">Broadcast Address</p>
+              <p id="out-broadcast" class="text-lg font-bold font-mono tabular-nums text-slate-900 dark:text-zinc-100">192.168.10.255</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 dark:border-zinc-800 p-4">
+              <p class="text-xs text-slate-500 dark:text-zinc-400 mb-1">Usable Host Range</p>
+              <p id="out-range" class="text-base font-bold font-mono tabular-nums text-slate-900 dark:text-zinc-100">192.168.10.1 – 192.168.10.254</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 dark:border-zinc-800 p-4">
+              <p class="text-xs text-slate-500 dark:text-zinc-400 mb-1">Subnet Mask</p>
+              <p id="out-mask" class="text-base font-semibold font-mono tabular-nums text-slate-900 dark:text-zinc-100">255.255.255.0</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 dark:border-zinc-800 p-4">
+              <p class="text-xs text-slate-500 dark:text-zinc-400 mb-1">Wildcard Mask (ACL)</p>
+              <p id="out-wildcard" class="text-base font-semibold font-mono tabular-nums text-slate-900 dark:text-zinc-100">0.0.0.255</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 dark:border-zinc-800 p-4">
+              <p class="text-xs text-slate-500 dark:text-zinc-400 mb-1">Usable Hosts / Total IPs</p>
+              <p id="out-hosts" class="text-base font-semibold font-mono tabular-nums text-slate-900 dark:text-zinc-100">254 / 256</p>
+              <p id="out-scope" class="text-xs text-slate-500 dark:text-zinc-400 mt-0.5">Private (RFC 1918 Class C)</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           ZONE 2: BELOW THE FOLD — AdSense-Grade Technical Guide (1,000+ words)
+           ================================================================= -->
+      <article class="mt-adsense-buffer border-t border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950/60">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16 space-y-12">
+          <!-- 1. Step-by-Step Guide with Worked Example -->
+          <section class="space-y-4">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+              How to Use the Visual IPv4 / CIDR Subnet Calculator (Step-by-Step Worked Example)
+            </h2>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              Subnetting in your head under time pressure—whether during a cloud VPC outage, a firewall rule deployment, or a networking certification exam—invites off-by-one boundary mistakes. This visual IPv4 CIDR subnet calculator eliminates arithmetic guesswork by pairing instant dotted-decimal outputs with an interactive 32-bit binary map so you can see exactly where the network prefix ends and the host identifier begins.
+            </p>
+            <ol class="list-decimal pl-5 space-y-3 text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              <li>
+                <strong class="text-slate-900 dark:text-zinc-100">Enter your base IPv4 address:</strong> Type any four-octet dotted-decimal IP address into the <em>IPv4 Address</em> field. If you enter a malformed octet (such as a value above <span class="font-mono text-xs">255</span> or fewer than four segments), an inline validation notice alerts you immediately without breaking your previous valid calculation.
+              </li>
+              <li>
+                <strong class="text-slate-900 dark:text-zinc-100">Select your CIDR prefix length or subnet mask:</strong> Drag the <em>CIDR Prefix Length</em> slider anywhere from <span class="font-mono text-xs">/0</span> to <span class="font-mono text-xs">/32</span>, or choose the matching dotted-decimal subnet mask from the dropdown menu. Both controls stay synchronized automatically.
+              </li>
+              <li>
+                <strong class="text-slate-900 dark:text-zinc-100">Experiment with the 32-bit binary blocks:</strong> Click any individual bit in Octets 1 through 4 to toggle it between <span class="font-mono text-xs">0</span> and <span class="font-mono text-xs">1</span>. Notice how bits highlighted in indigo belong to the immutable network prefix for that subnet, whereas neutral bits can vary across client devices inside that block.
+              </li>
+              <li>
+                <strong class="text-slate-900 dark:text-zinc-100">Copy or reset your configuration:</strong> Click <em>Copy Result</em> to copy a clean plain-text specification sheet to your clipboard for Terraform comments, Jira tickets, or router documentation, or click <em>Reset</em> to return to the <span class="font-mono text-xs">192.168.10.42/24</span> baseline.
+              </li>
+            </ol>
+
+            <div class="mt-surface rounded-xl p-5 sm:p-6 space-y-3 mt-4">
+              <h3 class="text-base sm:text-lg font-semibold text-slate-900 dark:text-zinc-100">
+                Worked Example: Partitioning a Small Branch DMZ (<span class="font-mono text-sm">172.16.40.15/28</span>)
+              </h3>
+              <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                Suppose your team assigns a server the address <span class="font-mono text-xs">172.16.40.15/28</span> and needs to confirm its default gateway range and firewall ACL mask. Clicking the <span class="font-mono text-xs">172.16.40.15/28</span> preset immediately locks the first 28 bits (the entire first three octets plus the upper four bits of Octet 4) and leaves 4 host bits.
+              </p>
+              <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                In binary, the fourth octet <span class="font-mono text-xs">15</span> is <span class="font-mono text-xs">0000 1111</span>. Setting all 4 host bits to zero yields <span class="font-mono text-xs">0000 0000</span> (<span class="font-mono text-xs">172.16.40.0</span> Network Address), while setting all 4 host bits to one yields <span class="font-mono text-xs">0000 1111</span> (<span class="font-mono text-xs">172.16.40.15</span> Broadcast Address). That immediately reveals a critical operational trap: <span class="font-mono text-xs">172.16.40.15</span> is actually the <strong>broadcast address</strong> of the <span class="font-mono text-xs">.0/28</span> block, not a valid server IP! Valid hosts run strictly from <span class="font-mono text-xs">172.16.40.1</span> to <span class="font-mono text-xs">172.16.40.14</span> (14 usable hosts), with subnet mask <span class="font-mono text-xs">255.255.255.240</span> and ACL wildcard mask <span class="font-mono text-xs">0.0.0.15</span>.
+              </p>
+            </div>
+          </section>
+
+          <!-- 2. Deep Technical Explanation -->
+          <section class="space-y-4 pt-8 border-t border-slate-200 dark:border-zinc-800">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+              Deep Technical Explanation: Bitwise CIDR Math &amp; RFC Standards
+            </h2>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              Every IPv4 address is fundamentally a single 32-bit unsigned integer ranging from <span class="font-mono text-xs">0</span> (<span class="font-mono text-xs">0.0.0.0</span>) to <span class="font-mono text-xs">4,294,967,295</span> (<span class="font-mono text-xs">255.255.255.255</span>). Dotted-decimal notation splits those 32 bits into four 8-bit octets solely for human legibility. Prior to 1993, IPv4 allocation relied on rigid Class A (<span class="font-mono text-xs">/8</span>), Class B (<span class="font-mono text-xs">/16</span>), and Class C (<span class="font-mono text-xs">/24</span>) boundaries, which rapidly exhausted address space because mid-sized organizations needing 500 hosts were forced to consume an entire 65,536-address Class B block.
+            </p>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              <strong>Classless Inter-Domain Routing (RFC 4632)</strong> replaced fixed classes with variable-length subnet masking (VLSM). A CIDR prefix length <span class="font-mono text-xs">/N</span> defines a 32-bit mask containing <span class="font-mono text-xs">N</span> consecutive leading <span class="font-mono text-xs">1</span> bits followed by <span class="font-mono text-xs">32 - N</span> trailing <span class="font-mono text-xs">0</span> bits. Internally, this calculator executes exact unsigned 32-bit bitwise operations using JavaScript’s zero-fill right shift (<span class="font-mono text-xs">&gt;&gt;&gt; 0</span>) to avoid signed 32-bit integer overflow when high octets exceed <span class="font-mono text-xs">127</span>:
+            </p>
+
+            <ul class="list-disc pl-5 space-y-2 text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              <li><strong class="text-slate-900 dark:text-zinc-100">Subnet Mask:</strong> <span class="font-mono text-xs">(0xFFFFFFFF &lt;&lt; (32 - prefix)) &gt;&gt;&gt; 0</span> (or <span class="font-mono text-xs">0</span> when <span class="font-mono text-xs">prefix === 0</span>).</li>
+              <li><strong class="text-slate-900 dark:text-zinc-100">Wildcard Mask:</strong> <span class="font-mono text-xs">(~subnetMask) &gt;&gt;&gt; 0</span>, which flips every mask bit for router ACL and OSPF matching.</li>
+              <li><strong class="text-slate-900 dark:text-zinc-100">Network Address:</strong> <span class="font-mono text-xs">(ipInt &amp; subnetMask) &gt;&gt;&gt; 0</span>, zeroing out all host bits.</li>
+              <li><strong class="text-slate-900 dark:text-zinc-100">Broadcast Address:</strong> <span class="font-mono text-xs">(networkInt | wildcardMask) &gt;&gt;&gt; 0</span>, setting all host bits to <span class="font-mono text-xs">1</span>.</li>
+            </ul>
+
+            <h3 class="text-base sm:text-lg font-semibold text-slate-900 dark:text-zinc-100 pt-3">
+              Common IPv4 CIDR Prefix Reference Table
+            </h3>
+            <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-zinc-800">
+              <table class="w-full text-left text-xs sm:text-sm font-mono tabular-nums">
+                <thead class="bg-slate-50 dark:bg-zinc-900 text-slate-700 dark:text-zinc-300 border-b border-slate-200 dark:border-zinc-800">
+                  <tr>
+                    <th class="px-4 py-3 font-semibold">CIDR</th>
+                    <th class="px-4 py-3 font-semibold">Subnet Mask</th>
+                    <th class="px-4 py-3 font-semibold">Wildcard</th>
+                    <th class="px-4 py-3 font-semibold text-right">Total IPs</th>
+                    <th class="px-4 py-3 font-semibold text-right">Usable Hosts</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 dark:divide-zinc-800 text-slate-600 dark:text-zinc-400">
+                  <tr><td class="px-4 py-2.5 text-indigo-600 dark:text-indigo-400 font-semibold">/16</td><td class="px-4 py-2.5">255.255.0.0</td><td class="px-4 py-2.5">0.0.255.255</td><td class="px-4 py-2.5 text-right">65,536</td><td class="px-4 py-2.5 text-right">65,534</td></tr>
+                  <tr><td class="px-4 py-2.5 text-indigo-600 dark:text-indigo-400 font-semibold">/20</td><td class="px-4 py-2.5">255.255.240.0</td><td class="px-4 py-2.5">0.0.15.255</td><td class="px-4 py-2.5 text-right">4,096</td><td class="px-4 py-2.5 text-right">4,094</td></tr>
+                  <tr><td class="px-4 py-2.5 text-indigo-600 dark:text-indigo-400 font-semibold">/24</td><td class="px-4 py-2.5">255.255.255.0</td><td class="px-4 py-2.5">0.0.0.255</td><td class="px-4 py-2.5 text-right">256</td><td class="px-4 py-2.5 text-right">254</td></tr>
+                  <tr><td class="px-4 py-2.5 text-indigo-600 dark:text-indigo-400 font-semibold">/26</td><td class="px-4 py-2.5">255.255.255.192</td><td class="px-4 py-2.5">0.0.0.63</td><td class="px-4 py-2.5 text-right">64</td><td class="px-4 py-2.5 text-right">62</td></tr>
+                  <tr><td class="px-4 py-2.5 text-indigo-600 dark:text-indigo-400 font-semibold">/28</td><td class="px-4 py-2.5">255.255.255.240</td><td class="px-4 py-2.5">0.0.0.15</td><td class="px-4 py-2.5 text-right">16</td><td class="px-4 py-2.5 text-right">14</td></tr>
+                  <tr><td class="px-4 py-2.5 text-indigo-600 dark:text-indigo-400 font-semibold">/30</td><td class="px-4 py-2.5">255.255.255.252</td><td class="px-4 py-2.5">0.0.0.3</td><td class="px-4 py-2.5 text-right">4</td><td class="px-4 py-2.5 text-right">2</td></tr>
+                  <tr><td class="px-4 py-2.5 text-indigo-600 dark:text-indigo-400 font-semibold">/31</td><td class="px-4 py-2.5">255.255.255.254</td><td class="px-4 py-2.5">0.0.0.1</td><td class="px-4 py-2.5 text-right">2</td><td class="px-4 py-2.5 text-right">2 (RFC 3021)</td></tr>
+                  <tr><td class="px-4 py-2.5 text-indigo-600 dark:text-indigo-400 font-semibold">/32</td><td class="px-4 py-2.5">255.255.255.255</td><td class="px-4 py-2.5">0.0.0.0</td><td class="px-4 py-2.5 text-right">1</td><td class="px-4 py-2.5 text-right">1 (Host)</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- 3. Real-World Scenarios & Best Practices -->
+          <section class="space-y-5 pt-8 border-t border-slate-200 dark:border-zinc-800">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+              Real-World Scenarios &amp; Subnetting Best Practices
+            </h2>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              Designing clean IP addressing schemes early prevents painful re-IP migrations when connecting branch offices, VPNs, or multi-region cloud clusters. Apply these five practitioner guidelines whenever planning IPv4 allocations:
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-1">
+              <div class="mt-surface rounded-xl p-5 space-y-2">
+                <h3 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">01. Account for Cloud Provider Reserved IPs</h3>
+                <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                  While RFC 4632 reserves 2 addresses (network and broadcast), public cloud providers such as AWS, GCP, and Azure reserve 3 additional IPs per subnet for the VPC router, local DNS resolver, and future use. A <span class="font-mono text-xs">/28</span> AWS subnet yields 11 usable ENIs instead of 14.
+                </p>
+              </div>
+              <div class="mt-surface rounded-xl p-5 space-y-2">
+                <h3 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">02. Avoid Overlapping RFC 1918 Ranges Across VPNs</h3>
+                <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                  Defaulting every office LAN or Kubernetes cluster to <span class="font-mono text-xs">192.168.1.0/24</span> or <span class="font-mono text-xs">10.0.0.0/16</span> creates routing collisions during site-to-site WireGuard or IPSec peering. Allocate unique <span class="font-mono text-xs">10.x.0.0/16</span> blocks per site or environment.
+                </p>
+              </div>
+              <div class="mt-surface rounded-xl p-5 space-y-2">
+                <h3 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">03. Use /31 Links for Point-to-Point Router Transit</h3>
+                <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                  Traditional <span class="font-mono text-xs">/30</span> transit links waste 50% of their 4-IP block on network and broadcast addresses. Modern routers supporting RFC 3021 allow <span class="font-mono text-xs">/31</span> subnets on point-to-point links, doubling address efficiency across WAN backbones.
+                </p>
+              </div>
+              <div class="mt-surface rounded-xl p-5 space-y-2">
+                <h3 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">04. Align Subnets on Power-of-Two Boundaries</h3>
+                <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                  Always ensure a subnet’s starting address is an exact multiple of its block size. For example, a <span class="font-mono text-xs">/26</span> block (64 IPs) can start at <span class="font-mono text-xs">.0</span>, <span class="font-mono text-xs">.64</span>, <span class="font-mono text-xs">.128</span>, or <span class="font-mono text-xs">.192</span>—never at <span class="font-mono text-xs">.32</span>.
+                </p>
+              </div>
+              <div class="mt-surface rounded-xl p-5 space-y-2 sm:col-span-2">
+                <h3 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">05. Standardize Route Summarization (Supernetting)</h3>
+                <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                  Assign contiguous <span class="font-mono text-xs">/24</span> VLAN blocks per building or availability zone (for example, <span class="font-mono text-xs">10.20.0.0/24</span> through <span class="font-mono text-xs">10.20.3.0/24</span>) so upstream core routers can advertise a single concise <span class="font-mono text-xs">10.20.0.0/22</span> summary route instead of four separate entries.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 4. Comprehensive 6-Question Detailed FAQ -->
+          <section class="space-y-5 pt-8 border-t border-slate-200 dark:border-zinc-800">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+              Frequently Asked Questions
+            </h2>
+            <div class="space-y-3">
+              <details class="mt-surface rounded-xl p-5" open>
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>What does CIDR notation like /24 or /28 mean in an IPv4 address?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                  CIDR (Classless Inter-Domain Routing) notation specifies how many leading bits of a 32-bit IPv4 address form the fixed network prefix, leaving the remaining bits for host assignment. For example, a <span class="font-mono text-xs">/24</span> prefix locks the first 24 bits (<span class="font-mono text-xs">255.255.255.0</span>) and leaves 8 host bits (256 total addresses, 254 usable hosts), whereas a <span class="font-mono text-xs">/28</span> prefix locks 28 bits (<span class="font-mono text-xs">255.255.255.240</span>) and leaves 4 host bits (16 total addresses, 14 usable hosts).
+                </p>
+              </details>
+
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>Why is the usable host count equal to 2^(32 - prefix) minus 2?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                  In standard IPv4 subnets from <span class="font-mono text-xs">/0</span> through <span class="font-mono text-xs">/30</span>, two addresses inside every block are reserved by protocol rules and cannot be assigned to client endpoints. The first address (where all host bits equal <span class="font-mono text-xs">0</span>) identifies the subnet itself in routing tables, and the final address (where all host bits equal <span class="font-mono text-xs">1</span>) acts as the subnet’s directed broadcast address.
+                </p>
+              </details>
+
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>How does this visual IPv4 CIDR subnet calculator handle /31 and /32 prefixes?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                  Following RFC 3021, a <span class="font-mono text-xs">/31</span> subnet is designed specifically for point-to-point router interfaces that do not require a broadcast address, providing exactly 2 usable host IPs. A <span class="font-mono text-xs">/32</span> prefix designates a single host route (such as a loopback interface or firewall host rule) with 1 usable IP address and no host range.
+                </p>
+              </details>
+
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>What is a Wildcard Mask and when should I use it instead of a Subnet Mask?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                  A wildcard mask is the exact bitwise inverse of a standard subnet mask (calculated by subtracting each subnet octet from <span class="font-mono text-xs">255</span>). While operating systems and DHCP servers require a standard subnet mask, Cisco IOS Access Control Lists (ACLs), OSPF network statements, and EIGRP wildcard matches require the wildcard mask where <span class="font-mono text-xs">0</span> bits mean "must match" and <span class="font-mono text-xs">1</span> bits mean "ignore".
+                </p>
+              </details>
+
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>Can I toggle individual binary bits directly in the 32-bit visualizer?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                  Yes. Clicking any of the 32 interactive bit tiles flips that bit between <span class="font-mono text-xs">0</span> and <span class="font-mono text-xs">1</span> in real time. Toggling bits inside the indigo network section moves the IP into a neighboring subnet, while toggling bits inside the neutral host section changes the host IP within the same subnet boundary.
+                </p>
+              </details>
+
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>Are my internal RFC 1918 network addresses or VPC CIDRs sent to any server?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                  No. Every bitwise calculation runs 100% locally inside your browser using JavaScript unsigned 32-bit integer arithmetic. Your corporate VLAN layouts, cloud VPC CIDR blocks, and firewall ranges never leave your device.
+                </p>
+              </details>
+            </div>
+          </section>
+        </div>
+      </article>
+
+      <!-- Auto-Rendered Related Tools Section -->
+      <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 border-t border-slate-200 dark:border-zinc-800">
+        <div class="flex items-center justify-between gap-4 mb-8">
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+            Related Utilities
+          </h2>
+          <a href="/#tools-directory" class="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:underline whitespace-nowrap">
+            View all tools &rarr;
+          </a>
+        </div>
+        <div
+          id="related-tools"
+          data-current-tool="subnet-calculator"
+          class="grid grid-cols-1 md:grid-cols-3 gap-6"
+        ></div>
+      </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="/assets/js/tools-data.js"></script>
+    <script src="/assets/js/layout.js"></script>
+    <script>
+      (function () {
+        'use strict';
+
+        var DEFAULT_IP = '192.168.10.42';
+        var DEFAULT_CIDR = 24;
+
+        var ipInput = document.getElementById('ip-input');
+        var cidrSlider = document.getElementById('cidr-slider');
+        var cidrSelect = document.getElementById('cidr-select');
+        var cidrBadge = document.getElementById('cidr-badge');
+        var errorMsg = document.getElementById('ip-error-msg');
+        var octetsGrid = document.getElementById('binary-octets-grid');
+        var netBitsCount = document.getElementById('net-bits-count');
+        var hostBitsCount = document.getElementById('host-bits-count');
+        var copyBtn = document.getElementById('sc-copy-btn');
+        var resetBtn = document.getElementById('sc-reset-btn');
+
+        var outNetwork = document.getElementById('out-network');
+        var outBroadcast = document.getElementById('out-broadcast');
+        var outRange = document.getElementById('out-range');
+        var outMask = document.getElementById('out-mask');
+        var outWildcard = document.getElementById('out-wildcard');
+        var outHosts = document.getElementById('out-hosts');
+        var outScope = document.getElementById('out-scope');
+
+        var currentIpInt = parseIp(DEFAULT_IP);
+        var currentCidr = DEFAULT_CIDR;
+
+        function intToIp(num) {
+          return [
+            (num >>> 24) & 255,
+            (num >>> 16) & 255,
+            (num >>> 8) & 255,
+            num & 255
+          ].join('.');
+        }
+
+        function parseIp(str) {
+          var parts = str.trim().split('.');
+          if (parts.length !== 4) return null;
+          var octets = [];
+          for (var i = 0; i < 4; i++) {
+            if (!/^\d+$/.test(parts[i])) return null;
+            var n = parseInt(parts[i], 10);
+            if (n < 0 || n > 255) return null;
+            octets.push(n);
+          }
+          return (((octets[0] << 24) | (octets[1] << 16) | (octets[2] << 8) | octets[3]) >>> 0);
+        }
+
+        function cidrToMaskInt(cidr) {
+          if (cidr === 0) return 0;
+          return (0xFFFFFFFF << (32 - cidr)) >>> 0;
+        }
+
+        function getIpScope(ipInt) {
+          var o1 = (ipInt >>> 24) & 255;
+          var o2 = (ipInt >>> 16) & 255;
+          if (o1 === 10) return 'Private (RFC 1918 Class A)';
+          if (o1 === 172 && o2 >= 16 && o2 <= 31) return 'Private (RFC 1918 Class B)';
+          if (o1 === 192 && o2 === 168) return 'Private (RFC 1918 Class C)';
+          if (o1 === 100 && o2 >= 64 && o2 <= 127) return 'CGNAT (RFC 6598)';
+          if (o1 === 127) return 'Loopback (RFC 1122)';
+          if (o1 === 169 && o2 === 254) return 'Link-Local (APIPA)';
+          if (o1 >= 224 && o1 <= 239) return 'Multicast (Class D)';
+          if (o1 >= 240) return 'Reserved (Class E)';
+          return 'Public Routable IPv4';
+        }
+
+        function populateCidrSelect() {
+          var opts = '';
+          for (var c = 32; c >= 0; c--) {
+            opts += '<option value="' + c + '">/' + c + ' — ' + intToIp(cidrToMaskInt(c)) + '</option>';
+          }
+          cidrSelect.innerHTML = opts;
+          cidrSelect.value = String(currentCidr);
+        }
+
+        function renderBinaryGrid() {
+          var html = '';
+          for (var oct = 0; oct < 4; oct++) {
+            var octVal = (currentIpInt >>> (24 - oct * 8)) & 255;
+            html += '<div class="rounded-lg border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-3 space-y-2">';
+            html += '<div class="flex items-center justify-between text-xs font-mono">';
+            html += '<span class="text-slate-500 dark:text-zinc-400">Octet ' + (oct + 1) + '</span>';
+            html += '<span class="font-semibold tabular-nums text-slate-900 dark:text-zinc-100">' + octVal + '</span>';
+            html += '</div>';
+            html += '<div class="grid grid-cols-8 gap-1">';
+            for (var b = 0; b < 8; b++) {
+              var bitIndex = oct * 8 + b;
+              var bitVal = (currentIpInt >>> (31 - bitIndex)) & 1;
+              var isNet = bitIndex < currentCidr;
+              var btnClass = isNet
+                ? (bitVal
+                    ? 'bg-indigo-600 text-white border-indigo-600'
+                    : 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border-indigo-300 dark:border-indigo-700')
+                : (bitVal
+                    ? 'bg-slate-700 dark:bg-zinc-600 text-white border-slate-700 dark:border-zinc-600'
+                    : 'bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-300 border-slate-200 dark:border-zinc-700');
+
+              html +=
+                '<button type="button" data-bit="' +
+                bitIndex +
+                '" aria-label="Toggle bit ' +
+                (bitIndex + 1) +
+                '" class="h-7 rounded border font-mono text-xs font-semibold transition-colors cursor-pointer ' +
+                btnClass +
+                '">' +
+                bitVal +
+                '</button>';
+            }
+            html += '</div></div>';
+          }
+          octetsGrid.innerHTML = html;
+
+          octetsGrid.querySelectorAll('button[data-bit]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+              var idx = parseInt(btn.getAttribute('data-bit'), 10);
+              var mask = (1 << (31 - idx)) >>> 0;
+              currentIpInt = (currentIpInt ^ mask) >>> 0;
+              ipInput.value = intToIp(currentIpInt);
+              errorMsg.classList.add('hidden');
+              updateOutputs();
+            });
+          });
+        }
+
+        function updateOutputs() {
+          var maskInt = cidrToMaskInt(currentCidr);
+          var wildcardInt = (~maskInt) >>> 0;
+          var networkInt = (currentIpInt & maskInt) >>> 0;
+          var broadcastInt = (networkInt | wildcardInt) >>> 0;
+
+          var totalIps = Math.pow(2, 32 - currentCidr);
+          var usableHosts = currentCidr === 32 ? 1 : currentCidr === 31 ? 2 : Math.max(0, totalIps - 2);
+
+          var firstHost =
+            currentCidr === 32 ? networkInt : currentCidr === 31 ? networkInt : (networkInt + 1) >>> 0;
+          var lastHost =
+            currentCidr === 32 ? networkInt : currentCidr === 31 ? broadcastInt : (broadcastInt - 1) >>> 0;
+
+          cidrBadge.textContent = '/' + currentCidr;
+          cidrSlider.value = String(currentCidr);
+          cidrSelect.value = String(currentCidr);
+          netBitsCount.textContent = String(currentCidr);
+          hostBitsCount.textContent = String(32 - currentCidr);
+
+          outNetwork.textContent = intToIp(networkInt);
+          outBroadcast.textContent = intToIp(broadcastInt);
+          outRange.textContent =
+            currentCidr === 32
+              ? intToIp(firstHost) + ' (Single Host)'
+              : intToIp(firstHost) + ' – ' + intToIp(lastHost);
+          outMask.textContent = intToIp(maskInt);
+          outWildcard.textContent = intToIp(wildcardInt);
+          outHosts.textContent = usableHosts.toLocaleString() + ' / ' + totalIps.toLocaleString();
+          outScope.textContent = getIpScope(networkInt);
+
+          renderBinaryGrid();
+        }
+
+        ipInput.addEventListener('input', function () {
+          var parsed = parseIp(ipInput.value);
+          if (parsed === null) {
+            errorMsg.textContent = 'Enter a valid IPv4 address with four octets between 0 and 255 (e.g. 192.168.10.42).';
+            errorMsg.classList.remove('hidden');
+            return;
+          }
+          errorMsg.classList.add('hidden');
+          currentIpInt = parsed;
+          updateOutputs();
+        });
+
+        cidrSlider.addEventListener('input', function () {
+          currentCidr = parseInt(cidrSlider.value, 10);
+          updateOutputs();
+        });
+
+        cidrSelect.addEventListener('change', function () {
+          currentCidr = parseInt(cidrSelect.value, 10);
+          updateOutputs();
+        });
+
+        document.querySelectorAll('.sc-preset-btn').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var pIp = btn.getAttribute('data-preset-ip');
+            var pCidr = parseInt(btn.getAttribute('data-preset-cidr'), 10);
+            var parsed = parseIp(pIp);
+            if (parsed !== null) {
+              currentIpInt = parsed;
+              currentCidr = pCidr;
+              ipInput.value = pIp;
+              errorMsg.classList.add('hidden');
+              updateOutputs();
+            }
+          });
+        });
+
+        resetBtn.addEventListener('click', function () {
+          currentIpInt = parseIp(DEFAULT_IP);
+          currentCidr = DEFAULT_CIDR;
+          ipInput.value = DEFAULT_IP;
+          errorMsg.classList.add('hidden');
+          updateOutputs();
+        });
+
+        copyBtn.addEventListener('click', function () {
+          var summary = [
+            'CIDR Input: ' + intToIp(currentIpInt) + '/' + currentCidr,
+            'Network Address: ' + outNetwork.textContent,
+            'Broadcast Address: ' + outBroadcast.textContent,
+            'Usable Host Range: ' + outRange.textContent,
+            'Subnet Mask: ' + outMask.textContent,
+            'Wildcard Mask: ' + outWildcard.textContent,
+            'Usable Hosts / Total IPs: ' + outHosts.textContent,
+            'IP Scope: ' + outScope.textContent
+          ].join('\n');
+
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(summary).then(function () {
+              var orig = copyBtn.textContent;
+              copyBtn.textContent = 'Copied!';
+              setTimeout(function () { copyBtn.textContent = orig; }, 1600);
+            });
+          }
+        });
+
+        populateCidrSelect();
+        updateOutputs();
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Instagram Carousel Slide Splitter &amp; Grid Previewer — Mohit Tools</title>
+    <meta
+      name="description"
+      content="Split wide panoramic photos into seamless Instagram carousel slides (4:5, 1:1, or 16:9) locally via HTML5 Canvas and preview your 3x3 profile grid."
+    />
+    <link rel="canonical" href="https://mohit-tools.com/tools/carousel-splitter/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mohit Tools" />
+    <meta property="og:url" content="https://mohit-tools.com/tools/carousel-splitter/" />
+    <meta property="og:title" content="Instagram Carousel Slide Splitter &amp; Grid Previewer — Mohit Tools" />
+    <meta
+      property="og:description"
+      content="Slice panoramic photography into seamless swipeable Instagram carousel panels and preview 3x3 grid crops locally in your browser."
+    />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Instagram Carousel Slide Splitter &amp; Grid Previewer" />
+    <meta
+      name="twitter:description"
+      content="Lossless client-side panoramic carousel slicer and 3x3 profile grid previewer."
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Instagram Carousel Slide Splitter & Grid Previewer",
+        "url": "https://mohit-tools.com/tools/carousel-splitter/",
+        "applicationCategory": "DesignApplication",
+        "operatingSystem": "All",
+        "description": "Split wide panoramic photos into seamless Instagram carousel slides and preview 3x3 profile grids locally using HTML5 Canvas.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Mohit Sonar",
+          "url": "https://mohit-tools.com/about.html"
+        }
+      }
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the best resolution for seamless Instagram carousel slides?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For maximum vertical feed presence, use 1080×1350 px (4:5 portrait) per slide. A 3-slide seamless panorama should ideally start at 3240×1350 px, or 5400×1350 px for 5 slides."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does the Carousel Splitter compress or upload my photos?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Slicing happens locally in browser memory via the HTML5 Canvas API and exports lossless PNG slices directly to your Downloads folder."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does Instagram crop 4:5 carousel cover slides on my 3x3 profile grid?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Instagram displays your profile feed thumbnails as 1:1 squares (or 3:4 tall rectangles in newer layouts), centering the cover slide. Our 3x3 Grid Previewer shows how Slide 1 looks once cropped."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How many slides can I split a panorama into?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "You can slice an image into anywhere from 2 up to 10 consecutive slides, matching Instagram’s standard multi-photo carousel limit."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does the tool handle images that do not match the exact aspect ratio?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The splitter automatically center-crops your source panorama to the exact combined target width-to-height ratio so every exported slide aligns pixel-for-pixel without stretching."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I use these sliced panels for LinkedIn PDF carousels or Threads?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. The 1:1 square and 4:5 portrait PNG outputs work seamlessly across Instagram, Threads, X/Twitter multi-image posts, and LinkedIn slide decks."
+            }
+          }
+        ]
+      }
+    </script>
+
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('mt_theme');
+          if (t === 'dark' || (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'monospace'],
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="/assets/css/style.css" />
+  </head>
+
+  <body
+    data-tool-id="carousel-splitter"
+    class="bg-[#F8FAFC] dark:bg-[#09090B] text-[#0F172A] dark:text-[#F4F4F5] antialiased"
+  >
+    <header id="site-header"></header>
+
+    <main>
+      <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12">
+        <nav aria-label="Breadcrumb" class="mb-6">
+          <ol class="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-zinc-400">
+            <li><a href="/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Home</a></li>
+            <li aria-hidden="true">/</li>
+            <li><a href="/#tools-directory" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Tools</a></li>
+            <li aria-hidden="true">/</li>
+            <li class="text-slate-900 dark:text-zinc-100 font-medium" aria-current="page">Carousel Splitter</li>
+          </ol>
+        </nav>
+
+        <div class="max-w-3xl space-y-3 mb-8">
+          <h1 class="text-2xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+            Instagram Carousel Slide Splitter &amp; Grid Previewer
+          </h1>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+            Slice wide panoramic images into seamless swipeable carousel slides and inspect how your cover slide crops on a 3×3 Instagram profile grid.
+          </p>
+        </div>
+
+        <div id="tool-workspace" class="mt-surface rounded-2xl p-5 sm:p-8 shadow-sm space-y-8">
+          <!-- Controls Row -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-end pb-6 border-b border-slate-200 dark:border-zinc-800">
+            <div class="md:col-span-5 space-y-1.5">
+              <label for="cs-file-input" class="block text-sm font-medium text-slate-700 dark:text-zinc-300">
+                Upload Panoramic Image
+              </label>
+              <input
+                id="cs-file-input"
+                type="file"
+                accept="image/*"
+                class="block w-full text-xs text-slate-600 dark:text-zinc-300 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-700 cursor-pointer border border-slate-200 dark:border-zinc-800 rounded-lg p-1.5 bg-slate-50 dark:bg-zinc-950"
+              />
+            </div>
+
+            <div class="md:col-span-3 space-y-1.5">
+              <label for="cs-slides-count" class="block text-sm font-medium text-slate-700 dark:text-zinc-300">
+                Number of Slides
+              </label>
+              <select id="cs-slides-count" class="w-full h-11 px-3 rounded-lg border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950 font-mono text-sm focus:border-indigo-500 focus:outline-none">
+                <option value="2">2 Slides</option>
+                <option value="3" selected>3 Slides</option>
+                <option value="4">4 Slides</option>
+                <option value="5">5 Slides</option>
+                <option value="6">6 Slides</option>
+                <option value="8">8 Slides</option>
+              </select>
+            </div>
+
+            <div class="md:col-span-4 space-y-1.5">
+              <label for="cs-aspect-select" class="block text-sm font-medium text-slate-700 dark:text-zinc-300">
+                Slide Aspect Ratio
+              </label>
+              <select id="cs-aspect-select" class="w-full h-11 px-3 rounded-lg border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950 font-mono text-xs sm:text-sm focus:border-indigo-500 focus:outline-none">
+                <option value="0.8" selected>4:5 Portrait (1080×1350)</option>
+                <option value="1">1:1 Square (1080×1080)</option>
+                <option value="1.7777">16:9 Landscape (1080×608)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Panorama Cutline Preview + 3x3 Profile Grid Preview -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div class="lg:col-span-8 space-y-3">
+              <div class="flex items-center justify-between">
+                <h2 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">
+                  Panorama Slice Preview
+                </h2>
+                <span id="cs-dim-info" class="text-xs font-mono tabular-nums text-slate-500 dark:text-zinc-400"></span>
+              </div>
+              <div class="rounded-xl border border-slate-200 dark:border-zinc-800 bg-slate-100 dark:bg-zinc-950 p-3 flex items-center justify-center overflow-hidden">
+                <canvas id="cs-preview-canvas" class="max-w-full h-auto rounded-lg"></canvas>
+              </div>
+            </div>
+
+            <!-- 3x3 Profile Grid Previewer -->
+            <div class="lg:col-span-4 space-y-3">
+              <h2 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">
+                3×3 Profile Grid Preview (Slide 1 Crop)
+              </h2>
+              <div class="rounded-xl border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950 p-4">
+                <div class="grid grid-cols-3 gap-1">
+                  <div class="aspect-square overflow-hidden bg-indigo-600/10 ring-2 ring-indigo-500 relative">
+                    <img id="cs-grid-cover" alt="Slide 1 profile grid preview" class="w-full h-full object-cover" />
+                    <span class="absolute bottom-1 right-1 px-1 rounded bg-black/70 text-[9px] font-mono text-white">NEW</span>
+                  </div>
+                  <div class="aspect-square bg-slate-200 dark:bg-zinc-800"></div>
+                  <div class="aspect-square bg-slate-200 dark:bg-zinc-800"></div>
+                  <div class="aspect-square bg-slate-200 dark:bg-zinc-800"></div>
+                  <div class="aspect-square bg-slate-200 dark:bg-zinc-800"></div>
+                  <div class="aspect-square bg-slate-200 dark:bg-zinc-800"></div>
+                  <div class="aspect-square bg-slate-200 dark:bg-zinc-800"></div>
+                  <div class="aspect-square bg-slate-200 dark:bg-zinc-800"></div>
+                  <div class="aspect-square bg-slate-200 dark:bg-zinc-800"></div>
+                </div>
+                <p class="text-xs text-slate-500 dark:text-zinc-400 mt-3 leading-relaxed">
+                  Shows how your first slide’s center square appears on your Instagram profile grid.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Exported Slide Slices -->
+          <div class="space-y-4 pt-4 border-t border-slate-200 dark:border-zinc-800">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <h2 class="text-sm sm:text-base font-semibold text-slate-900 dark:text-zinc-100">
+                Individual Slide Downloads (Lossless PNG)
+              </h2>
+              <button id="cs-download-all" type="button" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-medium transition-colors cursor-pointer">
+                Download All Slides
+              </button>
+            </div>
+            <div id="cs-slices-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ZONE 2: BELOW THE FOLD (900+ words) -->
+      <article class="mt-adsense-buffer border-t border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950/60">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16 space-y-12">
+          <section class="space-y-4">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+              How to Use the Instagram Carousel Slide Splitter
+            </h2>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              Seamless swipeable panoramas consistently drive higher carousel completion rates on Instagram and LinkedIn because visual elements span cleanly across slide edges. Instead of manually creating artboards and cropping guides in Photoshop, this browser tool splits any wide photograph or infographic automatically.
+            </p>
+            <ol class="list-decimal pl-5 space-y-2.5 text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              <li><strong class="text-slate-900 dark:text-zinc-100">Select your panoramic image:</strong> Upload any wide landscape photo, wide-angle travel shot, or pre-designed multi-panel graphic.</li>
+              <li><strong class="text-slate-900 dark:text-zinc-100">Pick slide count and aspect ratio:</strong> Choose 2 to 8 slides in <span class="font-mono text-xs">4:5 Portrait</span> (recommended for maximum vertical screen real estate), <span class="font-mono text-xs">1:1 Square</span>, or <span class="font-mono text-xs">16:9</span>.</li>
+              <li><strong class="text-slate-900 dark:text-zinc-100">Check the 3×3 grid crop and export:</strong> Verify Slide 1 looks balanced inside the profile grid preview, then download slides individually or all at once.</li>
+            </ol>
+          </section>
+
+          <section class="space-y-4 pt-8 border-t border-slate-200 dark:border-zinc-800">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+              Technical Breakdown: Exact Pixel Math &amp; Lossless Canvas Slicing
+            </h2>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              To eliminate white seams or misaligned borders between adjacent Instagram slides, every panel must share identical vertical height and exact contiguous horizontal coordinates. When you choose <strong>4:5 Portrait</strong> (<span class="font-mono text-xs">1080 × 1350 px</span>) across <em>N</em> slides, the ideal target canvas width equals <span class="font-mono text-xs">N × 1080 px</span>.
+            </p>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              Our splitter calculates the largest centered crop rectangle inside your original image that matches <span class="font-mono text-xs">(N × aspectRatio) : 1</span>, then uses <span class="font-mono text-xs">CanvasRenderingContext2D.drawImage()</span> with high-quality bicubic smoothing to render each slice at <span class="font-mono text-xs">1080 px</span> width directly in memory. Zero server compression is applied prior to download.
+            </p>
+          </section>
+
+          <section class="space-y-4 pt-8 border-t border-slate-200 dark:border-zinc-800">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+              Practical Creator &amp; Photography Workflows
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
+              <div class="mt-surface rounded-xl p-5 space-y-2">
+                <h3 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">Wide-Angle &amp; Architectural Photography</h3>
+                <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                  Present 21:9 ultrawide landscapes or cityscapes across 3–4 swipeable 4:5 panels instead of shrinking them into tiny letterboxed feed posts.
+                </p>
+              </div>
+              <div class="mt-surface rounded-xl p-5 space-y-2">
+                <h3 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">Editorial &amp; Educational Carousels</h3>
+                <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                  Slice wide Figma or Illustrator timelines cleanly so arrows, diagrams, and typography flow smoothly across slide transitions.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section class="space-y-5 pt-8 border-t border-slate-200 dark:border-zinc-800">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">Frequently Asked Questions</h2>
+            <div class="space-y-3">
+              <details class="mt-surface rounded-xl p-5" open>
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>What is the best resolution for seamless Instagram carousel slides?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">For maximum vertical feed presence, use 1080×1350 px (4:5 portrait) per slide. A 3-slide seamless panorama should ideally start at 3240×1350 px.</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>Does the Carousel Splitter compress or upload my photos?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">No. Slicing happens locally in browser memory via the HTML5 Canvas API and exports lossless PNG slices directly to your Downloads folder.</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>Why does Instagram crop 4:5 carousel cover slides on my 3x3 profile grid?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">Instagram displays profile thumbnails as centered crops on your 3x3 grid. Our Grid Previewer lets you verify Slide 1 composition before posting.</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>How many slides can I split a panorama into?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">You can slice an image into 2, 3, 4, 5, 6, or 8 consecutive slides seamlessly.</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>How does the tool handle images that do not match the exact aspect ratio?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">The splitter automatically center-crops your source panorama to the exact combined target ratio so every slide aligns cleanly without distortion.</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>Can I use these sliced panels for LinkedIn PDF carousels or Threads?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">Yes. The 1:1 square and 4:5 portrait PNG outputs work cleanly across Instagram, Threads, X/Twitter, and LinkedIn carousels.</p>
+              </details>
+            </div>
+          </section>
+        </div>
+      </article>
+
+      <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 border-t border-slate-200 dark:border-zinc-800">
+        <div class="flex items-center justify-between gap-4 mb-8">
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">Related Utilities</h2>
+          <a href="/#tools-directory" class="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:underline whitespace-nowrap">View all tools &rarr;</a>
+        </div>
+        <div id="related-tools-grid" data-current-tool="carousel-splitter" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+      </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="/assets/js/tools-data.js"></script>
+    <script src="/assets/js/layout.js"></script>
+    <script>
+      (function () {
+        'use strict';
+
+        var fileInput = document.getElementById('cs-file-input');
+        var slidesSelect = document.getElementById('cs-slides-count');
+        var aspectSelect = document.getElementById('cs-aspect-select');
+        var previewCanvas = document.getElementById('cs-preview-canvas');
+        var slicesGrid = document.getElementById('cs-slices-grid');
+        var gridCover = document.getElementById('cs-grid-cover');
+        var dimInfo = document.getElementById('cs-dim-info');
+        var downloadAllBtn = document.getElementById('cs-download-all');
+
+        var sourceImage = null;
+        var generatedUrls = [];
+
+        function createDemoPanorama() {
+          var c = document.createElement('canvas');
+          c.width = 1944;
+          c.height = 810;
+          var ctx = c.getContext('2d');
+          var grad = ctx.createLinearGradient(0, 0, c.width, c.height);
+          grad.addColorStop(0, '#312e81');
+          grad.addColorStop(0.5, '#4f46e5');
+          grad.addColorStop(1, '#0f172a');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, c.width, c.height);
+
+          ctx.fillStyle = 'rgba(255,255,255,0.12)';
+          ctx.beginPath();
+          ctx.arc(480, 400, 260, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(1400, 320, 310, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 54px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText('SEAMLESS', 324, 410);
+          ctx.fillText('PANORAMA', 972, 410);
+          ctx.fillText('CAROUSEL', 1620, 410);
+
+          var img = new Image();
+          img.onload = function () {
+            sourceImage = img;
+            processSlices();
+          };
+          img.src = c.toDataURL('image/png');
+        }
+
+        function processSlices() {
+          if (!sourceImage) return;
+
+          var count = parseInt(slidesSelect.value, 10) || 3;
+          var slideRatio = parseFloat(aspectSelect.value) || 0.8;
+          var targetTotalRatio = count * slideRatio;
+
+          var srcW = sourceImage.naturalWidth || sourceImage.width;
+          var srcH = sourceImage.naturalHeight || sourceImage.height;
+          var srcRatio = srcW / srcH;
+
+          var cropW, cropH, cropX, cropY;
+          if (srcRatio > targetTotalRatio) {
+            cropH = srcH;
+            cropW = srcH * targetTotalRatio;
+            cropX = (srcW - cropW) / 2;
+            cropY = 0;
+          } else {
+            cropW = srcW;
+            cropH = srcW / targetTotalRatio;
+            cropX = 0;
+            cropY = (srcH - cropH) / 2;
+          }
+
+          var outSlideW = 1080;
+          var outSlideH = Math.round(outSlideW / slideRatio);
+          dimInfo.textContent = count + ' × (' + outSlideW + '×' + outSlideH + ' px)';
+
+          // Draw cutline preview
+          var pCtx = previewCanvas.getContext('2d');
+          var pW = 900;
+          var pH = Math.round(pW / targetTotalRatio);
+          previewCanvas.width = pW;
+          previewCanvas.height = pH;
+          pCtx.drawImage(sourceImage, cropX, cropY, cropW, cropH, 0, 0, pW, pH);
+
+          pCtx.strokeStyle = 'rgba(255,255,255,0.85)';
+          pCtx.lineWidth = 2;
+          pCtx.setLineDash([6, 6]);
+          for (var i = 1; i < count; i++) {
+            var lx = (pW / count) * i;
+            pCtx.beginPath();
+            pCtx.moveTo(lx, 0);
+            pCtx.lineTo(lx, pH);
+            pCtx.stroke();
+          }
+
+          // Slice individual panels
+          generatedUrls = [];
+          slicesGrid.innerHTML = '';
+          var sliceCropW = cropW / count;
+
+          for (var s = 0; s < count; s++) {
+            var sliceCanvas = document.createElement('canvas');
+            sliceCanvas.width = outSlideW;
+            sliceCanvas.height = outSlideH;
+            var sCtx = sliceCanvas.getContext('2d');
+            sCtx.imageSmoothingEnabled = true;
+            sCtx.imageSmoothingQuality = 'high';
+            sCtx.drawImage(
+              sourceImage,
+              cropX + s * sliceCropW,
+              cropY,
+              sliceCropW,
+              cropH,
+              0,
+              0,
+              outSlideW,
+              outSlideH
+            );
+
+            var dataUrl = sliceCanvas.toDataURL('image/png');
+            generatedUrls.push({ index: s + 1, url: dataUrl });
+
+            if (s === 0 && gridCover) {
+              gridCover.src = dataUrl;
+            }
+
+            var card = document.createElement('div');
+            card.className = 'rounded-xl border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950 p-2.5 space-y-2';
+            card.innerHTML =
+              '<img src="' + dataUrl + '" alt="Carousel slide ' + (s + 1) + '" class="w-full rounded-lg border border-slate-200 dark:border-zinc-800" />' +
+              '<div class="flex items-center justify-between gap-2">' +
+              '  <span class="font-mono text-xs text-slate-600 dark:text-zinc-400">Slide ' + (s + 1) + '</span>' +
+              '  <a href="' + dataUrl + '" download="carousel-slide-' + (s + 1) + '.png" class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">Save PNG</a>' +
+              '</div>';
+            slicesGrid.appendChild(card);
+          }
+        }
+
+        fileInput.addEventListener('change', function (e) {
+          var file = e.target.files && e.target.files[0];
+          if (!file) return;
+          var reader = new FileReader();
+          reader.onload = function (ev) {
+            var img = new Image();
+            img.onload = function () {
+              sourceImage = img;
+              processSlices();
+            };
+            img.src = ev.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
+
+        slidesSelect.addEventListener('change', processSlices);
+        aspectSelect.addEventListener('change', processSlices);
+
+        downloadAllBtn.addEventListener('click', function () {
+          generatedUrls.forEach(function (item, idx) {
+            setTimeout(function () {
+              var a = document.createElement('a');
+              a.href = item.url;
+              a.download = 'carousel-slide-' + item.index + '.png';
+              document.body.appendChild(a);
+              a.click();
+              a.remove();
+            }, idx * 140);
+          });
+        });
+
+        createDemoPanorama();
+      })();
+    </script>
+  </body>
+</html>

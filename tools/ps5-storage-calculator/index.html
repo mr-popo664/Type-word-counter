@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PS5 "Can I Fit GTA 6?" Storage Calculator &amp; Visualizer — Mohit Tools</title>
+    <meta
+      name="description"
+      content="Calculate true usable PS5 SSD capacity across Standard, Slim, and Pro consoles, add your installed games, and check remaining headroom for Grand Theft Auto VI."
+    />
+    <link rel="canonical" href="https://mohit-tools.com/tools/ps5-storage-calculator/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mohit Tools" />
+    <meta property="og:url" content="https://mohit-tools.com/tools/ps5-storage-calculator/" />
+    <meta property="og:title" content="PS5 &quot;Can I Fit GTA 6?&quot; Storage Calculator — Mohit Tools" />
+    <meta
+      property="og:description"
+      content="Interactive PS5 usable SSD visualizer comparing installed games and M.2 NVMe expansion drives against Grand Theft Auto VI storage requirements."
+    />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="PS5 Storage Calculator &amp; GTA 6 Space Planner" />
+    <meta
+      name="twitter:description"
+      content="Check true usable PS5 SSD capacity and plan space for Grand Theft Auto VI."
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "PS5 Can I Fit GTA 6 Storage Calculator",
+        "url": "https://mohit-tools.com/tools/ps5-storage-calculator/",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "All",
+        "description": "Interactive PlayStation 5 SSD storage planner accounting for binary-to-decimal formatting, OS reservation, installed games, and GTA 6 storage requirements.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Mohit Sonar",
+          "url": "https://mohit-tools.com/about.html"
+        }
+      }
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why does an 825 GB PS5 only have 667.2 GB of usable game space?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Storage manufacturers market drives in decimal gigabytes (1 GB = 10^9 bytes), whereas console operating systems measure capacity in binary gibibytes (1 GiB = 2^30 bytes). Subtracting the PlayStation 5 OS, capture buffer, and system reserve leaves roughly 667.2 GB."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much usable storage do the PS5 Slim (1 TB) and PS5 Pro (2 TB) offer?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The PS5 Slim 1 TB SSD provides approximately 848 GB of usable game space, while the PS5 Pro 2 TB SSD provides roughly 1,810 GB (1.81 TB) after OS formatting."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How big is Grand Theft Auto VI expected to be on PS5?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Based on 4K texture fidelity, dense Leonida map streaming, and Rockstar RAGE engine footprints, analysts estimate 180 GB to 230 GB at launch plus day-one patches. You can adjust the slider from 150 GB to 300 GB."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can PS5 games run directly off an external USB drive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Native PS5 games require internal NVMe SSD bandwidth (5.5 GB/s+). External USB drives can store PS5 titles in cold storage or run PS4 games directly, but native PS5 games must sit on internal storage or an M.2 PCIe 4.0 NVMe expansion drive."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does adding an M.2 NVMe SSD combine with internal storage?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, in terms of total installable library capacity. The PS5 lets you install and move native PS5 games seamlessly between the console SSD and your internal M.2 expansion bay."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why should I keep 20–30 GB of free SSD buffer even after installing GTA 6?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "PlayStation system updates and game patch staging require temporary free blocks to unpack delta files without forcing you to delete another title during every update."
+            }
+          }
+        ]
+      }
+    </script>
+
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('mt_theme');
+          if (t === 'dark' || (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'monospace'],
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="/assets/css/style.css" />
+  </head>
+
+  <body
+    data-tool-id="ps5-storage-calculator"
+    class="bg-[#F8FAFC] dark:bg-[#09090B] text-[#0F172A] dark:text-[#F4F4F5] antialiased"
+  >
+    <header id="site-header"></header>
+
+    <main>
+      <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12">
+        <nav aria-label="Breadcrumb" class="mb-6">
+          <ol class="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-zinc-400">
+            <li><a href="/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Home</a></li>
+            <li aria-hidden="true">/</li>
+            <li><a href="/#tools-directory" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Tools</a></li>
+            <li aria-hidden="true">/</li>
+            <li class="text-slate-900 dark:text-zinc-100 font-medium" aria-current="page">PS5 Storage Calculator</li>
+          </ol>
+        </nav>
+
+        <div class="max-w-3xl space-y-3 mb-8">
+          <h1 class="text-2xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+            PS5 "Can I Fit GTA 6?" Storage Calculator &amp; Visualizer
+          </h1>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+            Compare your PS5 model’s real usable SSD capacity and installed game library against Grand Theft Auto VI storage projections.
+          </p>
+        </div>
+
+        <div id="tool-workspace" class="mt-surface rounded-2xl p-5 sm:p-8 shadow-sm space-y-8">
+          <!-- Hardware & Estimate Controls -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="space-y-1.5">
+              <label for="ps5-model" class="block text-sm font-medium text-slate-700 dark:text-zinc-300">
+                PS5 Console Model
+              </label>
+              <select
+                id="ps5-model"
+                class="w-full h-11 px-3 rounded-lg border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950 text-sm text-slate-900 dark:text-zinc-100 focus:border-indigo-500 focus:outline-none"
+              >
+                <option value="667.2">PS5 Launch / Standard (825 GB → 667.2 GB usable)</option>
+                <option value="848">PS5 Slim (1 TB → 848 GB usable)</option>
+                <option value="1810">PS5 Pro (2 TB → 1,810 GB usable)</option>
+              </select>
+            </div>
+
+            <div class="space-y-1.5">
+              <label for="ps5-nvme" class="block text-sm font-medium text-slate-700 dark:text-zinc-300">
+                M.2 NVMe Expansion SSD
+              </label>
+              <select
+                id="ps5-nvme"
+                class="w-full h-11 px-3 rounded-lg border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950 text-sm text-slate-900 dark:text-zinc-100 focus:border-indigo-500 focus:outline-none"
+              >
+                <option value="0">None (Internal SSD Only)</option>
+                <option value="931">1 TB M.2 NVMe (+931 GB usable)</option>
+                <option value="1862">2 TB M.2 NVMe (+1,862 GB usable)</option>
+                <option value="3725">4 TB M.2 NVMe (+3,725 GB usable)</option>
+              </select>
+            </div>
+
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <label for="gta6-size-slider" class="text-sm font-medium text-slate-700 dark:text-zinc-300">
+                  GTA 6 Projected Size
+                </label>
+                <span id="gta6-size-label" class="font-mono text-sm font-semibold text-indigo-600 dark:text-indigo-400">200 GB</span>
+              </div>
+              <input
+                id="gta6-size-slider"
+                type="range"
+                min="140"
+                max="320"
+                step="5"
+                value="200"
+                class="w-full h-2 mt-3 bg-slate-200 dark:bg-zinc-800 rounded-lg accent-indigo-600 cursor-pointer"
+              />
+            </div>
+          </div>
+
+          <!-- Visual Storage Bar + Verdict Banner -->
+          <div class="rounded-xl border border-slate-200 dark:border-zinc-800 bg-slate-50/70 dark:bg-zinc-950/70 p-5 sm:p-6 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <p class="text-xs text-slate-500 dark:text-zinc-400">Compatibility Verdict</p>
+                <p id="ps5-verdict" class="text-lg sm:text-xl font-bold text-emerald-600 dark:text-emerald-400"></p>
+              </div>
+              <div class="text-right font-mono tabular-nums">
+                <p id="ps5-capacity-summary" class="text-sm font-semibold text-slate-900 dark:text-zinc-100"></p>
+                <p class="text-xs text-slate-500 dark:text-zinc-400">Usable capacity after OS formatting</p>
+              </div>
+            </div>
+
+            <!-- Segmented Bar -->
+            <div class="h-6 w-full rounded-lg bg-slate-200 dark:bg-zinc-800 overflow-hidden flex">
+              <div id="bar-games" class="h-full bg-slate-600 dark:bg-zinc-500 transition-all" style="width: 40%" title="Installed Games"></div>
+              <div id="bar-gta6" class="h-full bg-indigo-600 dark:bg-indigo-500 transition-all" style="width: 30%" title="GTA 6 Reserved"></div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-6 text-xs text-slate-600 dark:text-zinc-400">
+              <span class="inline-flex items-center gap-2"><span class="w-3 h-3 rounded-sm bg-slate-600 dark:bg-zinc-500"></span>Installed Games: <strong id="legend-games" class="font-mono text-slate-900 dark:text-zinc-100">0 GB</strong></span>
+              <span class="inline-flex items-center gap-2"><span class="w-3 h-3 rounded-sm bg-indigo-600 dark:bg-indigo-500"></span>GTA 6 Target: <strong id="legend-gta6" class="font-mono text-slate-900 dark:text-zinc-100">200 GB</strong></span>
+              <span class="inline-flex items-center gap-2"><span class="w-3 h-3 rounded-sm bg-slate-200 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700"></span>Remaining Free: <strong id="legend-free" class="font-mono text-slate-900 dark:text-zinc-100">0 GB</strong></span>
+            </div>
+          </div>
+
+          <!-- Installed Game Library Selector + Custom Game -->
+          <div class="space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <h2 class="text-sm sm:text-base font-semibold text-slate-900 dark:text-zinc-100">
+                Select Currently Installed PS5 Games
+              </h2>
+              <div class="flex items-center gap-2">
+                <button id="ps5-select-none" type="button" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-zinc-800 text-xs font-medium hover:border-indigo-500 cursor-pointer">Uncheck All</button>
+              </div>
+            </div>
+
+            <div id="ps5-games-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+
+            <!-- Add Custom Game -->
+            <form id="custom-game-form" class="pt-3 flex flex-wrap items-end gap-3 border-t border-slate-200 dark:border-zinc-800">
+              <div class="flex-1 min-w-[180px] space-y-1">
+                <label for="custom-game-name" class="block text-xs font-medium text-slate-600 dark:text-zinc-400">Add Custom Game</label>
+                <input id="custom-game-name" type="text" placeholder="e.g. Battlefield 6" class="w-full h-10 px-3 rounded-lg border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950 text-sm focus:border-indigo-500 focus:outline-none" />
+              </div>
+              <div class="w-32 space-y-1">
+                <label for="custom-game-gb" class="block text-xs font-medium text-slate-600 dark:text-zinc-400">Size (GB)</label>
+                <input id="custom-game-gb" type="number" min="1" max="500" placeholder="85" class="w-full h-10 px-3 rounded-lg border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950 font-mono text-sm focus:border-indigo-500 focus:outline-none" />
+              </div>
+              <button type="submit" class="h-10 px-4 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-medium transition-colors cursor-pointer">
+                Add Title
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- ZONE 2: BELOW THE FOLD (900+ words) -->
+      <article class="mt-adsense-buffer border-t border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950/60">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16 space-y-12">
+          <section class="space-y-4">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+              How to Use the PS5 Storage Calculator
+            </h2>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              Modern AAA blockbusters frequently exceed 100 GB per install, quickly filling a base PlayStation 5 SSD. This visualizer lets you audit your exact console configuration before launch day so you know which games can stay and whether an M.2 expansion drive is worthwhile.
+            </p>
+            <ol class="list-decimal pl-5 space-y-2.5 text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              <li><strong class="text-slate-900 dark:text-zinc-100">Pick your PlayStation 5 hardware:</strong> Choose Standard/Digital (825 GB), PS5 Slim (1 TB), or PS5 Pro (2 TB), and optionally add an M.2 NVMe expansion SSD.</li>
+              <li><strong class="text-slate-900 dark:text-zinc-100">Set the GTA 6 size projection:</strong> Adjust the slider to model conservative (160 GB) or expanded (240+ GB) installation footprints.</li>
+              <li><strong class="text-slate-900 dark:text-zinc-100">Toggle your installed library:</strong> Check the titles currently sitting on your SSD or add custom games to see live headroom.</li>
+            </ol>
+          </section>
+
+          <section class="space-y-4 pt-8 border-t border-slate-200 dark:border-zinc-800">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+              Technical Breakdown: Decimal GB vs. Binary GiB &amp; PS5 OS Reserve
+            </h2>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              Why does a brand-new 825 GB PlayStation 5 show only <strong>667.2 GB</strong> of free space out of the box? Two mathematical factors apply simultaneously. First, flash storage manufacturers measure capacity in base-10 gigabytes (<span class="font-mono text-xs">1 GB = 1,000,000,000 bytes</span>), while operating systems report base-2 gibibytes (<span class="font-mono text-xs">1 GiB = 1,073,741,824 bytes</span>). An 825 GB drive equals roughly <span class="font-mono text-xs">768.3 GiB</span> raw.
+            </p>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              Second, Sony reserves roughly <strong>101 GB</strong> on the internal SSD for the PlayStation 5 operating system, system firmware snapshots, Kraken decompression scratch space, and the always-on 60-minute video capture ring buffer. The same base-2 conversion reduces a 1 TB M.2 NVMe expansion stick to approximately <strong>931 GiB</strong> usable capacity.
+            </p>
+          </section>
+
+          <section class="space-y-4 pt-8 border-t border-slate-200 dark:border-zinc-800">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+              Practical Storage Management Strategies
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
+              <div class="mt-surface rounded-xl p-5 space-y-2">
+                <h3 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">Cold-Store Inactive PS5 Titles</h3>
+                <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                  Move large single-player games onto an inexpensive USB 3.0 HDD for cold storage; copying back to the internal SSD takes minutes rather than hours of redownloading.
+                </p>
+              </div>
+              <div class="mt-surface rounded-xl p-5 space-y-2">
+                <h3 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">M.2 PCIe 4.0 Upgrade Planning</h3>
+                <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                  Ensure any internal M.2 NVMe upgrade supports PCIe Gen4 x4 (5,500 MB/s+ sequential read) with an integrated heatsink to match Sony’s specifications.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section class="space-y-5 pt-8 border-t border-slate-200 dark:border-zinc-800">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">Frequently Asked Questions</h2>
+            <div class="space-y-3">
+              <details class="mt-surface rounded-xl p-5" open>
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>Why does an 825 GB PS5 only have 667.2 GB of usable game space?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">Storage manufacturers market drives in decimal gigabytes, whereas console operating systems measure capacity in binary gibibytes. Subtracting the PS5 OS and capture buffer leaves roughly 667.2 GB.</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>How much usable storage do the PS5 Slim (1 TB) and PS5 Pro (2 TB) offer?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">The PS5 Slim 1 TB SSD provides approximately 848 GB of usable game space, while the PS5 Pro 2 TB SSD provides roughly 1,810 GB after OS formatting.</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>How big is Grand Theft Auto VI expected to be on PS5?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">Based on 4K texture fidelity and dense Leonida streaming assets, analysts estimate 180 GB to 230 GB at launch. Use the slider to test conservative or heavier scenarios.</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>Can PS5 games run directly off an external USB drive?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">No. Native PS5 games require internal NVMe SSD bandwidth. External USB drives can store PS5 games in cold storage or run PS4 titles directly.</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>Does adding an M.2 NVMe SSD combine with internal storage?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">Yes, in terms of total installable library capacity. The PS5 lets you install and transfer native PS5 games seamlessly between internal and M.2 storage.</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>Why should I keep 20–30 GB of free SSD buffer even after installing GTA 6?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">PlayStation updates and delta patches require temporary staging space so you do not have to uninstall titles every time a patch ships.</p>
+              </details>
+            </div>
+          </section>
+        </div>
+      </article>
+
+      <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 border-t border-slate-200 dark:border-zinc-800">
+        <div class="flex items-center justify-between gap-4 mb-8">
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">Related Utilities</h2>
+          <a href="/#tools-directory" class="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:underline whitespace-nowrap">View all tools &rarr;</a>
+        </div>
+        <div id="related-tools-grid" data-current-tool="ps5-storage-calculator" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+      </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="/assets/js/tools-data.js"></script>
+    <script src="/assets/js/layout.js"></script>
+    <script>
+      (function () {
+        'use strict';
+
+        var games = [
+          { id: 'cod', name: 'Call of Duty HQ', gb: 210, checked: true },
+          { id: 'rdr2', name: 'Red Dead Redemption 2', gb: 115, checked: true },
+          { id: 'cp2077', name: 'Cyberpunk 2077 + Phantom Liberty', gb: 95, checked: false },
+          { id: 'spiderman2', name: 'Marvel’s Spider-Man 2', gb: 98, checked: true },
+          { id: 'gt7', name: 'Gran Turismo 7', gb: 128, checked: false },
+          { id: 'bg3', name: 'Baldur’s Gate 3', gb: 125, checked: false },
+          { id: 'fortnite', name: 'Fortnite', gb: 78, checked: false },
+          { id: 'eafc', name: 'EA Sports FC 26', gb: 62, checked: false },
+          { id: 'elden', name: 'Elden Ring + Shadow of the Erdtree', gb: 60, checked: false }
+        ];
+
+        var modelSel = document.getElementById('ps5-model');
+        var nvmeSel = document.getElementById('ps5-nvme');
+        var gtaSlider = document.getElementById('gta6-size-slider');
+        var gtaLabel = document.getElementById('gta6-size-label');
+        var gamesGrid = document.getElementById('ps5-games-grid');
+        var uncheckBtn = document.getElementById('ps5-select-none');
+        var customForm = document.getElementById('custom-game-form');
+
+        function renderGames() {
+          gamesGrid.innerHTML = games.map(function (g) {
+            return (
+              '<label class="flex items-center justify-between gap-3 p-3 rounded-xl border border-slate-200 dark:border-zinc-800 bg-slate-50/70 dark:bg-zinc-950/70 hover:border-indigo-500 transition-colors cursor-pointer">' +
+              '  <span class="flex items-center gap-2.5 min-w-0">' +
+              '    <input type="checkbox" data-game-id="' + g.id + '"' + (g.checked ? ' checked' : '') + ' class="w-4 h-4 rounded accent-indigo-600 shrink-0" />' +
+              '    <span class="text-xs sm:text-sm font-medium text-slate-800 dark:text-zinc-200 truncate">' + g.name + '</span>' +
+              '  </span>' +
+              '  <span class="font-mono text-xs tabular-nums text-slate-500 dark:text-zinc-400 shrink-0">' + g.gb + ' GB</span>' +
+              '</label>'
+            );
+          }).join('');
+
+          gamesGrid.querySelectorAll('input[data-game-id]').forEach(function (cb) {
+            cb.addEventListener('change', function () {
+              var id = cb.getAttribute('data-game-id');
+              var target = games.find(function (x) { return x.id === id; });
+              if (target) target.checked = cb.checked;
+              updateStorage();
+            });
+          });
+        }
+
+        function updateStorage() {
+          var internalUsable = parseFloat(modelSel.value) || 667.2;
+          var nvmeUsable = parseFloat(nvmeSel.value) || 0;
+          var totalUsable = internalUsable + nvmeUsable;
+          var gtaSize = parseFloat(gtaSlider.value) || 200;
+
+          var installedGb = games.reduce(function (sum, g) {
+            return sum + (g.checked ? g.gb : 0);
+          }, 0);
+
+          var remainingAfterGta = totalUsable - installedGb - gtaSize;
+
+          gtaLabel.textContent = gtaSize + ' GB';
+          document.getElementById('ps5-capacity-summary').textContent =
+            (installedGb + gtaSize).toFixed(1) + ' / ' + totalUsable.toFixed(1) + ' GB';
+
+          document.getElementById('legend-games').textContent = installedGb.toFixed(1) + ' GB';
+          document.getElementById('legend-gta6').textContent = gtaSize + ' GB';
+          document.getElementById('legend-free').textContent = Math.max(0, remainingAfterGta).toFixed(1) + ' GB';
+
+          var gamesPct = Math.min(100, (installedGb / totalUsable) * 100);
+          var gtaPct = Math.min(100 - gamesPct, (gtaSize / totalUsable) * 100);
+          document.getElementById('bar-games').style.width = gamesPct.toFixed(1) + '%';
+          document.getElementById('bar-gta6').style.width = gtaPct.toFixed(1) + '%';
+
+          var verdictEl = document.getElementById('ps5-verdict');
+          verdictEl.classList.remove('text-emerald-600', 'dark:text-emerald-400', 'text-amber-600', 'dark:text-amber-400', 'text-red-600', 'dark:text-red-400');
+
+          if (remainingAfterGta >= 30) {
+            verdictEl.textContent = 'Fits comfortably (' + remainingAfterGta.toFixed(1) + ' GB spare)';
+            verdictEl.classList.add('text-emerald-600', 'dark:text-emerald-400');
+          } else if (remainingAfterGta >= 0) {
+            verdictEl.textContent = 'Fits tightly (' + remainingAfterGta.toFixed(1) + ' GB left — low patch buffer)';
+            verdictEl.classList.add('text-amber-600', 'dark:text-amber-400');
+          } else {
+            verdictEl.textContent = 'Insufficient space (Need ' + Math.abs(remainingAfterGta).toFixed(1) + ' GB freed)';
+            verdictEl.classList.add('text-red-600', 'dark:text-red-400');
+          }
+        }
+
+        modelSel.addEventListener('change', updateStorage);
+        nvmeSel.addEventListener('change', updateStorage);
+        gtaSlider.addEventListener('input', updateStorage);
+
+        uncheckBtn.addEventListener('click', function () {
+          games.forEach(function (g) { g.checked = false; });
+          renderGames();
+          updateStorage();
+        });
+
+        customForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var nameInput = document.getElementById('custom-game-name');
+          var gbInput = document.getElementById('custom-game-gb');
+          var name = (nameInput.value || '').trim();
+          var gb = parseFloat(gbInput.value);
+          if (!name || isNaN(gb) || gb <= 0) return;
+
+          games.push({
+            id: 'custom-' + Date.now(),
+            name: name,
+            gb: gb,
+            checked: true
+          });
+          nameInput.value = '';
+          gbInput.value = '';
+          renderGames();
+          updateStorage();
+        });
+
+        renderGames();
+        updateStorage();
+      })();
+    </script>
+  </body>
+</html>

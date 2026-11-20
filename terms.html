@@ -1,269 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Terms of Service - Mohit Tools | Usage Guidelines &amp; Conditions</title>
-  <meta name="description" content="Read the Terms of Service for Mohit Tools (mohit-tools.com), outlining acceptable use, intellectual property, disclaimers, and advertising policies.">
-  <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Terms of Service — Mohit Tools (mohit-tools.com)</title>
+    <meta
+      name="description"
+      content="Terms of Service for mohit-tools.com covering tool accuracy disclaimers, intellectual property, acceptable use, and limitation of liability."
+    />
+    <link rel="canonical" href="https://mohit-tools.com/terms.html" />
 
-    :root {
-      --bg-base: #090d16;
-      --bg-surface: #111726;
-      --bg-card: #151d30;
-      --border-subtle: rgba(255, 255, 255, 0.08);
-      --text-main: #f8fafc;
-      --text-secondary: #94a3b8;
-      --text-muted: #64748b;
-      --accent: #38bdf8;
-      --radius-md: 10px;
-      --radius-lg: 14px;
-      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    }
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mohit Tools" />
+    <meta property="og:url" content="https://mohit-tools.com/terms.html" />
+    <meta property="og:title" content="Terms of Service — Mohit Tools" />
+    <meta
+      property="og:description"
+      content="Terms governing the use of browser utilities and calculators hosted on mohit-tools.com."
+    />
 
-    body {
-      background-color: var(--bg-base);
-      color: var(--text-main);
-      font-family: var(--font-sans);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 2.5rem 1.25rem;
-      line-height: 1.7;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('mt_theme');
+          if (t === 'dark' || (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
 
-    body.light-mode {
-      --bg-base: #f4f4f9;
-      --bg-surface: #e2e8f0;
-      --bg-card: #ffffff;
-      --border-subtle: #cbd5e1;
-      --text-main: #121212;
-      --text-secondary: #334155;
-      --text-muted: #475569;
-      --accent: #0284c7;
-    }
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'monospace'],
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="/assets/css/style.css" />
 
-    .container {
-      width: 100%;
-      max-width: 860px;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
+    <!-- Google Analytics 4 (Uncomment and replace G-XXXXXXXXXX when deploying)
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    -->
 
-    header {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-      padding-bottom: 0.5rem;
-    }
+    <!-- Google AdSense (Uncomment and replace ca-pub-XXXXXXXXXXXXXXXX after approval)
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+    -->
+  </head>
 
-    h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      letter-spacing: -0.025em;
-      color: var(--text-main);
-    }
+  <body class="bg-[#F8FAFC] dark:bg-[#09090B] text-[#0F172A] dark:text-[#F4F4F5] antialiased">
+    <header id="site-header"></header>
 
-    .subtitle {
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-    }
+    <main>
+      <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16 space-y-10">
+        <header class="space-y-3 border-b border-slate-200 dark:border-zinc-800 pb-8">
+          <nav aria-label="Breadcrumb" class="mb-4">
+            <ol class="flex items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-zinc-400">
+              <li><a href="/" class="hover:text-indigo-600 dark:hover:text-indigo-400">Home</a></li>
+              <li aria-hidden="true">/</li>
+              <li class="text-slate-900 dark:text-zinc-100 font-medium" aria-current="page">Terms of Service</li>
+            </ol>
+          </nav>
+          <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+            Terms of Service
+          </h1>
+          <p class="text-xs sm:text-sm font-mono text-slate-500 dark:text-zinc-400">
+            Last Updated: November 20, 2026 · Domain: https://mohit-tools.com
+          </p>
+        </header>
 
-    .last-updated {
-      display: inline-block;
-      margin-top: 0.25rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--accent);
-    }
+        <section class="space-y-3 text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+          <h2 class="text-xl font-bold text-slate-900 dark:text-zinc-100">1. Acceptance of Terms</h2>
+          <p>
+            By accessing or using <strong>Mohit Tools</strong> (<span class="font-mono text-xs">https://mohit-tools.com</span>), you agree to be bound by these Terms of Service and our <a href="/privacy-policy.html" class="text-indigo-600 dark:text-indigo-400 underline">Privacy Policy</a>. If you do not agree with any part of these terms, please discontinue using the website.
+          </p>
+        </section>
 
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-lg);
-      padding: 1.75rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-    }
+        <section class="space-y-3 text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed pt-6 border-t border-slate-200 dark:border-zinc-800">
+          <h2 class="text-xl font-bold text-slate-900 dark:text-zinc-100">2. Tool Accuracy &amp; Engineering Disclaimers</h2>
+          <p>
+            All calculators, technical breakdowns, overlays, and reference guides on mohit-tools.com are provided on an <strong>"as is"</strong> and <strong>"as available"</strong> basis for informational, educational, and workflow assistance purposes.
+          </p>
+          <ul class="list-disc pl-5 space-y-2">
+            <li><strong>Networking &amp; Electronics:</strong> Always independently verify critical IPv4 subnet allocations, firewall rules, and resistor component ratings with physical multimeters or staging environments before deploying into production infrastructure or high-voltage circuits.</li>
+            <li><strong>Creator Framing &amp; Estimates:</strong> Social platform UI overlays (TikTok, Instagram Reels, YouTube Shorts) and console storage estimations (PlayStation 5 / Grand Theft Auto VI) reflect verified specifications and estimates at the time of writing, which third-party publishers may update independently.</li>
+          </ul>
+        </section>
 
-    h2 {
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--text-main);
-    }
+        <section class="space-y-3 text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed pt-6 border-t border-slate-200 dark:border-zinc-800">
+          <h2 class="text-xl font-bold text-slate-900 dark:text-zinc-100">3. Intellectual Property</h2>
+          <p>
+            The website design, source code, original technical guides, SVG diagrams, and branding on mohit-tools.com are the intellectual property of Mohit Sonar unless otherwise noted. Any media, text, or assets you process locally using our client-side tools remain 100% yours; we claim no ownership or license over your inputs or exported outputs.
+          </p>
+          <p>
+            Third-party product names, platform trademarks, and game titles referenced for compatibility or educational purposes remain the property of their respective owners.
+          </p>
+        </section>
 
-    p {
-      color: var(--text-secondary);
-      font-size: 0.96rem;
-    }
+        <section class="space-y-3 text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed pt-6 border-t border-slate-200 dark:border-zinc-800">
+          <h2 class="text-xl font-bold text-slate-900 dark:text-zinc-100">4. Acceptable Use</h2>
+          <p>You agree not to misuse mohit-tools.com. Prohibited actions include:</p>
+          <ul class="list-disc pl-5 space-y-2">
+            <li>Automated scraping, mirroring, or framing of the entire site for commercial redistribution without permission.</li>
+            <li>Attempting to interfere with static hosting infrastructure, ad delivery integrity, or invalid click generation.</li>
+            <li>Using any content or utility in violation of applicable local, national, or international laws.</li>
+          </ul>
+        </section>
 
-    ul {
-      padding-left: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-      color: var(--text-secondary);
-      font-size: 0.96rem;
-    }
+        <section class="space-y-3 text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed pt-6 border-t border-slate-200 dark:border-zinc-800">
+          <h2 class="text-xl font-bold text-slate-900 dark:text-zinc-100">5. Limitation of Liability</h2>
+          <p>
+            To the maximum extent permitted by applicable law, Mohit Tools and its creator shall not be liable for any direct, indirect, incidental, consequential, or special damages arising out of or in connection with your use of, or inability to use, the utilities or informational articles provided on this site.
+          </p>
+        </section>
 
-    li strong {
-      color: var(--text-main);
-    }
+        <section class="space-y-3 text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed pt-6 border-t border-slate-200 dark:border-zinc-800">
+          <h2 class="text-xl font-bold text-slate-900 dark:text-zinc-100">6. Changes &amp; Contact</h2>
+          <p>
+            We reserve the right to update these Terms of Service as new tools are introduced or standards evolve. Questions regarding these terms can be sent to
+            <a href="mailto:contact@mohit-tools.com" class="text-indigo-600 dark:text-indigo-400 underline">contact@mohit-tools.com</a>.
+          </p>
+        </section>
+      </article>
+    </main>
 
-    a.inline-link {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 600;
-    }
+    <footer id="site-footer"></footer>
 
-    a.inline-link:hover {
-      text-decoration: underline;
-    }
-
-    nav {
-      margin-top: 1rem;
-      padding-top: 1.25rem;
-      border-top: 1px solid var(--border-subtle);
-      text-align: center;
-      font-size: 0.875rem;
-      color: var(--text-muted);
-    }
-
-    nav a, nav a:visited {
-      color: var(--text-secondary);
-      text-decoration: none;
-      margin: 0 0.35rem;
-      transition: color 0.2s ease;
-    }
-
-    nav a:hover {
-      color: var(--accent);
-      text-decoration: underline;
-      text-underline-offset: 4px;
-    }
-
-    footer {
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    @media (max-width: 700px) {
-      h1 {
-        font-size: 1.65rem;
-      }
-      .card {
-        padding: 1.35rem;
-      }
-    }
-  </style>
-</head>
-<body>
-  <button id="themeToggle" style="position: fixed; top: 15px; right: 15px; padding: 10px 15px; cursor: pointer; border-radius: 8px; font-weight: bold; background: #ffffff; color: #121212; border: 1px solid #ccc; z-index: 1000;">☀️ Light Mode</button>
-
-  <main class="container">
-    <header>
-      <h1>Terms of Service</h1>
-      <p class="subtitle">Please read these terms carefully before using Mohit Tools (mohit-tools.com).</p>
-      <span class="last-updated">Last Updated: November 15, 2026</span>
-    </header>
-
-    <section class="card">
-      <h2>1. Acceptance of Terms</h2>
-      <p>
-        By accessing or using <strong>Mohit Tools</strong> (accessible at <strong>https://mohit-tools.com</strong> and its associated subdomains), you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree with any part of these terms, please discontinue use of the website.
-      </p>
-    </section>
-
-    <section class="card">
-      <h2>2. Use of Our Online Utilities</h2>
-      <p>
-        Mohit Tools provides free, browser-based productivity and creator utilities—including our Word &amp; Character Counter, text formatting tools, and storage calculators—for both personal and commercial projects. When using our services, you agree not to:
-      </p>
-      <ul>
-        <li><strong>Abuse or Disrupt Infrastructure:</strong> Attempt to overload, disrupt, or interfere with the normal operation of the website through automated scraping, bots, or denial-of-service attacks.</li>
-        <li><strong>Unlawful Activity:</strong> Use any tool or content on this website for illegal, fraudulent, or harmful purposes.</li>
-        <li><strong>Unauthorized Redistribution:</strong> Copy, clone, or republish the source code, layout, or written guides of Mohit Tools as your own competing service without written permission.</li>
-      </ul>
-    </section>
-
-    <section class="card">
-      <h2>3. User Content &amp; Intellectual Property</h2>
-      <p>
-        <strong>Your Content Stays Yours:</strong> All text analysis, word counting, and formatting operations on Mohit Tools run locally inside your web browser. We do not claim any ownership over the text, captions, or data you type or paste into our utilities, nor do we store your input on our servers.
-      </p>
-      <p>
-        <strong>Site Intellectual Property:</strong> The Mohit Tools name, visual design, custom scripts, and original articles published on this domain are the intellectual property of Mohit Tools and are protected under applicable copyright laws.
-      </p>
-    </section>
-
-    <section class="card">
-      <h2>4. Disclaimer of Warranties</h2>
-      <p>
-        All tools, calculators, and informational articles on Mohit Tools are provided on an <strong>"as-is" and "as-available"</strong> basis without warranties of any kind, either express or implied. While we strive for precision in character counts, platform limits, and file size estimates, social media platforms and hardware manufacturers update their specifications frequently. You are responsible for verifying critical text lengths or technical requirements before publishing or making purchasing decisions.
-      </p>
-    </section>
-
-    <section class="card">
-      <h2>5. Limitation of Liability</h2>
-      <p>
-        To the fullest extent permitted by law, Mohit Tools and its creator shall not be liable for any direct, indirect, incidental, or consequential damages resulting from your use of—or inability to use—the tools, calculations, or content provided on this website.
-      </p>
-    </section>
-
-    <section class="card">
-      <h2>6. Third-Party Links &amp; Advertising</h2>
-      <p>
-        To keep our utilities free for everyone, Mohit Tools displays advertisements served by third-party networks such as <strong>Google AdSense</strong> and may contain links to external websites or partner tools. We do not control and are not responsible for the content, privacy practices, or availability of third-party websites. For details on how cookies and ad data are handled, please review our <a href="privacy-policy.html" class="inline-link">Privacy Policy</a>.
-      </p>
-    </section>
-
-    <section class="card">
-      <h2>7. Modifications &amp; Contact Information</h2>
-      <p>
-        We reserve the right to update or revise these Terms of Service at any time without prior notice. Continued use of <strong>mohit-tools.com</strong> after changes are posted constitutes acceptance of the updated terms. These terms are governed by the laws of India.
-      </p>
-      <p>
-        If you have any questions about these Terms of Service, please visit our <a href="Contact.html" class="inline-link">Contact Us</a> page or email us directly at <a href="mailto:mohitsonar13@gmail.com" class="inline-link">mohitsonar13@gmail.com</a>.
-      </p>
-    </section>
-
-    <nav aria-label="Footer navigation">
-      <a href="index.html">Home</a> |
-      <a href="about.html">About Us</a> |
-      <a href="Contact.html">Contact Us</a> |
-      <a href="privacy-policy.html">Privacy Policy</a> |
-      <a href="terms.html">Terms of Service</a>
-    </nav>
-
-    <footer>
-      <span>&copy; 2026 Mohit Tools (mohit-tools.com) &middot; All rights reserved</span>
-    </footer>
-  </main>
-
-  <script>
-    const toggleBtn = document.getElementById('themeToggle');
-    toggleBtn.addEventListener('click', () => {
-      document.body.classList.toggle('light-mode');
-      if (document.body.classList.contains('light-mode')) {
-        toggleBtn.innerText = '🌙 Dark Mode';
-        toggleBtn.style.background = '#121212';
-        toggleBtn.style.color = '#ffffff';
-      } else {
-        toggleBtn.innerText = '☀️ Light Mode';
-        toggleBtn.style.background = '#ffffff';
-        toggleBtn.style.color = '#121212';
-      }
-    });
-  </script>
-</body>
+    <script src="/assets/js/tools-data.js"></script>
+    <script src="/assets/js/layout.js"></script>
+  </body>
 </html>

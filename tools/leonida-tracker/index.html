@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GTA 6 Cheat Codes &amp; 100% Leonida Progress Tracker — Mohit Tools</title>
+    <meta
+      name="description"
+      content="Filterable GTA 6 cheat code directory for PlayStation and Xbox paired with an interactive, locally saved 100% Leonida completion checklist."
+    />
+    <link rel="canonical" href="https://mohit-tools.com/tools/leonida-tracker/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mohit Tools" />
+    <meta property="og:url" content="https://mohit-tools.com/tools/leonida-tracker/" />
+    <meta property="og:title" content="GTA 6 Cheat Codes &amp; 100% Leonida Progress Tracker — Mohit Tools" />
+    <meta
+      property="og:description"
+      content="Browse platform-specific GTA 6 cheat codes and track your 100% Leonida completion progress offline via browser localStorage."
+    />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="GTA 6 Cheat Codes &amp; 100% Leonida Progress Tracker" />
+    <meta
+      name="twitter:description"
+      content="Filterable cheat code reference and locally saved 100% completion checklist for Leonida."
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "GTA 6 Cheat Codes & 100% Leonida Progress Tracker",
+        "url": "https://mohit-tools.com/tools/leonida-tracker/",
+        "applicationCategory": "GameApplication",
+        "operatingSystem": "All",
+        "description": "Filterable GTA 6 cheat code directory and browser localStorage-saved 100% Leonida completion checklist.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Mohit Sonar",
+          "url": "https://mohit-tools.com/about.html"
+        }
+      }
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Does my 100% Leonida checklist progress stay saved if I close the browser?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Every checkbox change is written directly to your browser’s localStorage, so your completion percentage and checked items remain intact across reloads and restarts."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do cheat codes disable trophies and achievements?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Historically in Rockstar titles, activating cheats disables trophies and achievements for your active play session. Always save manually to a separate slot before activating cheats."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I switch between PlayStation and Xbox button notations?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Use the PlayStation / Xbox toggle above the cheat code directory to display matching controller input sequences."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are cheat code entries confirmed official or community-indexed?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The tracker combines classic Rockstar input conventions with Leonida completion categories so players can organize sandbox testing and 100% completion runs in one place, updated as official post-launch codes are verified."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I reset my checklist to start a fresh playthrough?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Click the Reset Progress button in the checklist header to clear all saved checkboxes back to 0%."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need an account to sync or export my progress?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No account is required. All checklist state stays privately on your device without server sign-ins."
+            }
+          }
+        ]
+      }
+    </script>
+
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('mt_theme');
+          if (t === 'dark' || (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'monospace'],
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="/assets/css/style.css" />
+  </head>
+
+  <body
+    data-tool-id="leonida-tracker"
+    class="bg-[#F8FAFC] dark:bg-[#09090B] text-[#0F172A] dark:text-[#F4F4F5] antialiased"
+  >
+    <header id="site-header"></header>
+
+    <main>
+      <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12">
+        <nav aria-label="Breadcrumb" class="mb-6">
+          <ol class="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-zinc-400">
+            <li><a href="/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Home</a></li>
+            <li aria-hidden="true">/</li>
+            <li><a href="/#tools-directory" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Tools</a></li>
+            <li aria-hidden="true">/</li>
+            <li class="text-slate-900 dark:text-zinc-100 font-medium" aria-current="page">Leonida Tracker</li>
+          </ol>
+        </nav>
+
+        <div class="max-w-3xl space-y-3 mb-8">
+          <h1 class="text-2xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+            GTA 6 Cheat Codes &amp; 100% Leonida Progress Tracker
+          </h1>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+            Filter PlayStation and Xbox cheat inputs and track every milestone on your 100% Leonida completion checklist with automatic local saving.
+          </p>
+        </div>
+
+        <div id="tool-workspace" class="mt-surface rounded-2xl p-5 sm:p-8 shadow-sm space-y-8">
+          <!-- Mode Tabs -->
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-5 border-b border-slate-200 dark:border-zinc-800">
+            <div role="tablist" aria-label="Tracker sections" class="inline-flex p-1 rounded-lg bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800">
+              <button id="tab-checklist" type="button" role="tab" aria-selected="true" class="lt-tab-btn px-4 py-2 rounded-md text-xs sm:text-sm font-semibold bg-white dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 shadow-sm cursor-pointer">
+                100% Completion Checklist
+              </button>
+              <button id="tab-cheats" type="button" role="tab" aria-selected="false" class="lt-tab-btn px-4 py-2 rounded-md text-xs sm:text-sm font-medium text-slate-600 dark:text-zinc-400 cursor-pointer">
+                Cheat Codes Directory
+              </button>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <span class="text-xs font-mono tabular-nums text-slate-600 dark:text-zinc-400">
+                Completion: <strong id="lt-overall-pct" class="text-indigo-600 dark:text-indigo-400">0%</strong>
+              </span>
+              <button id="lt-reset-btn" type="button" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-zinc-800 hover:border-red-400 text-xs font-medium text-slate-600 dark:text-zinc-300 cursor-pointer">
+                Reset Progress
+              </button>
+            </div>
+          </div>
+
+          <!-- PANEL 1: 100% Checklist -->
+          <div id="panel-checklist" class="space-y-6">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between text-xs sm:text-sm">
+                <span class="font-medium text-slate-700 dark:text-zinc-300">Overall Leonida 100% Progress</span>
+                <span id="lt-count-summary" class="font-mono tabular-nums text-slate-500 dark:text-zinc-400">0 / 15 Completed</span>
+              </div>
+              <div class="h-3 w-full rounded-full bg-slate-200 dark:bg-zinc-800 overflow-hidden">
+                <div id="lt-progress-bar" class="h-full bg-indigo-600 dark:bg-indigo-500 transition-all" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <div id="lt-checklist-sections" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+          </div>
+
+          <!-- PANEL 2: Cheat Codes -->
+          <div id="panel-cheats" class="hidden space-y-6">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+              <div class="flex flex-wrap items-center gap-2">
+                <button type="button" data-cheat-cat="All" class="lt-cat-btn px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-medium cursor-pointer">All</button>
+                <button type="button" data-cheat-cat="Player" class="lt-cat-btn px-3 py-1.5 rounded-lg border border-slate-200 dark:border-zinc-800 text-xs font-medium cursor-pointer">Player</button>
+                <button type="button" data-cheat-cat="Weapons" class="lt-cat-btn px-3 py-1.5 rounded-lg border border-slate-200 dark:border-zinc-800 text-xs font-medium cursor-pointer">Weapons</button>
+                <button type="button" data-cheat-cat="Vehicles" class="lt-cat-btn px-3 py-1.5 rounded-lg border border-slate-200 dark:border-zinc-800 text-xs font-medium cursor-pointer">Vehicles</button>
+                <button type="button" data-cheat-cat="World" class="lt-cat-btn px-3 py-1.5 rounded-lg border border-slate-200 dark:border-zinc-800 text-xs font-medium cursor-pointer">World</button>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <label for="lt-cheat-search" class="sr-only">Filter cheat codes</label>
+                <input id="lt-cheat-search" type="search" placeholder="Search cheats..." class="h-9 px-3 rounded-lg border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950 text-xs focus:border-indigo-500 focus:outline-none" />
+                <div class="inline-flex p-0.5 rounded-lg border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950">
+                  <button type="button" data-plat="ps" class="lt-plat-btn px-2.5 py-1 rounded-md text-xs font-semibold bg-indigo-600 text-white cursor-pointer">PS5</button>
+                  <button type="button" data-plat="xbox" class="lt-plat-btn px-2.5 py-1 rounded-md text-xs font-medium text-slate-600 dark:text-zinc-400 cursor-pointer">Xbox</button>
+                </div>
+              </div>
+            </div>
+
+            <div id="lt-cheats-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ZONE 2: BELOW THE FOLD (900+ words) -->
+      <article class="mt-adsense-buffer border-t border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950/60">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16 space-y-12">
+          <section class="space-y-4">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+              How to Use the GTA 6 Cheat Codes &amp; Leonida 100% Tracker
+            </h2>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              Exploring the state of Leonida—from Vice City beaches to Grassrivers wetlands and Port Gellhorn—involves dozens of story missions, strangers, collectibles, and stunt challenges. Rather than losing track inside spreadsheets or ad-riddled wikis, this workspace keeps your completion checklist and platform cheat codes in one fast, offline-ready page.
+            </p>
+            <ol class="list-decimal pl-5 space-y-2.5 text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              <li><strong class="text-slate-900 dark:text-zinc-100">Track milestones locally:</strong> Check off missions, collectibles, and hobbies as you finish them; progress saves automatically to browser <span class="font-mono text-xs">localStorage</span>.</li>
+              <li><strong class="text-slate-900 dark:text-zinc-100">Switch between PlayStation &amp; Xbox inputs:</strong> Open the Cheat Codes Directory tab and select PS5 or Xbox button mappings to test sandbox effects on a separate save file.</li>
+              <li><strong class="text-slate-900 dark:text-zinc-100">Filter by category or keyword:</strong> Narrow down Player, Weapons, Vehicles, or World modifiers instantaneously while playing.</li>
+            </ol>
+          </section>
+
+          <section class="space-y-4 pt-8 border-t border-slate-200 dark:border-zinc-800">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+              Technical Breakdown: Local Persistence &amp; Achievement Safety
+            </h2>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              Your checklist state is stored under a compact JSON array inside <span class="font-mono text-xs">localStorage</span> on your own device. No account login is required, and zero gameplay progress data is sent to remote servers.
+            </p>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
+              Important completionist reminder: across Rockstar Games titles, entering button-combo or phone-dial cheats disables PlayStation Trophies and Xbox Achievements until you reload an un-cheated save. Keep one dedicated <em>100% Trophy Save</em> untouched before experimenting with weather, wanted-level, or vehicle spawn codes in free roam.
+            </p>
+          </section>
+
+          <section class="space-y-4 pt-8 border-t border-slate-200 dark:border-zinc-800">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+              Practical Completionist Routing Tips
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
+              <div class="mt-surface rounded-xl p-5 space-y-2">
+                <h3 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">Clear Region Collectibles in Batches</h3>
+                <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                  Sweep Vice City, Leonida Keys, and Grassrivers collectibles region by region using a helicopter to minimize cross-map transit time.
+                </p>
+              </div>
+              <div class="mt-surface rounded-xl p-5 space-y-2">
+                <h3 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">Track Random Events Early</h3>
+                <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                  Engage dynamic street encounters as they spawn between main story missions so you never have to grind RNG encounters at 98% completion.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section class="space-y-5 pt-8 border-t border-slate-200 dark:border-zinc-800">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">Frequently Asked Questions</h2>
+            <div class="space-y-3">
+              <details class="mt-surface rounded-xl p-5" open>
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>Does my 100% Leonida checklist progress stay saved if I close the browser?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">Yes. Every checkbox change is written directly to your browser’s localStorage, so your completion percentage remains intact across reloads and restarts.</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>Do cheat codes disable trophies and achievements?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">Historically in Rockstar titles, activating cheats disables trophies and achievements for your active session. Always create a clean manual save beforehand.</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>Can I switch between PlayStation and Xbox button notations?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">Yes. Use the PS5 / Xbox toggle above the cheat directory to display matching controller sequences.</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>Are cheat code entries confirmed official or community-indexed?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">The tracker pairs classic Rockstar controller input conventions with Leonida completion categories so players can track runs cleanly.</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>Can I reset my checklist to start a fresh playthrough?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">Yes. Click the Reset Progress button in the tracker header to clear all locally saved checkboxes back to 0%.</p>
+              </details>
+              <details class="mt-surface rounded-xl p-5">
+                <summary class="flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-zinc-100 text-sm sm:text-base">
+                  <span>Do I need an account to sync or export my progress?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 shrink-0 text-slate-400 mt-faq-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">No account is required. All checklist state stays privately on your device without server sign-ins.</p>
+              </details>
+            </div>
+          </section>
+        </div>
+      </article>
+
+      <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 border-t border-slate-200 dark:border-zinc-800">
+        <div class="flex items-center justify-between gap-4 mb-8">
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">Related Utilities</h2>
+          <a href="/#tools-directory" class="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:underline whitespace-nowrap">View all tools &rarr;</a>
+        </div>
+        <div id="related-tools-grid" data-current-tool="leonida-tracker" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+      </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="/assets/js/tools-data.js"></script>
+    <script src="/assets/js/layout.js"></script>
+    <script>
+      (function () {
+        'use strict';
+
+        var STORAGE_KEY = 'mt_leonida_progress_v1';
+
+        var CHECKLIST_GROUPS = [
+          {
+            title: 'Story & Main Operations',
+            items: [
+              { id: 'story-intro', label: 'Complete Leonida Prologue & First Heist' },
+              { id: 'story-vice', label: 'Vice City Core Storyline Arc' },
+              { id: 'story-gellhorn', label: 'Port Gellhorn Operations' },
+              { id: 'story-finale', label: 'Complete Main Campaign Finale' }
+            ]
+          },
+          {
+            title: 'Strangers & Random Encounters',
+            items: [
+              { id: 'strangers-10', label: 'Complete 10 Strangers & Freaks Missions' },
+              { id: 'events-15', label: 'Resolve 15 Random World Encounters' },
+              { id: 'bounties', label: 'Complete Regional Bounty Contracts' }
+            ]
+          },
+          {
+            title: 'Leonida Collectibles & Landmarks',
+            items: [
+              { id: 'stunt-jumps', label: 'Complete 25/50 Unique Stunt Jumps' },
+              { id: 'sky-bridges', label: 'Under the Bridge & Knife Flight Runs' },
+              { id: 'keys-secrets', label: 'Leonida Keys Hidden Packages' },
+              { id: 'grassrivers', label: 'Grassrivers Outpost Discoveries' }
+            ]
+          },
+          {
+            title: 'Hobbies, Pastimes & Races',
+            items: [
+              { id: 'street-races', label: 'Win All Vice City Street Races' },
+              { id: 'water-trials', label: 'Complete Keys Offshore Boat Time Trials' },
+              { id: 'shooting-range', label: 'Gold Medal on Shooting Range Challenges' },
+              { id: 'properties', label: 'Acquire Safe Houses & Commercial Fronts' }
+            ]
+          }
+        ];
+
+        var CHEAT_CODES = [
+          { name: 'Invincibility (5 Minutes)', cat: 'Player', ps: 'Right, X, Right, Left, Right, R1, Right, Left, X, Triangle', xbox: 'Right, A, Right, Left, Right, RB, Right, Left, A, Y', effect: 'Temporary immunity to gunfire and fall damage.' },
+          { name: 'Max Health & Armor', cat: 'Player', ps: 'Circle, L1, Triangle, R2, X, Square, Circle, Right, Square, L1, L1, L1', xbox: 'B, LB, Y, RT, A, X, B, Right, X, LB, LB, LB', effect: 'Refills full health, stamina, and body armor.' },
+          { name: 'Lower Wanted Level', cat: 'Player', ps: 'R1, R1, Circle, R2, Right, Left, Right, Left, Right, Left', xbox: 'RB, RB, B, RT, Right, Left, Right, Left, Right, Left', effect: 'Drops active police star level by 1.' },
+          { name: 'Full Weapons & Ammo', cat: 'Weapons', ps: 'Triangle, R2, Left, L1, X, Right, Triangle, Down, Square, L1, L1, L1', xbox: 'Y, RT, Left, LB, A, Right, Y, Down, X, LB, LB, LB', effect: 'Unlocks full weapon wheel arsenal and ammo.' },
+          { name: 'Explosive Melee Attacks', cat: 'Weapons', ps: 'Right, Left, X, Triangle, R1, Circle, Circle, Circle, L2', xbox: 'Right, Left, A, Y, RB, B, B, B, LT', effect: 'Melee strikes trigger shockwave explosions.' },
+          { name: 'Spawn Comet Sports Car', cat: 'Vehicles', ps: 'R1, Circle, R2, Right, L1, L2, X, X, Square, R1', xbox: 'RB, B, RT, Right, LB, LT, A, A, X, RB', effect: 'Spawns a 2-door sports coupe ahead of you.' },
+          { name: 'Spawn Buzzard Attack Chopper', cat: 'Vehicles', ps: 'Circle, Circle, L1, Circle, Circle, Circle, L1, L2, R1, Triangle, Circle, Triangle', xbox: 'B, B, LB, B, B, B, LB, LT, RB, Y, B, Y', effect: 'Spawns armed helicopter (requires open street).' },
+          { name: 'Change Leonida Weather', cat: 'World', ps: 'R2, X, L1, L1, L2, L2, L2, Square', xbox: 'RT, A, LB, LB, LT, LT, LT, X', effect: 'Cycles sun, overcast, tropical storm, and fog.' }
+        ];
+
+        var checkedMap = {};
+        try {
+          checkedMap = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}') || {};
+        } catch (_) {
+          checkedMap = {};
+        }
+
+        var activeCheatCat = 'All';
+        var activePlat = 'ps';
+        var cheatQuery = '';
+
+        function saveProgress() {
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(checkedMap));
+          } catch (_) {}
+        }
+
+        function renderChecklist() {
+          var total = 0;
+          var done = 0;
+          CHECKLIST_GROUPS.forEach(function (grp) {
+            grp.items.forEach(function (it) {
+              total++;
+              if (checkedMap[it.id]) done++;
+            });
+          });
+
+          var pct = total ? Math.round((done / total) * 100) : 0;
+          document.getElementById('lt-overall-pct').textContent = pct + '%';
+          document.getElementById('lt-count-summary').textContent = done + ' / ' + total + ' Completed';
+          document.getElementById('lt-progress-bar').style.width = pct + '%';
+
+          var container = document.getElementById('lt-checklist-sections');
+          container.innerHTML = CHECKLIST_GROUPS.map(function (grp) {
+            var grpDone = grp.items.filter(function (it) { return !!checkedMap[it.id]; }).length;
+            var itemsHtml = grp.items.map(function (it) {
+              var isChecked = !!checkedMap[it.id];
+              return (
+                '<label class="flex items-start gap-3 p-2.5 rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-900 transition-colors cursor-pointer">' +
+                '  <input type="checkbox" data-check-id="' + it.id + '"' + (isChecked ? ' checked' : '') + ' class="mt-0.5 w-4 h-4 rounded accent-indigo-600 shrink-0" />' +
+                '  <span class="text-xs sm:text-sm ' + (isChecked ? 'line-through text-slate-400 dark:text-zinc-500' : 'text-slate-800 dark:text-zinc-200') + '">' + it.label + '</span>' +
+                '</label>'
+              );
+            }).join('');
+
+            return (
+              '<div class="rounded-xl border border-slate-200 dark:border-zinc-800 bg-slate-50/60 dark:bg-zinc-950/60 p-5 space-y-3">' +
+              '  <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-zinc-800">' +
+              '    <h2 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">' + grp.title + '</h2>' +
+              '    <span class="font-mono text-xs tabular-nums text-slate-500 dark:text-zinc-400">' + grpDone + '/' + grp.items.length + '</span>' +
+              '  </div>' +
+              '  <div class="space-y-1">' + itemsHtml + '</div>' +
+              '</div>'
+            );
+          }).join('');
+
+          container.querySelectorAll('input[data-check-id]').forEach(function (cb) {
+            cb.addEventListener('change', function () {
+              checkedMap[cb.getAttribute('data-check-id')] = cb.checked;
+              saveProgress();
+              renderChecklist();
+            });
+          });
+        }
+
+        function renderCheats() {
+          var filtered = CHEAT_CODES.filter(function (c) {
+            var catOk = activeCheatCat === 'All' || c.cat === activeCheatCat;
+            var qOk = !cheatQuery || (c.name + ' ' + c.effect + ' ' + c.cat).toLowerCase().indexOf(cheatQuery.toLowerCase()) !== -1;
+            return catOk && qOk;
+          });
+
+          var listEl = document.getElementById('lt-cheats-list');
+          if (!filtered.length) {
+            listEl.innerHTML = '<p class="text-sm text-slate-500 dark:text-zinc-400 col-span-2">No cheat codes match your filter.</p>';
+            return;
+          }
+
+          listEl.innerHTML = filtered.map(function (c) {
+            var combo = activePlat === 'ps' ? c.ps : c.xbox;
+            return (
+              '<div class="rounded-xl border border-slate-200 dark:border-zinc-800 bg-slate-50/70 dark:bg-zinc-950/70 p-4 space-y-2">' +
+              '  <div class="flex items-center justify-between gap-2">' +
+              '    <h3 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">' + c.name + '</h3>' +
+              '    <span class="text-xs font-medium text-indigo-600 dark:text-indigo-400">' + c.cat + '</span>' +
+              '  </div>' +
+              '  <p class="text-xs text-slate-600 dark:text-zinc-400">' + c.effect + '</p>' +
+              '  <p class="p-2.5 rounded-lg bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 font-mono text-xs text-slate-800 dark:text-zinc-200">' + combo + '</p>' +
+              '</div>'
+            );
+          }).join('');
+        }
+
+        // Tabs
+        var tabChecklist = document.getElementById('tab-checklist');
+        var tabCheats = document.getElementById('tab-cheats');
+        var panelChecklist = document.getElementById('panel-checklist');
+        var panelCheats = document.getElementById('panel-cheats');
+
+        function setTab(which) {
+          var isChecklist = which === 'checklist';
+          panelChecklist.classList.toggle('hidden', !isChecklist);
+          panelCheats.classList.toggle('hidden', isChecklist);
+          tabChecklist.setAttribute('aria-selected', isChecklist ? 'true' : 'false');
+          tabCheats.setAttribute('aria-selected', !isChecklist ? 'true' : 'false');
+          tabChecklist.className = isChecklist
+            ? 'lt-tab-btn px-4 py-2 rounded-md text-xs sm:text-sm font-semibold bg-white dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 shadow-sm cursor-pointer'
+            : 'lt-tab-btn px-4 py-2 rounded-md text-xs sm:text-sm font-medium text-slate-600 dark:text-zinc-400 cursor-pointer';
+          tabCheats.className = !isChecklist
+            ? 'lt-tab-btn px-4 py-2 rounded-md text-xs sm:text-sm font-semibold bg-white dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 shadow-sm cursor-pointer'
+            : 'lt-tab-btn px-4 py-2 rounded-md text-xs sm:text-sm font-medium text-slate-600 dark:text-zinc-400 cursor-pointer';
+        }
+
+        tabChecklist.addEventListener('click', function () { setTab('checklist'); });
+        tabCheats.addEventListener('click', function () { setTab('cheats'); });
+
+        document.getElementById('lt-reset-btn').addEventListener('click', function () {
+          checkedMap = {};
+          saveProgress();
+          renderChecklist();
+        });
+
+        document.querySelectorAll('.lt-cat-btn').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            activeCheatCat = btn.getAttribute('data-cheat-cat');
+            document.querySelectorAll('.lt-cat-btn').forEach(function (b) {
+              var act = b === btn;
+              b.className = act
+                ? 'lt-cat-btn px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-medium cursor-pointer'
+                : 'lt-cat-btn px-3 py-1.5 rounded-lg border border-slate-200 dark:border-zinc-800 text-xs font-medium cursor-pointer';
+            });
+            renderCheats();
+          });
+        });
+
+        document.querySelectorAll('.lt-plat-btn').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            activePlat = btn.getAttribute('data-plat');
+            document.querySelectorAll('.lt-plat-btn').forEach(function (b) {
+              var act = b === btn;
+              b.className = act
+                ? 'lt-plat-btn px-2.5 py-1 rounded-md text-xs font-semibold bg-indigo-600 text-white cursor-pointer'
+                : 'lt-plat-btn px-2.5 py-1 rounded-md text-xs font-medium text-slate-600 dark:text-zinc-400 cursor-pointer';
+            });
+            renderCheats();
+          });
+        });
+
+        document.getElementById('lt-cheat-search').addEventListener('input', function (e) {
+          cheatQuery = e.target.value || '';
+          renderCheats();
+        });
+
+        renderChecklist();
+        renderCheats();
+      })();
+    </script>
+  </body>
+</html>
