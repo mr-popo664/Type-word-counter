@@ -12,7 +12,7 @@
 
   const THEME_STORAGE_KEY = 'mt_theme';
   const CONSENT_STORAGE_KEY = 'mt_cookie_consent';
-  const BUY_ME_A_COFFEE_URL = 'https://buymeacoffee.com/mohittools';
+  const BUY_ME_A_COFFEE_URL = 'https://www.buymeacoffee.com/crushedcorsair';
 
   function getSavedTheme() {
     try {
