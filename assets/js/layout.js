@@ -430,3 +430,21 @@
     renderRelatedTools: renderRelatedTools,
   };
 })();
+
+// Google Analytics 4 (G-83D8V0E26W)
+(function () {
+  if (window.__mtGaLoaded) return;
+  window.__mtGaLoaded = true;
+
+  var id = 'G-83D8V0E26W';
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
+  document.head.appendChild(s);
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  window.gtag = gtag;
+  gtag('js', new Date());
+  gtag('config', id);
+})();
