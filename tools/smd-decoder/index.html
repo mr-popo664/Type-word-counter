@@ -1,0 +1,1997 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMD Resistor, Capacitor &amp; EIA-96 Decoder | Mohit Tools</title>
+  <meta name="description" content="Decode 3-digit, 4-digit, R-notation, and EIA-96 SMD resistor codes, convert MLCC capacitor values (pF/nF/µF), and size LED series resistors instantly." />
+  <meta name="keywords" content="SMD resistor decoder, EIA-96 calculator, 4-digit SMD resistor, 3-digit resistor code, SMD capacitor code decoder, MLCC capacitance calculator, LED series resistor SMD package" />
+  <link rel="canonical" href="https://mohit-tools.com/tools/smd-decoder/" />
+
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Mohit Tools" />
+  <meta property="og:url" content="https://mohit-tools.com/tools/smd-decoder/" />
+  <meta property="og:title" content="SMD Resistor &amp; Capacitor Code Decoder (3-Digit, 4-Digit, EIA-96 &amp; LED Calculator) | Mohit Tools" />
+  <meta property="og:description" content="Decode 3-digit, 4-digit, R-notation, and all 96 EIA-96 SMD resistor markings, convert MLCC capacitor codes, and size LED current-limiting SMD packages." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SMD Resistor &amp; Capacitor Code Decoder | Mohit Tools" />
+  <meta name="twitter:description" content="Decode 3-digit, 4-digit, R-notation, and EIA-96 SMD resistor codes, MLCC capacitors, and calculate LED series resistors." />
+
+  <!-- Google Analytics (G-83D8V0E26W) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-83D8V0E26W"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-83D8V0E26W');
+  </script>
+
+  <!-- Google AdSense Script -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6956638858546916"
+     crossorigin="anonymous"></script>
+
+  <!-- Prevent theme flash before paint -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('mohit_tools_theme');
+        if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Fonts: Plus Jakarta Sans + IBM Plex Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['"IBM Plex Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace']
+          },
+          colors: {
+            lab: {
+              light: '#F8FAFC',
+              dark: '#0B1120',
+              panel: '#111A2E'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "SMD Resistor & Capacitor Code Decoder",
+        "url": "https://mohit-tools.com/tools/smd-decoder/",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "All",
+        "description": "Free engineering utility to decode 3-digit, 4-digit, R-notation, zero-ohm, and EIA-96 SMD resistor codes, decode MLCC ceramic capacitor markings, and calculate LED series resistors with 2x derated SMD package recommendations.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Mohit Tools",
+          "url": "https://mohit-tools.com/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why do most SMD ceramic capacitors (MLCCs) on a PCB have no printed markings?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Multilayer ceramic chip capacitors (MLCCs) in sizes like 0402, 0603, and 0805 are usually left unmarked because laser or ink printing on tiny barium titanate ceramic bodies adds cost, risks micro-fracturing the dielectric, and quickly fades during ultrasonic flux cleaning. Manufacturers print the 3-digit EIA capacitance code (such as 104K) on the component reel tape and packaging instead."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between a 3-digit and a 4-digit SMD resistor code?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A 3-digit code uses the first two digits as significant figures and the third digit as the power-of-ten multiplier, typically indicating a standard ±5% (E24) tolerance resistor (e.g., 472 equals 47 × 100 = 4.7 kΩ). A 4-digit code uses the first three digits as significant figures and the fourth digit as the multiplier, representing a high-precision ±1% or ±0.5% resistor (e.g., 4701 equals 470 × 10 = 4.7 kΩ)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you decode a 3-character EIA-96 code like 01A or 68X?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The EIA-96 system is used on ±1% precision 0603 resistors where 4 digits would be too small to read reliably. The first two digits (01 to 96) map to a three-digit base value in the E96 series lookup table, and the trailing letter specifies the decade multiplier. For example, 01 maps to 100 and A is ×1 (100 Ω), while 68 maps to 499 and X is ×0.1 (49.9 Ω)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why are 0 Ω (000 or 0000) SMD resistors used instead of a copper PCB trace?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Zero-ohm jumpers act as automated pick-and-place wire bridges on single- or two-layer PCBs, letting a trace jump over another signal without adding vias. Engineers also use them as configurable hardware option straps, test isolation points for measuring rail current during board bring-up, and sacrificial links."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How should I choose the right SMD package wattage rating for an LED current-limiting resistor?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Calculate the resistor heat dissipation using P = I² × R (or (Vs − Vf) × I), then apply at least a 2× safety derating factor so the resistor never runs near its thermal limit. For example, a 20 mA LED on a 5 V supply with a 150 Ω resistor dissipates 60 mW; doubling that gives 120 mW, making an 0805 package (rated 125 mW) the safest minimum footprint."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can an SMD resistor marking indicate capacitance or inductance by mistake?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, molded tantalum capacitors, SMD inductors, and trimmer pots often share 3-digit EIA notation (two significant digits plus multiplier). Always verify the component body and PCB silkscreen reference designator: R prefixes indicate resistors in ohms, C prefixes indicate capacitors in picofarads (unless marked in µF on tantalum cases), and L prefixes indicate inductors in microhenries."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      color-scheme: light;
+    }
+    html.dark {
+      color-scheme: dark;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    }
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+    .code-font {
+      font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-variant-numeric: tabular-nums;
+    }
+    .smooth-transition {
+      transition: background-color 160ms cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 160ms cubic-bezier(0.16, 1, 0.3, 1),
+                  color 160ms cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 160ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .smooth-transition {
+        transition: none !important;
+      }
+      html {
+        scroll-behavior: auto !important;
+      }
+    }
+    /* Custom subtle scrollbars */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.35);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(100, 116, 139, 0.55);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-[#F8FAFC] text-slate-900 dark:bg-[#0B1120] dark:text-slate-100 antialiased selection:bg-emerald-500/20 selection:text-emerald-700 dark:selection:text-emerald-300">
+
+  <!-- Sticky Top Navigation -->
+  <header class="sticky top-0 z-40 border-b border-slate-200/90 dark:border-slate-800/90 bg-white/90 dark:bg-[#0B1120]/90 backdrop-blur-md">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3 min-w-0">
+        <a href="https://mohit-tools.com/" class="text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-slate-50 hover:text-emerald-600 dark:hover:text-emerald-400 smooth-transition whitespace-nowrap shrink-0">
+          Mohit Tools
+        </a>
+        <span aria-hidden="true" class="text-slate-300 dark:text-slate-700 shrink-0">/</span>
+        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium code-font bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 whitespace-nowrap shrink-0">
+          SMD Decoder
+        </span>
+      </div>
+
+      <div class="flex items-center gap-3 sm:gap-5 shrink-0">
+        <a href="/tools/resistor-decoder/" class="hidden sm:inline-block text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white underline-offset-4 hover:underline smooth-transition whitespace-nowrap shrink-0">
+          Through-Hole Resistor Decoder
+        </a>
+        <a href="/tools/resistor-decoder/" class="sm:hidden text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white whitespace-nowrap shrink-0">
+          THT Decoder
+        </a>
+        <button
+          id="theme-toggle"
+          type="button"
+          aria-label="Toggle color theme"
+          class="inline-flex items-center justify-center gap-2 h-9 px-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 smooth-transition text-xs font-medium whitespace-nowrap shrink-0"
+        >
+          <svg id="icon-sun" class="w-4 h-4 hidden dark:block text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+          </svg>
+          <svg id="icon-moon" class="w-4 h-4 block dark:hidden text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+          </svg>
+          <span id="theme-label" class="hidden sm:inline">Theme</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 pt-8 pb-20">
+    <!-- Hero Heading -->
+    <section class="mb-8">
+      <div class="max-w-3xl">
+        <p class="text-xs font-medium text-emerald-700 dark:text-emerald-400 code-font mb-2 tracking-wide">
+          Hardware Engineering Reference &amp; Calculator
+        </p>
+        <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-50 mb-3" style="text-wrap: balance;">
+          SMD Resistor &amp; Capacitor Code Decoder
+        </h1>
+        <p class="text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+          Decode 3-digit, 4-digit, R-notation, zero-ohm, and all 96 EIA-96 surface-mount resistor markings in real time, convert MLCC capacitor codes across pF/nF/µF, and size LED current-limiting SMD footprints with 2× thermal derating.
+        </p>
+      </div>
+    </section>
+
+    <!-- Primary Tabbed Calculator Card -->
+    <section aria-label="Interactive SMD Decoders and LED Calculator" class="mb-16">
+      <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111A2E] overflow-hidden">
+        <!-- Tab Bar -->
+        <div role="tablist" aria-label="Calculator modes" class="grid grid-cols-1 sm:grid-cols-3 border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/60 p-2 gap-2">
+          <button
+            id="tab-btn-resistor"
+            role="tab"
+            type="button"
+            aria-selected="true"
+            aria-controls="panel-resistor"
+            data-tab="resistor"
+            class="tab-btn w-full px-4 py-2.5 rounded-lg text-sm font-semibold smooth-transition text-left sm:text-center whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 bg-white dark:bg-[#111A2E] text-emerald-700 dark:text-emerald-400 border border-slate-200 dark:border-slate-700 shadow-sm"
+          >
+            SMD Resistor Decoder
+          </button>
+          <button
+            id="tab-btn-capacitor"
+            role="tab"
+            type="button"
+            aria-selected="false"
+            aria-controls="panel-capacitor"
+            data-tab="capacitor"
+            class="tab-btn w-full px-4 py-2.5 rounded-lg text-sm font-semibold smooth-transition text-left sm:text-center whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-transparent"
+          >
+            SMD Capacitor (MLCC)
+          </button>
+          <button
+            id="tab-btn-led"
+            role="tab"
+            type="button"
+            aria-selected="false"
+            aria-controls="panel-led"
+            data-tab="led"
+            class="tab-btn w-full px-4 py-2.5 rounded-lg text-sm font-semibold smooth-transition text-left sm:text-center whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-transparent"
+          >
+            LED Resistor &amp; Package
+          </button>
+        </div>
+
+        <!-- TAB 1: SMD Resistor Code Decoder -->
+        <div id="panel-resistor" role="tabpanel" aria-labelledby="tab-btn-resistor" class="p-6 sm:p-8 lg:p-10">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+            <!-- Left Input & Visual Preview Column -->
+            <div class="lg:col-span-5 space-y-6">
+              <div>
+                <label for="resistor-input" class="block text-sm font-semibold text-slate-800 dark:text-slate-200 mb-2">
+                  Enter SMD Resistor Marking Code
+                </label>
+                <div class="relative">
+                  <input
+                    id="resistor-input"
+                    type="text"
+                    value="472"
+                    maxlength="8"
+                    autocomplete="off"
+                    autocapitalize="characters"
+                    spellcheck="false"
+                    placeholder="e.g. 472, 1002, 4R7, 01A"
+                    class="w-full h-14 px-4 pr-20 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/90 text-2xl font-semibold tracking-wider uppercase code-font text-slate-900 dark:text-slate-50 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 smooth-transition"
+                  />
+                  <button
+                    id="resistor-clear"
+                    type="button"
+                    aria-label="Clear resistor code"
+                    class="absolute right-2.5 top-1/2 -translate-y-1/2 px-2.5 py-1.5 rounded text-xs font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/70 dark:hover:bg-slate-800 smooth-transition"
+                  >
+                    Clear
+                  </button>
+                </div>
+                <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">
+                  Auto-detects 3-digit, 4-digit, R-notation, zero-ohm links, and EIA-96 codes.
+                </p>
+              </div>
+
+              <!-- Quick-Test Preset Chips -->
+              <div>
+                <span class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-2.5">
+                  Quick-test presets
+                </span>
+                <div class="flex flex-wrap gap-2.5">
+                  <button type="button" data-res-preset="472" class="res-preset-btn min-h-[38px] px-3.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-semibold code-font text-slate-700 dark:text-slate-200 hover:border-emerald-500/60 hover:text-emerald-700 dark:hover:text-emerald-400 smooth-transition whitespace-nowrap">472</button>
+                  <button type="button" data-res-preset="1002" class="res-preset-btn min-h-[38px] px-3.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-semibold code-font text-slate-700 dark:text-slate-200 hover:border-emerald-500/60 hover:text-emerald-700 dark:hover:text-emerald-400 smooth-transition whitespace-nowrap">1002</button>
+                  <button type="button" data-res-preset="4R7" class="res-preset-btn min-h-[38px] px-3.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-semibold code-font text-slate-700 dark:text-slate-200 hover:border-emerald-500/60 hover:text-emerald-700 dark:hover:text-emerald-400 smooth-transition whitespace-nowrap">4R7</button>
+                  <button type="button" data-res-preset="01A" class="res-preset-btn min-h-[38px] px-3.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-semibold code-font text-slate-700 dark:text-slate-200 hover:border-emerald-500/60 hover:text-emerald-700 dark:hover:text-emerald-400 smooth-transition whitespace-nowrap">01A</button>
+                  <button type="button" data-res-preset="68X" class="res-preset-btn min-h-[38px] px-3.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-semibold code-font text-slate-700 dark:text-slate-200 hover:border-emerald-500/60 hover:text-emerald-700 dark:hover:text-emerald-400 smooth-transition whitespace-nowrap">68X</button>
+                  <button type="button" data-res-preset="000" class="res-preset-btn min-h-[38px] px-3.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-semibold code-font text-slate-700 dark:text-slate-200 hover:border-emerald-500/60 hover:text-emerald-700 dark:hover:text-emerald-400 smooth-transition whitespace-nowrap">000</button>
+                </div>
+              </div>
+
+              <!-- Live Visual SMD Chip Preview (SVG) -->
+              <div class="pt-2">
+                <span class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-2">
+                  Live SMD Chip Silkscreen Preview
+                </span>
+                <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-100/70 dark:bg-[#0B1120] p-4 flex items-center justify-center">
+                  <svg id="smd-chip-svg" viewBox="0 0 320 130" class="w-full max-w-[300px] h-auto" role="img" aria-label="Surface-mount resistor visual preview">
+                    <defs>
+                      <linearGradient id="pcbBoard" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#064e3b" />
+                        <stop offset="100%" stop-color="#022c22" />
+                      </linearGradient>
+                      <linearGradient id="silverCapLeft" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stop-color="#94a3b8" />
+                        <stop offset="35%" stop-color="#f1f5f9" />
+                        <stop offset="75%" stop-color="#cbd5e1" />
+                        <stop offset="100%" stop-color="#64748b" />
+                      </linearGradient>
+                      <linearGradient id="silverCapRight" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stop-color="#64748b" />
+                        <stop offset="25%" stop-color="#cbd5e1" />
+                        <stop offset="65%" stop-color="#f1f5f9" />
+                        <stop offset="100%" stop-color="#94a3b8" />
+                      </linearGradient>
+                      <linearGradient id="ceramicBody" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#334155" />
+                        <stop offset="14%" stop-color="#111827" />
+                        <stop offset="86%" stop-color="#090d16" />
+                        <stop offset="100%" stop-color="#1e293b" />
+                      </linearGradient>
+                      <linearGradient id="goldPad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#fbbf24" />
+                        <stop offset="100%" stop-color="#b45309" />
+                      </linearGradient>
+                    </defs>
+                    <!-- PCB Substrate Backdrop -->
+                    <rect x="4" y="4" width="312" height="122" rx="10" fill="url(#pcbBoard)" stroke="#059669" stroke-opacity="0.35" stroke-width="1" />
+                    <!-- Copper traces -->
+                    <line x1="4" y1="65" x2="36" y2="65" stroke="#10b981" stroke-opacity="0.5" stroke-width="5" />
+                    <line x1="284" y1="65" x2="316" y2="65" stroke="#10b981" stroke-opacity="0.5" stroke-width="5" />
+                    <!-- White silkscreen outline -->
+                    <rect x="44" y="20" width="232" height="90" rx="4" fill="none" stroke="#e2e8f0" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="6 4" />
+                    <!-- Gold ENIG PCB solder pads -->
+                    <rect x="34" y="26" width="52" height="78" rx="4" fill="url(#goldPad)" opacity="0.9" />
+                    <rect x="234" y="26" width="52" height="78" rx="4" fill="url(#goldPad)" opacity="0.9" />
+                    <!-- Left silver end-cap termination -->
+                    <rect x="52" y="28" width="44" height="74" rx="5" fill="url(#silverCapLeft)" />
+                    <!-- Right silver end-cap termination -->
+                    <rect x="224" y="28" width="44" height="74" rx="5" fill="url(#silverCapRight)" />
+                    <!-- Black ceramic overcoat body -->
+                    <rect x="86" y="28" width="148" height="74" rx="2" fill="url(#ceramicBody)" stroke="#475569" stroke-width="0.8" />
+                    <!-- Subtle ceramic specular highlight -->
+                    <line x1="88" y1="33" x2="232" y2="33" stroke="#ffffff" stroke-opacity="0.12" stroke-width="1.5" />
+                    <!-- Live Silkscreen Text -->
+                    <text
+                      id="smd-chip-text"
+                      x="160"
+                      y="76"
+                      text-anchor="middle"
+                      fill="#f8fafc"
+                      font-family="'IBM Plex Mono', ui-monospace, monospace"
+                      font-size="36"
+                      font-weight="700"
+                      letter-spacing="2"
+                    >472</text>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Output Readout Column -->
+            <div class="lg:col-span-7 flex flex-col justify-between space-y-6">
+              <div id="resistor-result-box" class="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-[#0B1120] p-6 sm:p-7 space-y-5">
+                <div class="flex flex-wrap items-start justify-between gap-4">
+                  <div>
+                    <div class="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5">
+                      Decoded Resistance
+                    </div>
+                    <div id="res-value-display" class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight code-font text-emerald-700 dark:text-emerald-400">
+                      4.7 kΩ
+                    </div>
+                  </div>
+                  <button
+                    id="copy-resistor-btn"
+                    type="button"
+                    class="inline-flex items-center gap-2 min-h-[40px] px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 smooth-transition whitespace-nowrap shrink-0"
+                  >
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+                    </svg>
+                    <span id="copy-resistor-label">Copy Result</span>
+                  </button>
+                </div>
+
+                <!-- Error / Empty Notice -->
+                <div id="res-status-notice" class="hidden rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-800 dark:text-amber-300"></div>
+
+                <!-- Metadata Grid -->
+                <div id="res-meta-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+                  <div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400 mb-1">Standard Detected</div>
+                    <div id="res-standard-display" class="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                      3-Digit Standard EIA
+                    </div>
+                  </div>
+                  <div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400 mb-1">Typical Tolerance</div>
+                    <div id="res-tolerance-display" class="text-sm font-semibold code-font text-slate-900 dark:text-slate-100">
+                      ±5% (E24)
+                    </div>
+                  </div>
+                  <div class="sm:col-span-2">
+                    <div class="text-xs text-slate-500 dark:text-slate-400 mb-1">Step-by-Step Formula Breakdown</div>
+                    <div id="res-formula-display" class="text-sm code-font text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-md px-3.5 py-2.5">
+                      47 × 10² = 4,700 Ω = 4.7 kΩ
+                    </div>
+                  </div>
+                  <div id="res-note-wrapper" class="hidden sm:col-span-2">
+                    <div id="res-note-display" class="text-xs text-amber-700 dark:text-amber-300 leading-relaxed"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Ohmic Range Summary -->
+              <div id="res-scales-row" class="grid grid-cols-3 gap-3 text-center">
+                <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40 px-3 py-3">
+                  <div class="text-xs text-slate-500 dark:text-slate-400 mb-0.5">Ohms (Ω)</div>
+                  <div id="res-ohms-exact" class="text-sm font-semibold code-font text-slate-900 dark:text-slate-100 truncate">4,700 Ω</div>
+                </div>
+                <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40 px-3 py-3">
+                  <div class="text-xs text-slate-500 dark:text-slate-400 mb-0.5">Kilohms (kΩ)</div>
+                  <div id="res-kohms-exact" class="text-sm font-semibold code-font text-slate-900 dark:text-slate-100 truncate">4.7 kΩ</div>
+                </div>
+                <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40 px-3 py-3">
+                  <div class="text-xs text-slate-500 dark:text-slate-400 mb-0.5">Megohms (MΩ)</div>
+                  <div id="res-mohms-exact" class="text-sm font-semibold code-font text-slate-900 dark:text-slate-100 truncate">0.0047 MΩ</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: SMD Ceramic Capacitor (MLCC) Decoder -->
+        <div id="panel-capacitor" role="tabpanel" aria-labelledby="tab-btn-capacitor" class="hidden p-6 sm:p-8 lg:p-10">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+            <!-- Left Input & Presets -->
+            <div class="lg:col-span-5 space-y-6">
+              <div>
+                <label for="cap-input" class="block text-sm font-semibold text-slate-800 dark:text-slate-200 mb-2">
+                  Enter SMD Capacitor Code
+                </label>
+                <div class="relative">
+                  <input
+                    id="cap-input"
+                    type="text"
+                    value="104K"
+                    maxlength="8"
+                    autocomplete="off"
+                    autocapitalize="characters"
+                    spellcheck="false"
+                    placeholder="e.g. 104K, 472J, 225M, 4R7"
+                    class="w-full h-14 px-4 pr-20 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/90 text-2xl font-semibold tracking-wider uppercase code-font text-slate-900 dark:text-slate-50 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 smooth-transition"
+                  />
+                  <button
+                    id="cap-clear"
+                    type="button"
+                    aria-label="Clear capacitor code"
+                    class="absolute right-2.5 top-1/2 -translate-y-1/2 px-2.5 py-1.5 rounded text-xs font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/70 dark:hover:bg-slate-800 smooth-transition"
+                  >
+                    Clear
+                  </button>
+                </div>
+                <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">
+                  Accepts 3-digit EIA codes with optional tolerance letter (B–Z) or R-notation in pF.
+                </p>
+              </div>
+
+              <div>
+                <span class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-2.5">
+                  Quick-test presets
+                </span>
+                <div class="flex flex-wrap gap-2.5">
+                  <button type="button" data-cap-preset="104K" class="cap-preset-btn min-h-[38px] px-3.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-semibold code-font text-slate-700 dark:text-slate-200 hover:border-emerald-500/60 hover:text-emerald-700 dark:hover:text-emerald-400 smooth-transition whitespace-nowrap">104K</button>
+                  <button type="button" data-cap-preset="472J" class="cap-preset-btn min-h-[38px] px-3.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-semibold code-font text-slate-700 dark:text-slate-200 hover:border-emerald-500/60 hover:text-emerald-700 dark:hover:text-emerald-400 smooth-transition whitespace-nowrap">472J</button>
+                  <button type="button" data-cap-preset="225M" class="cap-preset-btn min-h-[38px] px-3.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-semibold code-font text-slate-700 dark:text-slate-200 hover:border-emerald-500/60 hover:text-emerald-700 dark:hover:text-emerald-400 smooth-transition whitespace-nowrap">225M</button>
+                  <button type="button" data-cap-preset="102" class="cap-preset-btn min-h-[38px] px-3.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-semibold code-font text-slate-700 dark:text-slate-200 hover:border-emerald-500/60 hover:text-emerald-700 dark:hover:text-emerald-400 smooth-transition whitespace-nowrap">102</button>
+                  <button type="button" data-cap-preset="475Z" class="cap-preset-btn min-h-[38px] px-3.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-semibold code-font text-slate-700 dark:text-slate-200 hover:border-emerald-500/60 hover:text-emerald-700 dark:hover:text-emerald-400 smooth-transition whitespace-nowrap">475Z</button>
+                  <button type="button" data-cap-preset="4R7" class="cap-preset-btn min-h-[38px] px-3.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-semibold code-font text-slate-700 dark:text-slate-200 hover:border-emerald-500/60 hover:text-emerald-700 dark:hover:text-emerald-400 smooth-transition whitespace-nowrap">4R7</button>
+                </div>
+              </div>
+
+              <!-- Quick visual reference note -->
+              <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-[#0B1120] p-4 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                <span class="font-semibold text-slate-800 dark:text-slate-100 block mb-1">PCB Inspection Note</span>
+                Most bare SMD MLCCs on populated PCBs are unmarked tan or brown ceramic blocks. These EIA codes appear on component tape-and-reel labels, tantalum capacitors, and larger high-voltage ceramic parts.
+              </div>
+            </div>
+
+            <!-- Right Simultaneous Conversions & Tolerance Column -->
+            <div class="lg:col-span-7 space-y-6">
+              <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-[#0B1120] p-6 sm:p-7 space-y-5">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                  <div>
+                    <div class="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
+                      Simultaneous Unit Conversion
+                    </div>
+                    <div id="cap-primary-summary" class="text-xl sm:text-2xl font-bold code-font text-emerald-700 dark:text-emerald-400">
+                      100 nF (0.1 µF)
+                    </div>
+                  </div>
+                  <button
+                    id="copy-cap-btn"
+                    type="button"
+                    class="inline-flex items-center gap-2 min-h-[40px] px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 smooth-transition whitespace-nowrap shrink-0"
+                  >
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+                    </svg>
+                    <span id="copy-cap-label">Copy Result</span>
+                  </button>
+                </div>
+
+                <!-- Error Notice -->
+                <div id="cap-status-notice" class="hidden rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-800 dark:text-amber-300"></div>
+
+                <!-- 3 Simultaneous Unit Conversion Cards -->
+                <div id="cap-units-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                  <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-4">
+                    <div class="text-xs text-slate-500 dark:text-slate-400 mb-1">Picofarads (pF)</div>
+                    <div id="cap-pf-display" class="text-lg sm:text-xl font-bold code-font text-slate-900 dark:text-slate-50 break-words">100,000 pF</div>
+                  </div>
+                  <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-4">
+                    <div class="text-xs text-slate-500 dark:text-slate-400 mb-1">Nanofarads (nF)</div>
+                    <div id="cap-nf-display" class="text-lg sm:text-xl font-bold code-font text-emerald-700 dark:text-emerald-400 break-words">100 nF</div>
+                  </div>
+                  <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-4">
+                    <div class="text-xs text-slate-500 dark:text-slate-400 mb-1">Microfarads (µF)</div>
+                    <div id="cap-uf-display" class="text-lg sm:text-xl font-bold code-font text-slate-900 dark:text-slate-50 break-words">0.1 µF</div>
+                  </div>
+                </div>
+
+                <!-- Formula, Tolerance & Dielectric Details -->
+                <div id="cap-meta-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+                  <div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400 mb-1">Tolerance Code</div>
+                    <div id="cap-tol-display" class="text-sm font-semibold code-font text-slate-900 dark:text-slate-100">
+                      ±10% (Letter K)
+                    </div>
+                  </div>
+                  <div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400 mb-1">Typical Dielectric Class</div>
+                    <div id="cap-dielectric-display" class="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                      Class 2 (X7R / X5R)
+                    </div>
+                  </div>
+                  <div class="sm:col-span-2">
+                    <div class="text-xs text-slate-500 dark:text-slate-400 mb-1">Calculation &amp; Dielectric Note</div>
+                    <div id="cap-formula-display" class="text-sm code-font text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-md px-3.5 py-2.5">
+                      10 × 10⁴ pF = 100,000 pF (Class 2 mid-value ceramic decoupling)
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: LED Series Resistor & SMD Package Advisor -->
+        <div id="panel-led" role="tabpanel" aria-labelledby="tab-btn-led" class="hidden p-6 sm:p-8 lg:p-10">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+            <!-- Left Parameter Inputs -->
+            <div class="lg:col-span-5 space-y-5">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="led-vs" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                    Supply Voltage Vs (V)
+                  </label>
+                  <input
+                    id="led-vs"
+                    type="number"
+                    step="0.1"
+                    min="0.1"
+                    value="5"
+                    class="w-full h-11 px-3.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/90 text-base font-semibold code-font text-slate-900 dark:text-slate-50 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 smooth-transition"
+                  />
+                </div>
+                <div>
+                  <label for="led-vf" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                    LED Forward Voltage Vf (V)
+                  </label>
+                  <input
+                    id="led-vf"
+                    type="number"
+                    step="0.1"
+                    min="0.1"
+                    value="2.0"
+                    class="w-full h-11 px-3.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/90 text-base font-semibold code-font text-slate-900 dark:text-slate-50 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 smooth-transition"
+                  />
+                </div>
+              </div>
+
+              <!-- 1-Click LED Color Presets -->
+              <div>
+                <span class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-2">
+                  LED Forward Voltage Presets
+                </span>
+                <div class="flex flex-wrap gap-2">
+                  <button type="button" data-vf="2.0" class="led-vf-btn min-h-[36px] px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-medium text-slate-700 dark:text-slate-200 hover:border-emerald-500/60 hover:text-emerald-700 dark:hover:text-emerald-400 smooth-transition whitespace-nowrap">Red (2.0V)</button>
+                  <button type="button" data-vf="2.1" class="led-vf-btn min-h-[36px] px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-medium text-slate-700 dark:text-slate-200 hover:border-emerald-500/60 hover:text-emerald-700 dark:hover:text-emerald-400 smooth-transition whitespace-nowrap">Yellow (2.1V)</button>
+                  <button type="button" data-vf="2.2" class="led-vf-btn min-h-[36px] px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-medium text-slate-700 dark:text-slate-200 hover:border-emerald-500/60 hover:text-emerald-700 dark:hover:text-emerald-400 smooth-transition whitespace-nowrap">Green (2.2V)</button>
+                  <button type="button" data-vf="3.2" class="led-vf-btn min-h-[36px] px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-medium text-slate-700 dark:text-slate-200 hover:border-emerald-500/60 hover:text-emerald-700 dark:hover:text-emerald-400 smooth-transition whitespace-nowrap">Blue (3.2V)</button>
+                  <button type="button" data-vf="3.3" class="led-vf-btn min-h-[36px] px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-medium text-slate-700 dark:text-slate-200 hover:border-emerald-500/60 hover:text-emerald-700 dark:hover:text-emerald-400 smooth-transition whitespace-nowrap">White (3.3V)</button>
+                  <button type="button" data-vf="1.5" class="led-vf-btn min-h-[36px] px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-medium text-slate-700 dark:text-slate-200 hover:border-emerald-500/60 hover:text-emerald-700 dark:hover:text-emerald-400 smooth-transition whitespace-nowrap">IR (1.5V)</button>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="led-if" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                    Target LED Current If (mA)
+                  </label>
+                  <input
+                    id="led-if"
+                    type="number"
+                    step="1"
+                    min="0.5"
+                    value="20"
+                    class="w-full h-11 px-3.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/90 text-base font-semibold code-font text-slate-900 dark:text-slate-50 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 smooth-transition"
+                  />
+                </div>
+                <div>
+                  <label for="led-count" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                    LEDs in Series (N)
+                  </label>
+                  <input
+                    id="led-count"
+                    type="number"
+                    step="1"
+                    min="1"
+                    max="100"
+                    value="1"
+                    class="w-full h-11 px-3.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/90 text-base font-semibold code-font text-slate-900 dark:text-slate-50 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 smooth-transition"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Calculated Results -->
+            <div class="lg:col-span-7 space-y-5">
+              <!-- Warning Banner -->
+              <div id="led-warning-banner" class="hidden rounded-lg border border-amber-500/40 bg-amber-500/10 p-4 text-sm text-amber-800 dark:text-amber-300">
+                <strong class="font-semibold block mb-0.5">Insufficient Supply Voltage</strong>
+                <span id="led-warning-text">Total LED forward voltage drop (N × Vf) meets or exceeds the supply voltage Vs. Increase Vs or reduce the number of series LEDs.</span>
+              </div>
+
+              <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-[#0B1120] p-6 sm:p-7 space-y-5">
+                <div class="flex flex-wrap items-start justify-between gap-4">
+                  <div>
+                    <div class="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
+                      Nearest Standard E24 Resistor
+                    </div>
+                    <div class="flex flex-wrap items-baseline gap-3">
+                      <span id="led-e24-display" class="text-3xl sm:text-4xl font-bold code-font text-emerald-700 dark:text-emerald-400">
+                        150 Ω
+                      </span>
+                      <span id="led-exact-display" class="text-sm code-font text-slate-500 dark:text-slate-400">
+                        (Exact: 150 Ω)
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    id="copy-led-btn"
+                    type="button"
+                    class="inline-flex items-center gap-2 min-h-[40px] px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 smooth-transition whitespace-nowrap shrink-0"
+                  >
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+                    </svg>
+                    <span id="copy-led-label">Copy Result</span>
+                  </button>
+                </div>
+
+                <!-- 4-Card Output Metrics -->
+                <div id="led-metrics-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+                  <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-4">
+                    <div class="text-xs text-slate-500 dark:text-slate-400 mb-1">SMD Marking Codes (3-Digit / 4-Digit)</div>
+                    <div id="led-codes-display" class="text-base font-bold code-font text-slate-900 dark:text-slate-50">
+                      151 / 1500
+                    </div>
+                  </div>
+                  <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-4">
+                    <div class="text-xs text-slate-500 dark:text-slate-400 mb-1">Recommended Min. SMD Package</div>
+                    <div id="led-package-display" class="text-base font-bold code-font text-amber-600 dark:text-amber-400">
+                      0805 (0.125 W)
+                    </div>
+                  </div>
+                  <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-4">
+                    <div class="text-xs text-slate-500 dark:text-slate-400 mb-1">Actual LED Current (with E24)</div>
+                    <div id="led-actual-if-display" class="text-base font-bold code-font text-slate-900 dark:text-slate-50">
+                      20.00 mA
+                    </div>
+                  </div>
+                  <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-4">
+                    <div class="text-xs text-slate-500 dark:text-slate-400 mb-1">Resistor Power Dissipation</div>
+                    <div id="led-power-display" class="text-base font-bold code-font text-slate-900 dark:text-slate-50">
+                      60.00 mW
+                    </div>
+                    <div id="led-power-derated" class="text-xs code-font text-slate-500 dark:text-slate-400 mt-0.5">
+                      2× derated req: 120.00 mW
+                    </div>
+                  </div>
+                </div>
+
+                <p id="led-derating-note" class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                  Package selection applies a 2× thermal safety derating rule: required package rating &ge; 2 × (I² × R) to prevent board discoloration and thermal drift inside enclosures.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Below-the-Fold Educational & Technical Reference Article -->
+    <article class="space-y-16 max-w-5xl mx-auto">
+
+      <!-- Section 1: How to Read SMD Resistor Codes -->
+      <section aria-labelledby="guide-smd-resistors" class="space-y-5">
+        <div class="border-b border-slate-200 dark:border-slate-800 pb-3">
+          <h2 id="guide-smd-resistors" class="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
+            1. How to Read SMD Resistor Codes (Step-by-Step Guide)
+          </h2>
+          <p class="mt-1.5 text-sm text-slate-600 dark:text-slate-300">
+            Surface-mount chip resistors replace axial color bands with compact laser-printed alphanumeric markings governed by EIA and IEC 60062 standards.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+         <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111A2E] p-6 space-y-3">
+            <h3 class="text-base font-bold text-slate-900 dark:text-slate-50">3-Digit Standard EIA System (±5%)</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              The most common marking on general-purpose E24 resistors uses three numerals. The first two digits represent the significant figures, and the third digit indicates the power-of-ten multiplier (number of trailing zeros in ohms)—for example, a <span class="code-font font-semibold">103</span> SMD resistor code equals 10 kΩ, while <span class="code-font font-semibold">472</span> equals 4.7 kΩ.
+            </p>
+            <div class="rounded-lg bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-slate-800 p-3.5 text-xs code-font text-slate-800 dark:text-slate-200 space-y-1">
+              <div>Formula: R = (D1 D2) × 10^(D3) Ω</div>
+              <div>103 → 10 × 10³ = 10,000 Ω = 10 kΩ</div>
+              <div>472 → 47 × 10² = 4,700 Ω = 4.7 kΩ</div>
+              <div>100 → 10 × 10⁰ = 10 × 1 = 10 Ω (not 100 Ω!)</div>
+            </div>
+          </div>
+          
+          <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111A2E] p-6 space-y-3">
+            <h3 class="text-base font-bold text-slate-900 dark:text-slate-50">4-Digit High-Precision System (±1%)</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Precision E96 and thin-film resistors in 0805, 1206, and larger footprints use four digits so three significant figures can be printed directly before the decade multiplier digit.
+            </p>
+            <div class="rounded-lg bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-slate-800 p-3.5 text-xs code-font text-slate-800 dark:text-slate-200 space-y-1">
+              <div>Formula: R = (D1 D2 D3) × 10^(D4) Ω</div>
+              <div>1002 → 100 × 10² = 10,000 Ω = 10 kΩ</div>
+              <div>4991 → 499 × 10¹ = 4,990 Ω = 4.99 kΩ</div>
+            </div>
+          </div>
+
+          <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111A2E] p-6 space-y-3">
+            <h3 class="text-base font-bold text-slate-900 dark:text-slate-50">R-Notation (Sub-10 Ω Decimal Point)</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              For values below 10 Ω—where a printed period would rub off or become invisible under solder flux—manufacturers substitute the letter <span class="code-font font-semibold">R</span> as an explicit decimal point. Leading zeros are omitted on current-sense shunts.
+            </p>
+            <div class="rounded-lg bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-slate-800 p-3.5 text-xs code-font text-slate-800 dark:text-slate-200 space-y-1">
+              <div>4R7 → 4.7 Ω &nbsp;|&nbsp; 10R5 → 10.5 Ω</div>
+              <div>R22 → 0.22 Ω &nbsp;|&nbsp; 0R5 → 0.5 Ω</div>
+              <div>0 / 000 / 0000 → 0 Ω Jumper Link</div>
+            </div>
+          </div>
+
+          <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111A2E] p-6 space-y-3">
+            <h3 class="text-base font-bold text-slate-900 dark:text-slate-50">EIA-96 Precision Code (0603 ±1%)</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              An 0603 body is too small for legible 4-digit silkscreen text. The EIA-96 standard compresses three significant figures into a two-digit index (<span class="code-font">01–96</span>) paired with a single letter multiplier (<span class="code-font">Z</span> through <span class="code-font">F</span>).
+            </p>
+            <div class="rounded-lg bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-slate-800 p-3.5 text-xs code-font text-slate-800 dark:text-slate-200 space-y-1">
+              <div>01A → Code 01 (100) × A (1) = 100 Ω</div>
+              <div>47C → Code 47 (301) × C (100) = 30.1 kΩ</div>
+              <div>68X → Code 68 (499) × X (0.1) = 49.9 Ω</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Complete EIA-96 Lookup Table (01-96) & Multiplier Chart -->
+      <section aria-labelledby="eia96-reference" class="space-y-6">
+        <div class="border-b border-slate-200 dark:border-slate-800 pb-3">
+          <h2 id="eia96-reference" class="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
+            2. Complete EIA-96 Standard Resistance Lookup Table (Codes 01–96) &amp; Multipliers
+          </h2>
+          <p class="mt-1.5 text-sm text-slate-600 dark:text-slate-300">
+            Every EIA-96 marking combines a 2-digit E96 index from the first table below with a decade multiplier letter from the second table.
+          </p>
+        </div>
+
+        <!-- Complete 96-Code Multi-Column Table -->
+        <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111A2E] overflow-hidden">
+          <div class="px-5 py-3.5 border-b border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/50 flex items-center justify-between">
+            <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">EIA-96 Base Significant Figures (Codes 01–96)</h3>
+            <span class="text-xs text-slate-500 dark:text-slate-400 code-font">IEC 60063 E96 ±1%</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs sm:text-sm code-font tabular-nums">
+              <thead>
+                <tr class="border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30 text-slate-500 dark:text-slate-400">
+                  <th class="py-2.5 px-3 font-semibold">Code</th>
+                  <th class="py-2.5 px-3 font-semibold border-r border-slate-200 dark:border-slate-800">Value</th>
+                  <th class="py-2.5 px-3 font-semibold">Code</th>
+                  <th class="py-2.5 px-3 font-semibold border-r border-slate-200 dark:border-slate-800">Value</th>
+                  <th class="py-2.5 px-3 font-semibold">Code</th>
+                  <th class="py-2.5 px-3 font-semibold border-r border-slate-200 dark:border-slate-800">Value</th>
+                  <th class="py-2.5 px-3 font-semibold">Code</th>
+                  <th class="py-2.5 px-3 font-semibold">Value</th>
+                </tr>
+              </thead>
+              <tbody id="eia96-table-body" class="divide-y divide-slate-200/70 dark:divide-slate-800/70">
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">01</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">100</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">25</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">178</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">49</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">316</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">73</td><td class="py-2 px-3">562</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">02</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">102</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">26</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">182</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">50</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">324</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">74</td><td class="py-2 px-3">576</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">03</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">105</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">27</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">187</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">51</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">332</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">75</td><td class="py-2 px-3">590</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">04</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">107</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">28</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">191</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">52</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">340</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">76</td><td class="py-2 px-3">604</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">05</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">110</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">29</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">196</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">53</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">348</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">77</td><td class="py-2 px-3">619</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">06</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">113</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">30</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">200</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">54</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">357</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">78</td><td class="py-2 px-3">634</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">07</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">115</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">31</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">205</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">55</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">365</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">79</td><td class="py-2 px-3">649</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">08</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">118</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">32</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">210</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">56</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">374</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">80</td><td class="py-2 px-3">665</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">09</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">121</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">33</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">215</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">57</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">383</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">81</td><td class="py-2 px-3">681</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">10</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">124</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">34</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">221</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">58</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">392</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">82</td><td class="py-2 px-3">698</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">11</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">127</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">35</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">226</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">59</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">402</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">83</td><td class="py-2 px-3">715</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">12</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">130</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">36</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">232</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">60</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">412</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">84</td><td class="py-2 px-3">732</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">13</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">133</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">37</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">237</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">61</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">422</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">85</td><td class="py-2 px-3">750</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">14</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">137</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">38</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">243</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">62</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">432</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">86</td><td class="py-2 px-3">768</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">15</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">140</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">39</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">249</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">63</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">442</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">87</td><td class="py-2 px-3">787</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">16</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">143</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">40</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">255</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">64</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">453</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">88</td><td class="py-2 px-3">806</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">17</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">147</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">41</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">261</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">65</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">464</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">89</td><td class="py-2 px-3">825</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">18</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">150</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">42</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">267</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">66</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">475</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">90</td><td class="py-2 px-3">845</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">19</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">154</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">43</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">274</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">67</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">487</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">91</td><td class="py-2 px-3">866</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">20</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">158</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">44</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">280</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">68</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">499</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">92</td><td class="py-2 px-3">887</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">21</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">162</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">45</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">287</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">69</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">511</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">93</td><td class="py-2 px-3">909</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">22</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">165</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">46</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">294</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">70</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">523</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">94</td><td class="py-2 px-3">931</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">23</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">169</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">47</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">301</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">71</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">536</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">95</td><td class="py-2 px-3">953</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">24</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">174</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">48</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">309</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">72</td><td class="py-2 px-3 border-r border-slate-200 dark:border-slate-800">549</td><td class="py-2 px-3 font-semibold text-emerald-700 dark:text-emerald-400">96</td><td class="py-2 px-3">976</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- EIA-96 Multiplier Letter Table -->
+        <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111A2E] overflow-hidden">
+          <div class="px-5 py-3.5 border-b border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/50">
+            <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">EIA-96 Multiplier Letter Chart</h3>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs sm:text-sm code-font tabular-nums">
+              <thead>
+                <tr class="border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30 text-slate-500 dark:text-slate-400">
+                  <th class="py-2.5 px-4 font-semibold">Letter</th>
+                  <th class="py-2.5 px-4 font-semibold">Multiplier</th>
+                  <th class="py-2.5 px-4 font-semibold">Power of 10</th>
+                  <th class="py-2.5 px-4 font-semibold">Example Code</th>
+                  <th class="py-2.5 px-4 font-semibold">Decoded Value</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200/70 dark:divide-slate-800/70">
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2.5 px-4 font-bold text-amber-600 dark:text-amber-400">Z</td><td class="py-2.5 px-4">× 0.001</td><td class="py-2.5 px-4">10⁻³</td><td class="py-2.5 px-4">01Z</td><td class="py-2.5 px-4">0.1 Ω</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2.5 px-4 font-bold text-amber-600 dark:text-amber-400">Y or R</td><td class="py-2.5 px-4">× 0.01</td><td class="py-2.5 px-4">10⁻²</td><td class="py-2.5 px-4">01Y / 01R</td><td class="py-2.5 px-4">1 Ω</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2.5 px-4 font-bold text-amber-600 dark:text-amber-400">X or S</td><td class="py-2.5 px-4">× 0.1</td><td class="py-2.5 px-4">10⁻¹</td><td class="py-2.5 px-4">68X / 68S</td><td class="py-2.5 px-4">49.9 Ω</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2.5 px-4 font-bold text-emerald-700 dark:text-emerald-400">A</td><td class="py-2.5 px-4">× 1</td><td class="py-2.5 px-4">10⁰</td><td class="py-2.5 px-4">01A</td><td class="py-2.5 px-4">100 Ω</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2.5 px-4 font-bold text-emerald-700 dark:text-emerald-400">B or H</td><td class="py-2.5 px-4">× 10</td><td class="py-2.5 px-4">10¹</td><td class="py-2.5 px-4">01B / 01H</td><td class="py-2.5 px-4">1 kΩ</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2.5 px-4 font-bold text-emerald-700 dark:text-emerald-400">C</td><td class="py-2.5 px-4">× 100</td><td class="py-2.5 px-4">10²</td><td class="py-2.5 px-4">47C</td><td class="py-2.5 px-4">30.1 kΩ</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2.5 px-4 font-bold text-emerald-700 dark:text-emerald-400">D</td><td class="py-2.5 px-4">× 1,000</td><td class="py-2.5 px-4">10³</td><td class="py-2.5 px-4">01D</td><td class="py-2.5 px-4">100 kΩ</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2.5 px-4 font-bold text-emerald-700 dark:text-emerald-400">E</td><td class="py-2.5 px-4">× 10,000</td><td class="py-2.5 px-4">10⁴</td><td class="py-2.5 px-4">01E</td><td class="py-2.5 px-4">1 MΩ</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2.5 px-4 font-bold text-emerald-700 dark:text-emerald-400">F</td><td class="py-2.5 px-4">× 100,000</td><td class="py-2.5 px-4">10⁵</td><td class="py-2.5 px-4">01F</td><td class="py-2.5 px-4">10 MΩ</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: SMD Package Sizes, Dimensions & Power Rating Chart -->
+      <section aria-labelledby="smd-package-sizes" class="space-y-5">
+        <div class="border-b border-slate-200 dark:border-slate-800 pb-3">
+          <h2 id="smd-package-sizes" class="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
+            3. SMD Package Sizes, Dimensions &amp; Power Rating Chart
+          </h2>
+          <p class="mt-1.5 text-sm text-slate-600 dark:text-slate-300">
+            Imperial package codes (such as 0603 or 0805) describe nominal length and width in hundredths of an inch, whereas metric codes express dimensions in tenths of a millimeter.
+          </p>
+        </div>
+
+        <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111A2E] overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs sm:text-sm tabular-nums">
+              <thead>
+                <tr class="border-b border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/50 text-slate-600 dark:text-slate-300">
+                  <th class="py-3 px-4 font-semibold">Imperial Code</th>
+                  <th class="py-3 px-4 font-semibold">Metric Code</th>
+                  <th class="py-3 px-4 font-semibold">Dimensions (L × W mm)</th>
+                  <th class="py-3 px-4 font-semibold">Dimensions (L × W in)</th>
+                  <th class="py-3 px-4 font-semibold">Typical Power (W)</th>
+                  <th class="py-3 px-4 font-semibold">Max Working Voltage</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200/70 dark:divide-slate-800/70 code-font">
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2.5 px-4 font-semibold text-emerald-700 dark:text-emerald-400">0201</td><td class="py-2.5 px-4">0603</td><td class="py-2.5 px-4">0.60 × 0.30 mm</td><td class="py-2.5 px-4">0.024 × 0.012 in</td><td class="py-2.5 px-4">0.05 W (1/20 W)</td><td class="py-2.5 px-4">25 V</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2.5 px-4 font-semibold text-emerald-700 dark:text-emerald-400">0402</td><td class="py-2.5 px-4">1005</td><td class="py-2.5 px-4">1.00 × 0.50 mm</td><td class="py-2.5 px-4">0.040 × 0.020 in</td><td class="py-2.5 px-4">0.0625 W (1/16 W)</td><td class="py-2.5 px-4">50 V</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2.5 px-4 font-semibold text-emerald-700 dark:text-emerald-400">0603</td><td class="py-2.5 px-4">1608</td><td class="py-2.5 px-4">1.60 × 0.80 mm</td><td class="py-2.5 px-4">0.063 × 0.031 in</td><td class="py-2.5 px-4">0.10 W (1/10 W)</td><td class="py-2.5 px-4">75 V</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2.5 px-4 font-semibold text-emerald-700 dark:text-emerald-400">0805</td><td class="py-2.5 px-4">2012</td><td class="py-2.5 px-4">2.00 × 1.25 mm</td><td class="py-2.5 px-4">0.079 × 0.049 in</td><td class="py-2.5 px-4">0.125 W (1/8 W)</td><td class="py-2.5 px-4">150 V</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2.5 px-4 font-semibold text-emerald-700 dark:text-emerald-400">1206</td><td class="py-2.5 px-4">3216</td><td class="py-2.5 px-4">3.20 × 1.60 mm</td><td class="py-2.5 px-4">0.126 × 0.063 in</td><td class="py-2.5 px-4">0.25 W (1/4 W)</td><td class="py-2.5 px-4">200 V</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2.5 px-4 font-semibold text-emerald-700 dark:text-emerald-400">1210</td><td class="py-2.5 px-4">3225</td><td class="py-2.5 px-4">3.20 × 2.50 mm</td><td class="py-2.5 px-4">0.126 × 0.098 in</td><td class="py-2.5 px-4">0.50 W (1/2 W)</td><td class="py-2.5 px-4">200 V</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2.5 px-4 font-semibold text-emerald-700 dark:text-emerald-400">2010</td><td class="py-2.5 px-4">5025</td><td class="py-2.5 px-4">5.00 × 2.50 mm</td><td class="py-2.5 px-4">0.197 × 0.098 in</td><td class="py-2.5 px-4">0.75 W (3/4 W)</td><td class="py-2.5 px-4">200 V</td></tr>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40"><td class="py-2.5 px-4 font-semibold text-emerald-700 dark:text-emerald-400">2512</td><td class="py-2.5 px-4">6332</td><td class="py-2.5 px-4">6.30 × 3.20 mm</td><td class="py-2.5 px-4">0.248 × 0.126 in</td><td class="py-2.5 px-4">1.00 W (1 W)</td><td class="py-2.5 px-4">200–250 V</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p class="text-xs text-slate-500 dark:text-slate-400">
+          Caution: Imperial <span class="code-font font-semibold">0603</span> (1.6 × 0.8 mm) and Metric <span class="code-font font-semibold">0603</span> (0.6 × 0.3 mm, which is Imperial 0201) share the same 4 digits. Always confirm units on BOMs and pick-and-place files.
+        </p>
+      </section>
+
+      <!-- Section 4: How to Decode SMD Capacitors & Tolerance Letter Chart -->
+      <section aria-labelledby="smd-capacitors-guide" class="space-y-6">
+        <div class="border-b border-slate-200 dark:border-slate-800 pb-3">
+          <h2 id="smd-capacitors-guide" class="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
+            4. How to Decode SMD Capacitors, Tolerance Letters &amp; Dielectrics
+          </h2>
+          <p class="mt-1.5 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            Unlike resistors, standard multilayer ceramic chip capacitors (MLCCs) soldered onto PCBs are almost always unmarked because ink resists ultrasonic flux washes poorly and laser engraving risks cracking the ceramic dielectric. Instead, 3-digit EIA codes appear on component reels, datasheets, and larger molded tantalum/ceramic cases—read as two significant figures followed by the number of zeros in picofarads (pF). For instance, a <span class="code-font font-semibold">104</span> capacitor value equals 100,000 pF (100 nF or 0.1 µF), while a <span class="code-font font-semibold">102</span> capacitor equals 1,000 pF (1 nF).
+          </p>
+        </div>
+        
+         
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Tolerance Letter Table -->
+          <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111A2E] overflow-hidden">
+            <div class="px-5 py-3.5 border-b border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/50">
+              <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">Capacitor Tolerance Letter Chart (B–Z)</h3>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs sm:text-sm tabular-nums">
+                <thead>
+                  <tr class="border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30 text-slate-500 dark:text-slate-400">
+                    <th class="py-2.5 px-4 font-semibold">Code</th>
+                    <th class="py-2.5 px-4 font-semibold">Tolerance</th>
+                    <th class="py-2.5 px-4 font-semibold">Typical Application</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200/70 dark:divide-slate-800/70">
+                  <tr><td class="py-2 px-4 code-font font-bold text-emerald-700 dark:text-emerald-400">B</td><td class="py-2 px-4 code-font">±0.1 pF</td><td class="py-2 px-4 text-slate-600 dark:text-slate-300">RF matching (&le; 10 pF)</td></tr>
+                  <tr><td class="py-2 px-4 code-font font-bold text-emerald-700 dark:text-emerald-400">C</td><td class="py-2 px-4 code-font">±0.25 pF</td><td class="py-2 px-4 text-slate-600 dark:text-slate-300">Crystal load caps (&le; 10 pF)</td></tr>
+                  <tr><td class="py-2 px-4 code-font font-bold text-emerald-700 dark:text-emerald-400">D</td><td class="py-2 px-4 code-font">±0.5 pF / ±0.5%</td><td class="py-2 px-4 text-slate-600 dark:text-slate-300">Precision RF / PLL filters</td></tr>
+                  <tr><td class="py-2 px-4 code-font font-bold text-emerald-700 dark:text-emerald-400">F</td><td class="py-2 px-4 code-font">±1%</td><td class="py-2 px-4 text-slate-600 dark:text-slate-300">Active audio &amp; instrumentation</td></tr>
+                  <tr><td class="py-2 px-4 code-font font-bold text-emerald-700 dark:text-emerald-400">G</td><td class="py-2 px-4 code-font">±2%</td><td class="py-2 px-4 text-slate-600 dark:text-slate-300">Precision timing &amp; RC oscillators</td></tr>
+                  <tr><td class="py-2 px-4 code-font font-bold text-emerald-700 dark:text-emerald-400">J</td><td class="py-2 px-4 code-font">±5%</td><td class="py-2 px-4 text-slate-600 dark:text-slate-300">Signal coupling &amp; C0G filters</td></tr>
+                  <tr><td class="py-2 px-4 code-font font-bold text-emerald-700 dark:text-emerald-400">K</td><td class="py-2 px-4 code-font">±10%</td><td class="py-2 px-4 text-slate-600 dark:text-slate-300">Standard X7R/X5R decoupling</td></tr>
+                  <tr><td class="py-2 px-4 code-font font-bold text-emerald-700 dark:text-emerald-400">M</td><td class="py-2 px-4 code-font">±20%</td><td class="py-2 px-4 text-slate-600 dark:text-slate-300">Bulk power rail bypassing</td></tr>
+                  <tr><td class="py-2 px-4 code-font font-bold text-amber-600 dark:text-amber-400">Z</td><td class="py-2 px-4 code-font">+80% / -20%</td><td class="py-2 px-4 text-slate-600 dark:text-slate-300">Legacy Y5V non-critical bypass</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Dielectric Stability Comparison -->
+          <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111A2E] overflow-hidden">
+            <div class="px-5 py-3.5 border-b border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/50">
+              <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">MLCC Dielectric Stability Comparison</h3>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs sm:text-sm tabular-nums">
+                <thead>
+                  <tr class="border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30 text-slate-500 dark:text-slate-400">
+                    <th class="py-2.5 px-4 font-semibold">Dielectric</th>
+                    <th class="py-2.5 px-4 font-semibold">Temp Range</th>
+                    <th class="py-2.5 px-4 font-semibold">Temp Drift</th>
+                    <th class="py-2.5 px-4 font-semibold">DC Bias Loss</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200/70 dark:divide-slate-800/70">
+                  <tr>
+                    <td class="py-2.5 px-4 code-font font-bold text-emerald-700 dark:text-emerald-400">C0G / NP0</td>
+                    <td class="py-2.5 px-4 code-font">-55 to +125 °C</td>
+                    <td class="py-2.5 px-4 code-font">±30 ppm/°C</td>
+                    <td class="py-2.5 px-4 text-slate-600 dark:text-slate-300">None (0%)</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-4 code-font font-bold text-slate-900 dark:text-slate-100">X7R</td>
+                    <td class="py-2.5 px-4 code-font">-55 to +125 °C</td>
+                    <td class="py-2.5 px-4 code-font">±15%</td>
+                    <td class="py-2.5 px-4 text-slate-600 dark:text-slate-300">Moderate (15–40%)</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-4 code-font font-bold text-slate-900 dark:text-slate-100">X5R</td>
+                    <td class="py-2.5 px-4 code-font">-55 to +85 °C</td>
+                    <td class="py-2.5 px-4 code-font">±15%</td>
+                    <td class="py-2.5 px-4 text-slate-600 dark:text-slate-300">High (30–60%)</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-4 code-font font-bold text-amber-600 dark:text-amber-400">Y5V</td>
+                    <td class="py-2.5 px-4 code-font">-30 to +85 °C</td>
+                    <td class="py-2.5 px-4 code-font">+22% / -82%</td>
+                    <td class="py-2.5 px-4 text-slate-600 dark:text-slate-300">Severe (&gt;70%)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="p-4 border-t border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              Always derate Class 2 MLCC voltage ratings by at least 50% (e.g., use a 16 V or 25 V X7R cap on a 5 V rail) so DC bias capacitance roll-off does not starve switching regulators of effective bulk capacitance.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Real-World PCB Troubleshooting & Multimeter Testing Tips -->
+      <section aria-labelledby="pcb-troubleshooting" class="space-y-5">
+        <div class="border-b border-slate-200 dark:border-slate-800 pb-3">
+          <h2 id="pcb-troubleshooting" class="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
+            5. Real-World PCB Troubleshooting &amp; Multimeter Testing Tips
+          </h2>
+          <p class="mt-1.5 text-sm text-slate-600 dark:text-slate-300">
+            Practical bench habits to avoid misdiagnosing good surface-mount parts during circuit bring-up and repair.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111A2E] p-6 space-y-2">
+            <h3 class="text-base font-bold text-slate-900 dark:text-slate-50">In-Circuit Parallel Resistance Drops</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Measuring a soldered 100 kΩ feedback resistor in-circuit often reads far lower (for instance 18 kΩ) because adjacent IC ESD protection diodes, pull-down paths, or parallel capacitor leakage shunt your multimeter's test current. Only trust a reading that is <em>higher</em> than the decoded silkscreen value (indicating an open or cracked resistor); to confirm a low reading, lift one pad with hot air or a soldering iron before re-probing.
+            </p>
+          </div>
+
+          <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111A2E] p-6 space-y-2">
+            <h3 class="text-base font-bold text-slate-900 dark:text-slate-50">Testing Zero-Ohm Jumpers Safely</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Zero-ohm links (<span class="code-font">0</span>, <span class="code-font">000</span>, <span class="code-font">0000</span>) act as bridge traces and occasionally fail open if used across a shorted rail. Verify them in continuity or lowest-ohms mode after powering down and discharging bulk capacitors; a healthy link reads under 0.1 Ω (plus your probe lead offset).
+            </p>
+          </div>
+
+          <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111A2E] p-6 space-y-2">
+            <h3 class="text-base font-bold text-slate-900 dark:text-slate-50">Finding Shorted Decoupling MLCCs</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Flex cracks from board depaneling or over-voltage spikes frequently turn MLCC capacitors into dead shorts across VCC and GND. Because dozens of decoupling capacitors sit in parallel, an LCR meter cannot isolate the culprit. Inject a current-limited 1 V supply (capped below the rail's nominal voltage) and inspect with a thermal camera or isopropyl alcohol evaporation to spot the single capacitor heating up.
+            </p>
+          </div>
+
+          <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111A2E] p-6 space-y-2">
+            <h3 class="text-base font-bold text-slate-900 dark:text-slate-50">Preventing Tombstoning During Rework</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              When one pad of an 0402 or 0603 component connects to a wide ground plane and the other connects to a thin signal trace, uneven thermal mass melts solder on one side first, pulling the chip upright ("tombstoning"). Always use thermal relief spokes on ground pours, preheat the board evenly, and use lower hot-air airflow velocity so tiny chips do not blow off their pads.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6: Frequently Asked Questions (FAQ) -->
+      <section aria-labelledby="faq-heading" class="space-y-5">
+        <div class="border-b border-slate-200 dark:border-slate-800 pb-3">
+          <h2 id="faq-heading" class="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
+            6. Frequently Asked Questions
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111A2E] p-6 space-y-2">
+            <h3 class="text-base font-bold text-slate-900 dark:text-slate-50">Why do most SMD ceramic capacitors (MLCCs) on a PCB have no printed markings?</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Multilayer ceramic chip capacitors (MLCCs) in sizes like 0402, 0603, and 0805 are usually left unmarked because laser or ink printing on tiny barium titanate ceramic bodies adds cost, risks micro-fracturing the dielectric, and quickly fades during ultrasonic flux cleaning. Manufacturers print the 3-digit EIA capacitance code (such as 104K) on the component reel tape and packaging instead.
+            </p>
+          </div>
+
+          <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111A2E] p-6 space-y-2">
+            <h3 class="text-base font-bold text-slate-900 dark:text-slate-50">What is the difference between a 3-digit and a 4-digit SMD resistor code?</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              A 3-digit code uses the first two digits as significant figures and the third digit as the power-of-ten multiplier, typically indicating a standard ±5% (E24) tolerance resistor (e.g., 472 equals 47 × 100 = 4.7 kΩ). A 4-digit code uses the first three digits as significant figures and the fourth digit as the multiplier, representing a high-precision ±1% or ±0.5% resistor (e.g., 4701 equals 470 × 10 = 4.7 kΩ).
+            </p>
+          </div>
+
+          <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111A2E] p-6 space-y-2">
+            <h3 class="text-base font-bold text-slate-900 dark:text-slate-50">How do you decode a 3-character EIA-96 code like 01A or 68X?</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              The EIA-96 system is used on ±1% precision 0603 resistors where 4 digits would be too small to read reliably. The first two digits (01 to 96) map to a three-digit base value in the E96 series lookup table, and the trailing letter specifies the decade multiplier. For example, 01 maps to 100 and A is ×1 (100 Ω), while 68 maps to 499 and X is ×0.1 (49.9 Ω).
+            </p>
+          </div>
+
+          <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111A2E] p-6 space-y-2">
+            <h3 class="text-base font-bold text-slate-900 dark:text-slate-50">Why are 0 Ω (000 or 0000) SMD resistors used instead of a copper PCB trace?</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Zero-ohm jumpers act as automated pick-and-place wire bridges on single- or two-layer PCBs, letting a trace jump over another signal without adding vias. Engineers also use them as configurable hardware option straps, test isolation points for measuring rail current during board bring-up, and sacrificial links.
+            </p>
+          </div>
+
+          <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111A2E] p-6 space-y-2">
+            <h3 class="text-base font-bold text-slate-900 dark:text-slate-50">How should I choose the right SMD package wattage rating for an LED current-limiting resistor?</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Calculate the resistor heat dissipation using P = I² × R (or (Vs − Vf) × I), then apply at least a 2× safety derating factor so the resistor never runs near its thermal limit. For example, a 20 mA LED on a 5 V supply with a 150 Ω resistor dissipates 60 mW; doubling that gives 120 mW, making an 0805 package (rated 125 mW) the safest minimum footprint.
+            </p>
+          </div>
+
+          <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111A2E] p-6 space-y-2">
+            <h3 class="text-base font-bold text-slate-900 dark:text-slate-50">Can an SMD resistor marking indicate capacitance or inductance by mistake?</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Yes, molded tantalum capacitors, SMD inductors, and trimmer pots often share 3-digit EIA notation (two significant digits plus multiplier). Always verify the component body and PCB silkscreen reference designator: R prefixes indicate resistors in ohms, C prefixes indicate capacitors in picofarads (unless marked in µF on tantalum cases), and L prefixes indicate inductors in microhenries.
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+  <!-- Clean Footer -->
+  <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0B1120]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-600 dark:text-slate-400">
+      <div class="flex items-center gap-2">
+        <span class="font-semibold text-slate-900 dark:text-slate-200">Mohit Tools</span>
+        <span aria-hidden="true">·</span>
+        <span>Precision Electronics Utilities</span>
+      </div>
+      <nav aria-label="Footer navigation" class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+        <a href="/" class="hover:text-slate-900 dark:hover:text-white smooth-transition whitespace-nowrap">Home</a>
+        <a href="/about.html" class="hover:text-slate-900 dark:hover:text-white smooth-transition whitespace-nowrap">About</a>
+        <a href="/tools/resistor-decoder/" class="hover:text-slate-900 dark:hover:text-white smooth-transition whitespace-nowrap">Resistor Color Decoder</a>
+        <a href="https://buymeacoffee.com/crushedcorsair" target="_blank" rel="noopener noreferrer" class="text-amber-700 dark:text-amber-400 hover:underline smooth-transition whitespace-nowrap">Support on Buy Me a Coffee</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- Pure Vanilla JavaScript Logic (100% Complete Lookup Tables & Real-Time UI) -->
+  <script>
+    (function (global) {
+      'use strict';
+
+      // Complete 96 EIA-96 Base Significant Values (IEC 60063 E96)
+      var EIA96_VALUES = {
+        '01': 100, '02': 102, '03': 105, '04': 107, '05': 110, '06': 113, '07': 115, '08': 118,
+        '09': 121, '10': 124, '11': 127, '12': 130, '13': 133, '14': 137, '15': 140, '16': 143,
+        '17': 147, '18': 150, '19': 154, '20': 158, '21': 162, '22': 165, '23': 169, '24': 174,
+        '25': 178, '26': 182, '27': 187, '28': 191, '29': 196, '30': 200, '31': 205, '32': 210,
+        '33': 215, '34': 221, '35': 226, '36': 232, '37': 237, '38': 243, '39': 249, '40': 255,
+        '41': 261, '42': 267, '43': 274, '44': 280, '45': 287, '46': 294, '47': 301, '48': 309,
+        '49': 316, '50': 324, '51': 332, '52': 340, '53': 348, '54': 357, '55': 365, '56': 374,
+        '57': 383, '58': 392, '59': 402, '60': 412, '61': 422, '62': 432, '63': 442, '64': 453,
+        '65': 464, '66': 475, '67': 487, '68': 499, '69': 511, '70': 523, '71': 536, '72': 549,
+        '73': 562, '74': 576, '75': 590, '76': 604, '77': 619, '78': 634, '79': 649, '80': 665,
+        '81': 681, '82': 698, '83': 715, '84': 732, '85': 750, '86': 768, '87': 787, '88': 806,
+        '89': 825, '90': 845, '91': 866, '92': 887, '93': 909, '94': 931, '95': 953, '96': 976
+      };
+
+      // Complete EIA-96 Multiplier Letters (including standard aliases R=Y, S=X, H=B)
+      var EIA96_MULTIPLIERS = {
+        'Z': { factor: 0.001, label: '0.001', exp: -3 },
+        'Y': { factor: 0.01, label: '0.01', exp: -2 },
+        'R': { factor: 0.01, label: '0.01', exp: -2 },
+        'X': { factor: 0.1, label: '0.1', exp: -1 },
+        'S': { factor: 0.1, label: '0.1', exp: -1 },
+        'A': { factor: 1, label: '1', exp: 0 },
+        'B': { factor: 10, label: '10', exp: 1 },
+        'H': { factor: 10, label: '10', exp: 1 },
+        'C': { factor: 100, label: '100', exp: 2 },
+        'D': { factor: 1000, label: '1,000', exp: 3 },
+        'E': { factor: 10000, label: '10,000', exp: 4 },
+        'F': { factor: 100000, label: '100,000', exp: 5 }
+      };
+
+      // Capacitor Tolerance Letter Table
+      var CAP_TOLERANCES = {
+        'B': '±0.1 pF',
+        'C': '±0.25 pF',
+        'D': '±0.5 pF (≤10 pF) / ±0.5% (>10 pF)',
+        'F': '±1%',
+        'G': '±2%',
+        'J': '±5%',
+        'K': '±10%',
+        'M': '±20%',
+        'Z': '+80% / -20%'
+      };
+
+      // E24 Standard Series Base Mantissas
+      var E24_SERIES = [
+        1.0, 1.1, 1.2, 1.3, 1.5, 1.6, 1.8, 2.0,
+        2.2, 2.4, 2.7, 3.0, 3.3, 3.6, 3.9, 4.3,
+        4.7, 5.1, 5.6, 6.2, 6.8, 7.5, 8.2, 9.1
+      ];
+
+      // SMD Package Power Ratings (Watts)
+      var SMD_PACKAGES = [
+        { name: '0402', watts: 0.0625, label: '0402 (0.0625 W / 62.5 mW)' },
+        { name: '0603', watts: 0.10, label: '0603 (0.10 W / 100 mW)' },
+        { name: '0805', watts: 0.125, label: '0805 (0.125 W / 125 mW)' },
+        { name: '1206', watts: 0.25, label: '1206 (0.25 W / 250 mW)' },
+        { name: '2512', watts: 1.0, label: '2512 (1.0 W / 1,000 mW)' }
+      ];
+
+      function cleanPrecision(num) {
+        if (num === 0) return 0;
+        return Number(num.toPrecision(12));
+      }
+
+      function formatExactDecimal(num) {
+        var cleaned = cleanPrecision(num);
+        if (cleaned === 0) return '0';
+        var str = cleaned.toString();
+        if (str.indexOf('e') !== -1 || str.indexOf('E') !== -1) {
+          // Convert small/large scientific notation to clean decimal string
+          var fixed = cleaned.toFixed(12).replace(/0+$/, '').replace(/\.$/, '');
+          return fixed;
+        }
+        return str;
+      }
+
+      function formatNumberWithCommas(num) {
+        var cleaned = cleanPrecision(num);
+        var parts = formatExactDecimal(cleaned).split('.');
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        return parts.join('.');
+      }
+
+      function formatOhms(ohms) {
+        var v = cleanPrecision(ohms);
+        if (v === 0) return '0 Ω';
+        if (v >= 1e6) return formatNumberWithCommas(v / 1e6) + ' MΩ';
+        if (v >= 1e3) return formatNumberWithCommas(v / 1e3) + ' kΩ';
+        return formatNumberWithCommas(v) + ' Ω';
+      }
+
+      function decodeResistorCode(rawInput) {
+        var code = String(rawInput || '').trim().toUpperCase();
+        if (!code) {
+          return { valid: false, empty: true, code: '', error: 'Enter an SMD resistor marking code above to decode.' };
+        }
+
+        // 1. Zero-Ohm Jumpers: 0, 00, 000, 0000
+        if (/^0{1,4}$/.test(code)) {
+          return {
+            valid: true,
+            code: code,
+            ohms: 0,
+            formatted: '0 Ω (Zero-Ohm Jumper Link)',
+            shortFormatted: '0 Ω',
+            standard: 'Zero-Ohm Jumper Link',
+            tolerance: 'N/A (< 50 mΩ max contact resistance)',
+            formula: code + ' = 0 Ω solid conductive jumper bridge',
+            note: ''
+          };
+        }
+
+        // 2. EIA-96 Precision (2 digits 01-96 + multiplier letter)
+        var eia96Match = /^(\d{2})([A-Z])$/.exec(code);
+        if (eia96Match) {
+          var idx = eia96Match[1];
+          var multLetter = eia96Match[2];
+          if (EIA96_VALUES[idx] !== undefined && EIA96_MULTIPLIERS[multLetter] !== undefined) {
+            var base = EIA96_VALUES[idx];
+            var multObj = EIA96_MULTIPLIERS[multLetter];
+            var val = cleanPrecision(base * multObj.factor);
+            var note = '';
+            if (multLetter === 'R') {
+              note = 'Note: Two digits (01–96) ending in R follow the EIA-96 ×0.01 multiplier (alias for Y). For ' + parseInt(idx, 10) + ' Ω, manufacturers mark ' + parseInt(idx, 10) + 'R0 or ' + idx + '0.';
+            }
+            return {
+              valid: true,
+              code: code,
+              ohms: val,
+              formatted: formatOhms(val),
+              shortFormatted: formatOhms(val),
+              standard: 'EIA-96 Precision',
+              tolerance: '±1% (E96)',
+              formula: 'Code ' + idx + ' (' + base + ') × ' + multLetter + ' (' + multObj.label + ') = ' + formatNumberWithCommas(val) + ' Ω = ' + formatOhms(val),
+              note: note
+            };
+          }
+        }
+
+        // 3. R-Notation (Decimal Point: e.g., 4R7, R22, 0R5, 10R5, 47R)
+        if (/^(?:\d*R\d+|\d+R\d*)$/.test(code)) {
+          var numericStr = code.replace('R', '.');
+          if (numericStr.charAt(0) === '.') numericStr = '0' + numericStr;
+          if (numericStr.charAt(numericStr.length - 1) === '.') numericStr = numericStr.slice(0, -1);
+          var rVal = cleanPrecision(parseFloat(numericStr));
+          if (!isNaN(rVal)) {
+            return {
+              valid: true,
+              code: code,
+              ohms: rVal,
+              formatted: formatOhms(rVal),
+              shortFormatted: formatOhms(rVal),
+              standard: 'R-Notation (Decimal Point)',
+              tolerance: '±1% to ±5% (verify reel/datasheet)',
+              formula: code + ' → "R" acts as decimal point = ' + formatExactDecimal(rVal) + ' Ω',
+              note: rVal === 0 ? 'Evaluates to a 0 Ω jumper link.' : ''
+            };
+          }
+        }
+
+        // 4. 3-Digit Standard EIA (±5%)
+        if (/^\d{3}$/.test(code)) {
+          var sig2 = parseInt(code.slice(0, 2), 10);
+          var exp3 = parseInt(code.slice(2, 3), 10);
+          var val3 = cleanPrecision(sig2 * Math.pow(10, exp3));
+          var sup = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹'][exp3];
+          return {
+            valid: true,
+            code: code,
+            ohms: val3,
+            formatted: formatOhms(val3),
+            shortFormatted: formatOhms(val3),
+            standard: '3-Digit Standard EIA',
+            tolerance: '±5% (E24)',
+            formula: code.slice(0, 2) + ' × 10' + sup + ' = ' + formatNumberWithCommas(val3) + ' Ω = ' + formatOhms(val3),
+            note: ''
+          };
+        }
+
+        // 5. 4-Digit High-Precision (±1%)
+        if (/^\d{4}$/.test(code)) {
+          var sig3 = parseInt(code.slice(0, 3), 10);
+          var exp4 = parseInt(code.slice(3, 4), 10);
+          var val4 = cleanPrecision(sig3 * Math.pow(10, exp4));
+          var sup4 = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹'][exp4];
+          return {
+            valid: true,
+            code: code,
+            ohms: val4,
+            formatted: formatOhms(val4),
+            shortFormatted: formatOhms(val4),
+            standard: '4-Digit High-Precision',
+            tolerance: '±1% (E96 / Thin-Film)',
+            formula: code.slice(0, 3) + ' × 10' + sup4 + ' = ' + formatNumberWithCommas(val4) + ' Ω = ' + formatOhms(val4),
+            note: ''
+          };
+        }
+
+        return {
+          valid: false,
+          empty: false,
+          code: code,
+          error: 'Unrecognized resistor code "' + code + '". Try 3-digit (472), 4-digit (1002), R-notation (4R7, R22), EIA-96 (01A, 68X), or 000.'
+        };
+      }
+
+      function formatCapUnit(val, unit) {
+        var cleaned = cleanPrecision(val);
+        if (cleaned >= 1000) {
+          return formatNumberWithCommas(cleaned) + ' ' + unit;
+        }
+        return formatExactDecimal(cleaned) + ' ' + unit;
+      }
+
+      function decodeCapacitorCode(rawInput) {
+        var code = String(rawInput || '').trim().toUpperCase();
+        if (!code) {
+          return { valid: false, empty: true, code: '', error: 'Enter an SMD capacitor code above to decode.' };
+        }
+
+        // Check R-notation for small pF values (e.g. 4R7, R47, 4R7C)
+        var rCapMatch = /^(\d*R\d+|\d+R\d*)([A-Z])?$/.exec(code);
+        if (rCapMatch) {
+          var rPart = rCapMatch[1].replace('R', '.');
+          if (rPart.charAt(0) === '.') rPart = '0' + rPart;
+          if (rPart.charAt(rPart.length - 1) === '.') rPart = rPart.slice(0, -1);
+          var pfR = cleanPrecision(parseFloat(rPart));
+          var tolLetterR = rCapMatch[2] || '';
+          if (tolLetterR && !CAP_TOLERANCES[tolLetterR]) {
+            return {
+              valid: false,
+              empty: false,
+              code: code,
+              error: 'Unknown tolerance letter "' + tolLetterR + '". Valid tolerance letters are B, C, D, F, G, J, K, M, and Z.'
+            };
+          }
+          var nfR = cleanPrecision(pfR / 1000);
+          var ufR = cleanPrecision(pfR / 1000000);
+          var tolTextR = tolLetterR ? (CAP_TOLERANCES[tolLetterR] + ' (Letter ' + tolLetterR + ')') : 'Not specified (typically ±0.25 pF to ±5% for low pF)';
+          return {
+            valid: true,
+            code: code,
+            pf: pfR,
+            nf: nfR,
+            uf: ufR,
+            pfFormatted: formatCapUnit(pfR, 'pF'),
+            nfFormatted: formatCapUnit(nfR, 'nF'),
+            ufFormatted: formatCapUnit(ufR, 'µF'),
+            primarySummary: formatCapUnit(pfR, 'pF'),
+            tolerance: tolTextR,
+            dielectric: 'Class 1 (C0G / NP0)',
+            formula: rCapMatch[1] + ' → "R" acts as decimal point = ' + formatExactDecimal(pfR) + ' pF (low-pF RF / crystal Class 1 ceramic)'
+          };
+        }
+
+        // Standard 3-digit EIA capacitance code + optional tolerance letter (e.g. 104, 104K, 472J, 475Z)
+        var capMatch = /^(\d{2})(\d)([A-Z])?$/.exec(code);
+        if (capMatch) {
+          var sig = parseInt(capMatch[1], 10);
+          var multDigit = parseInt(capMatch[2], 10);
+          var tolLetter = capMatch[3] || '';
+
+          if (tolLetter && !CAP_TOLERANCES[tolLetter]) {
+            return {
+              valid: false,
+              empty: false,
+              code: code,
+              error: 'Unknown tolerance letter "' + tolLetter + '". Valid tolerance letters are B, C, D, F, G, J, K, M, and Z.'
+            };
+          }
+
+          var multiplier = multDigit === 9 ? 0.1 : Math.pow(10, multDigit);
+          var pf = cleanPrecision(sig * multiplier);
+          var nf = cleanPrecision(pf / 1000);
+          var uf = cleanPrecision(pf / 1000000);
+
+          var primarySummary;
+          if (uf >= 1) {
+            primarySummary = formatCapUnit(uf, 'µF') + ' (' + formatCapUnit(nf, 'nF') + ')';
+          } else if (nf >= 1) {
+            primarySummary = formatCapUnit(nf, 'nF') + ' (' + formatCapUnit(uf, 'µF') + ')';
+          } else {
+            primarySummary = formatCapUnit(pf, 'pF');
+          }
+
+          var tolText = tolLetter ? (CAP_TOLERANCES[tolLetter] + ' (Letter ' + tolLetter + ')') : 'Not specified (optional 4th letter B–Z)';
+
+          // Dielectric helper classification
+          var dielectric;
+          var dielectricNote;
+          if (tolLetter === 'Z') {
+            dielectric = 'Class 2 / 3 (Y5V / Z5U)';
+            dielectricNote = 'Wide +80%/-20% tolerance typical of Y5V general-purpose decoupling';
+          } else if (pf <= 1000 || tolLetter === 'B' || tolLetter === 'C' || tolLetter === 'D' || tolLetter === 'F' || tolLetter === 'G') {
+            dielectric = 'Class 1 (C0G / NP0)';
+            dielectricNote = 'Low capacitance or tight tolerance typical of temperature-stable C0G/NP0';
+          } else if (uf >= 1 && tolLetter === 'M') {
+            dielectric = 'Class 2 (X5R / X7R High-Cap)';
+            dielectricNote = 'High-capacitance ±20% bulk power rail MLCC';
+          } else {
+            dielectric = 'Class 2 (X7R / X5R)';
+            dielectricNote = 'Standard mid-to-high value ceramic decoupling/filtering';
+          }
+
+          var supText = multDigit === 9 ? '⁻¹' : ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸'][multDigit];
+          return {
+            valid: true,
+            code: code,
+            pf: pf,
+            nf: nf,
+            uf: uf,
+            pfFormatted: formatCapUnit(pf, 'pF'),
+            nfFormatted: formatCapUnit(nf, 'nF'),
+            ufFormatted: formatCapUnit(uf, 'µF'),
+            primarySummary: primarySummary,
+            tolerance: tolText,
+            dielectric: dielectric,
+            formula: capMatch[1] + ' × 10' + supText + ' pF = ' + formatCapUnit(pf, 'pF') + ' (' + dielectricNote + ')'
+          };
+        }
+
+        return {
+          valid: false,
+          empty: false,
+          code: code,
+          error: 'Unrecognized capacitor code "' + code + '". Enter a 3-digit EIA code (e.g., 104, 104K, 472J, 225M) or R-notation (4R7).'
+        };
+      }
+
+      function findNearestE24(targetOhms) {
+        if (targetOhms <= 0) return 0;
+        var minExp = -1; // down to 0.1 Ω
+        var maxExp = 7;  // up to 91 MΩ
+        var best = 1.0;
+        var bestDiff = Infinity;
+        for (var exp = minExp; exp <= maxExp; exp++) {
+          var scale = Math.pow(10, exp);
+          for (var i = 0; i < E24_SERIES.length; i++) {
+            var candidate = cleanPrecision(E24_SERIES[i] * scale);
+            var diff = Math.abs(candidate - targetOhms);
+            if (diff < bestDiff) {
+              bestDiff = diff;
+              best = candidate;
+            }
+          }
+        }
+        return best;
+      }
+
+      function getSmdCodesForResistance(ohms) {
+        var v = cleanPrecision(ohms);
+        if (v === 0) return { code3: '000', code4: '0000' };
+        if (v < 10) {
+          var str = formatExactDecimal(v);
+          var codeR = str.indexOf('.') !== -1 ? str.replace('.', 'R') : (str + 'R0');
+          return { code3: codeR, code4: codeR };
+        }
+
+        // 3-digit code: 2 sig figs + exp
+        var exp3 = Math.floor(Math.log10(v)) - 1;
+        var mant3 = Math.round(v / Math.pow(10, exp3));
+        if (mant3 >= 100) {
+          mant3 = Math.round(mant3 / 10);
+          exp3 += 1;
+        }
+        var code3 = (mant3 < 10 ? '0' + mant3 : String(mant3)) + String(Math.max(0, exp3));
+
+        // 4-digit code: 3 sig figs + exp
+        var exp4 = Math.floor(Math.log10(v)) - 2;
+        var mant4 = Math.round(v / Math.pow(10, exp4));
+        if (mant4 >= 1000) {
+          mant4 = Math.round(mant4 / 10);
+          exp4 += 1;
+        }
+        var code4;
+        if (exp4 < 0) {
+          code4 = formatExactDecimal(v).replace('.', 'R');
+        } else {
+          code4 = String(mant4) + String(exp4);
+        }
+        return { code3: code3, code4: code4 };
+      }
+
+      function calculateLedResistor(vs, vf, ifMa, count) {
+        var Vs = Number(vs);
+        var Vf = Number(vf);
+        var IfMa = Number(ifMa);
+        var N = Math.max(1, Math.round(Number(count) || 1));
+
+        if (!isFinite(Vs) || Vs <= 0 || !isFinite(Vf) || Vf <= 0 || !isFinite(IfMa) || IfMa <= 0) {
+          return {
+            valid: false,
+            error: 'Supply voltage (Vs), LED forward voltage (Vf), and target current (If) must all be greater than zero.'
+          };
+        }
+
+        var totalVf = cleanPrecision(N * Vf);
+        if (totalVf >= Vs) {
+          return {
+            valid: false,
+            insufficientVoltage: true,
+            totalVf: totalVf,
+            vs: Vs,
+            error: 'Total LED forward voltage (' + N + ' × ' + formatExactDecimal(Vf) + ' V = ' + formatExactDecimal(totalVf) + ' V) meets or exceeds Supply Voltage (' + formatExactDecimal(Vs) + ' V). Increase Vs or reduce series LEDs.'
+          };
+        }
+
+        var ifAmps = IfMa / 1000;
+        var exactOhms = cleanPrecision((Vs - totalVf) / ifAmps);
+        var e24Ohms = findNearestE24(exactOhms);
+        var codes = getSmdCodesForResistance(e24Ohms);
+
+        var actualIfAmps = (Vs - totalVf) / e24Ohms;
+        var actualIfMa = cleanPrecision(actualIfAmps * 1000);
+        var powerWatts = cleanPrecision(actualIfAmps * actualIfAmps * e24Ohms);
+        var powerMw = cleanPrecision(powerWatts * 1000);
+        var requiredRatedWatts = cleanPrecision(powerWatts * 2);
+        var requiredRatedMw = cleanPrecision(powerMw * 2);
+
+        var recommendedPkg = null;
+        for (var i = 0; i < SMD_PACKAGES.length; i++) {
+          if (SMD_PACKAGES[i].watts >= requiredRatedWatts) {
+            recommendedPkg = SMD_PACKAGES[i];
+            break;
+          }
+        }
+
+        var pkgDisplay;
+        var overMax = false;
+        if (recommendedPkg) {
+          pkgDisplay = recommendedPkg.name + ' (' + recommendedPkg.watts + ' W)';
+        } else {
+          overMax = true;
+          pkgDisplay = '2512+ (> 0.5 W derated — use parallel 2512 or THT power resistor)';
+        }
+
+        return {
+          valid: true,
+          exactOhms: exactOhms,
+          exactFormatted: formatOhms(exactOhms),
+          e24Ohms: e24Ohms,
+          e24Formatted: formatOhms(e24Ohms),
+          code3: codes.code3,
+          code4: codes.code4,
+          actualIfMa: actualIfMa,
+          powerMw: powerMw,
+          requiredRatedMw: requiredRatedMw,
+          packageName: recommendedPkg ? recommendedPkg.name : '2512+',
+          packageDisplay: pkgDisplay,
+          overMax: overMax
+        };
+      }
+
+      // Export pure logic for Node unit tests
+      global.__SMD_DECODER_CORE__ = {
+        EIA96_VALUES: EIA96_VALUES,
+        EIA96_MULTIPLIERS: EIA96_MULTIPLIERS,
+        CAP_TOLERANCES: CAP_TOLERANCES,
+        E24_SERIES: E24_SERIES,
+        decodeResistorCode: decodeResistorCode,
+        decodeCapacitorCode: decodeCapacitorCode,
+        findNearestE24: findNearestE24,
+        getSmdCodesForResistance: getSmdCodesForResistance,
+        calculateLedResistor: calculateLedResistor,
+        formatOhms: formatOhms
+      };
+
+      // Browser DOM Initialization
+      if (typeof document === 'undefined') return;
+
+      // 1. Theme Toggle (persisted in localStorage)
+      var themeBtn = document.getElementById('theme-toggle');
+      var themeLabel = document.getElementById('theme-label');
+      function syncThemeLabel() {
+        if (!themeLabel) return;
+        themeLabel.textContent = document.documentElement.classList.contains('dark') ? 'Light' : 'Dark';
+      }
+      syncThemeLabel();
+      if (themeBtn) {
+        themeBtn.addEventListener('click', function () {
+          var isDark = document.documentElement.classList.toggle('dark');
+          try {
+            localStorage.setItem('mohit_tools_theme', isDark ? 'dark' : 'light');
+          } catch (e) {}
+          syncThemeLabel();
+        });
+      }
+
+      // 2. Tab Switching
+      var tabBtns = document.querySelectorAll('.tab-btn');
+      var panels = {
+        resistor: document.getElementById('panel-resistor'),
+        capacitor: document.getElementById('panel-capacitor'),
+        led: document.getElementById('panel-led')
+      };
+
+      function switchTab(target) {
+        tabBtns.forEach(function (btn) {
+          var isSelected = btn.getAttribute('data-tab') === target;
+          btn.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+          if (isSelected) {
+            btn.classList.add('bg-white', 'dark:bg-[#111A2E]', 'text-emerald-700', 'dark:text-emerald-400', 'border-slate-200', 'dark:border-slate-700', 'shadow-sm');
+            btn.classList.remove('text-slate-600', 'dark:text-slate-300', 'border-transparent');
+          } else {
+            btn.classList.remove('bg-white', 'dark:bg-[#111A2E]', 'text-emerald-700', 'dark:text-emerald-400', 'border-slate-200', 'dark:border-slate-700', 'shadow-sm');
+            btn.classList.add('text-slate-600', 'dark:text-slate-300', 'border-transparent');
+          }
+        });
+        Object.keys(panels).forEach(function (key) {
+          if (panels[key]) {
+            panels[key].classList.toggle('hidden', key !== target);
+          }
+        });
+      }
+
+      tabBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          switchTab(btn.getAttribute('data-tab'));
+        });
+      });
+
+      // Helper for 1-click copy
+      function setupCopy(btnId, labelId, getText) {
+        var btn = document.getElementById(btnId);
+        var label = document.getElementById(labelId);
+        if (!btn || !label) return;
+        var timer = null;
+        btn.addEventListener('click', function () {
+          var text = getText();
+          if (!text) return;
+          var done = function () {
+            label.textContent = 'Copied!';
+            if (timer) clearTimeout(timer);
+            timer = setTimeout(function () {
+              label.textContent = 'Copy Result';
+            }, 1500);
+          };
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(done).catch(function () {
+              fallbackCopy(text);
+              done();
+            });
+          } else {
+            fallbackCopy(text);
+            done();
+          }
+        });
+      }
+
+      function fallbackCopy(text) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+
+      // 3. TAB 1: SMD Resistor Decoder UI
+      var resInput = document.getElementById('resistor-input');
+      var resClear = document.getElementById('resistor-clear');
+      var chipText = document.getElementById('smd-chip-text');
+      var resValueDisplay = document.getElementById('res-value-display');
+      var resStatusNotice = document.getElementById('res-status-notice');
+      var resMetaGrid = document.getElementById('res-meta-grid');
+      var resScalesRow = document.getElementById('res-scales-row');
+      var resStdDisplay = document.getElementById('res-standard-display');
+      var resTolDisplay = document.getElementById('res-tolerance-display');
+      var resFormulaDisplay = document.getElementById('res-formula-display');
+      var resNoteWrapper = document.getElementById('res-note-wrapper');
+      var resNoteDisplay = document.getElementById('res-note-display');
+      var resOhmsExact = document.getElementById('res-ohms-exact');
+      var resKohmsExact = document.getElementById('res-kohms-exact');
+      var resMohmsExact = document.getElementById('res-mohms-exact');
+      var currentResistorCopy = '';
+
+      function syncPresetButtons(selector, attr, activeVal) {
+        document.querySelectorAll(selector).forEach(function (btn) {
+          var isMatch = btn.getAttribute(attr) === activeVal;
+          if (isMatch) {
+            btn.classList.add('border-emerald-500', 'bg-emerald-500/10', 'text-emerald-700', 'dark:text-emerald-400');
+            btn.classList.remove('border-slate-200', 'dark:border-slate-700', 'bg-slate-50', 'dark:bg-slate-900', 'text-slate-700', 'dark:text-slate-200');
+          } else {
+            btn.classList.remove('border-emerald-500', 'bg-emerald-500/10', 'text-emerald-700', 'dark:text-emerald-400');
+            btn.classList.add('border-slate-200', 'dark:border-slate-700', 'bg-slate-50', 'dark:bg-slate-900', 'text-slate-700', 'dark:text-slate-200');
+          }
+        });
+      }
+
+      function renderResistor() {
+        var raw = resInput.value;
+        var cleanLabel = raw.trim().toUpperCase();
+        syncPresetButtons('.res-preset-btn', 'data-res-preset', cleanLabel);
+        // Update live SVG silkscreen
+        if (chipText) {
+          var displayCode = cleanLabel || '---';
+          chipText.textContent = displayCode;
+          if (displayCode.length >= 6) {
+            chipText.setAttribute('font-size', '22');
+          } else if (displayCode.length === 5) {
+            chipText.setAttribute('font-size', '26');
+          } else if (displayCode.length === 4) {
+            chipText.setAttribute('font-size', '30');
+          } else {
+            chipText.setAttribute('font-size', '36');
+          }
+        }
+
+        var result = decodeResistorCode(raw);
+        if (!result.valid) {
+          resValueDisplay.textContent = result.empty ? '—' : 'Invalid Code';
+          resValueDisplay.classList.remove('text-emerald-700', 'dark:text-emerald-400');
+          resValueDisplay.classList.add('text-amber-600', 'dark:text-amber-400');
+          resStatusNotice.textContent = result.error;
+          resStatusNotice.classList.remove('hidden');
+          resMetaGrid.classList.add('hidden');
+          resScalesRow.classList.add('hidden');
+          currentResistorCopy = '';
+          return;
+        }
+
+        resValueDisplay.classList.add('text-emerald-700', 'dark:text-emerald-400');
+        resValueDisplay.classList.remove('text-amber-600', 'dark:text-amber-400');
+        resStatusNotice.classList.add('hidden');
+        resMetaGrid.classList.remove('hidden');
+        resScalesRow.classList.remove('hidden');
+
+        resValueDisplay.textContent = result.formatted;
+        resStdDisplay.textContent = result.standard;
+        resTolDisplay.textContent = result.tolerance;
+        resFormulaDisplay.textContent = result.formula;
+
+        if (result.note) {
+          resNoteDisplay.textContent = result.note;
+          resNoteWrapper.classList.remove('hidden');
+        } else {
+          resNoteWrapper.classList.add('hidden');
+        }
+
+        resOhmsExact.textContent = formatNumberWithCommas(result.ohms) + ' Ω';
+        resKohmsExact.textContent = formatExactDecimal(result.ohms / 1e3) + ' kΩ';
+        resMohmsExact.textContent = formatExactDecimal(result.ohms / 1e6) + ' MΩ';
+
+        currentResistorCopy = 'SMD Code ' + result.code + ' = ' + result.formatted + ' [' + result.standard + ', ' + result.tolerance + ']';
+      }
+
+      if (resInput) {
+        resInput.addEventListener('input', renderResistor);
+        renderResistor();
+      }
+      if (resClear) {
+        resClear.addEventListener('click', function () {
+          resInput.value = '';
+          resInput.focus();
+          renderResistor();
+        });
+      }
+      document.querySelectorAll('.res-preset-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          resInput.value = btn.getAttribute('data-res-preset');
+          renderResistor();
+        });
+      });
+      setupCopy('copy-resistor-btn', 'copy-resistor-label', function () {
+        return currentResistorCopy;
+      });
+
+      // 4. TAB 2: SMD Capacitor (MLCC) Decoder UI
+      var capInput = document.getElementById('cap-input');
+      var capClear = document.getElementById('cap-clear');
+      var capPrimarySummary = document.getElementById('cap-primary-summary');
+      var capStatusNotice = document.getElementById('cap-status-notice');
+      var capUnitsGrid = document.getElementById('cap-units-grid');
+      var capMetaGrid = document.getElementById('cap-meta-grid');
+      var capPfDisplay = document.getElementById('cap-pf-display');
+      var capNfDisplay = document.getElementById('cap-nf-display');
+      var capUfDisplay = document.getElementById('cap-uf-display');
+      var capTolDisplay = document.getElementById('cap-tol-display');
+      var capDielectricDisplay = document.getElementById('cap-dielectric-display');
+      var capFormulaDisplay = document.getElementById('cap-formula-display');
+      var currentCapCopy = '';
+
+      function renderCapacitor() {
+        var cleanCap = capInput.value.trim().toUpperCase();
+        syncPresetButtons('.cap-preset-btn', 'data-cap-preset', cleanCap);
+        var result = decodeCapacitorCode(capInput.value);
+        if (!result.valid) {
+          capPrimarySummary.textContent = result.empty ? '—' : 'Invalid Code';
+          capPrimarySummary.classList.remove('text-emerald-700', 'dark:text-emerald-400');
+          capPrimarySummary.classList.add('text-amber-600', 'dark:text-amber-400');
+          capStatusNotice.textContent = result.error;
+          capStatusNotice.classList.remove('hidden');
+          capUnitsGrid.classList.add('hidden');
+          capMetaGrid.classList.add('hidden');
+          currentCapCopy = '';
+          return;
+        }
+
+        capPrimarySummary.classList.add('text-emerald-700', 'dark:text-emerald-400');
+        capPrimarySummary.classList.remove('text-amber-600', 'dark:text-amber-400');
+        capStatusNotice.classList.add('hidden');
+        capUnitsGrid.classList.remove('hidden');
+        capMetaGrid.classList.remove('hidden');
+
+        capPrimarySummary.textContent = result.primarySummary;
+        capPfDisplay.textContent = result.pfFormatted;
+        capNfDisplay.textContent = result.nfFormatted;
+        capUfDisplay.textContent = result.ufFormatted;
+        capTolDisplay.textContent = result.tolerance;
+        capDielectricDisplay.textContent = result.dielectric;
+        capFormulaDisplay.textContent = result.formula;
+
+        currentCapCopy = 'SMD Capacitor ' + result.code + ' = ' + result.pfFormatted + ' / ' + result.nfFormatted + ' / ' + result.ufFormatted + ' (' + result.tolerance + ')';
+      }
+
+      if (capInput) {
+        capInput.addEventListener('input', renderCapacitor);
+        renderCapacitor();
+      }
+      if (capClear) {
+        capClear.addEventListener('click', function () {
+          capInput.value = '';
+          capInput.focus();
+          renderCapacitor();
+        });
+      }
+      document.querySelectorAll('.cap-preset-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          capInput.value = btn.getAttribute('data-cap-preset');
+          renderCapacitor();
+        });
+      });
+      setupCopy('copy-cap-btn', 'copy-cap-label', function () {
+        return currentCapCopy;
+      });
+
+      // 5. TAB 3: LED Series Resistor & SMD Package Advisor UI
+      var ledVs = document.getElementById('led-vs');
+      var ledVf = document.getElementById('led-vf');
+      var ledIf = document.getElementById('led-if');
+      var ledCount = document.getElementById('led-count');
+      var ledWarningBanner = document.getElementById('led-warning-banner');
+      var ledWarningText = document.getElementById('led-warning-text');
+      var ledE24Display = document.getElementById('led-e24-display');
+      var ledExactDisplay = document.getElementById('led-exact-display');
+      var ledCodesDisplay = document.getElementById('led-codes-display');
+      var ledPackageDisplay = document.getElementById('led-package-display');
+      var ledActualIfDisplay = document.getElementById('led-actual-if-display');
+      var ledPowerDisplay = document.getElementById('led-power-display');
+      var ledPowerDerated = document.getElementById('led-power-derated');
+      var ledMetricsGrid = document.getElementById('led-metrics-grid');
+      var currentLedCopy = '';
+
+      function renderLed() {
+        var vfNum = parseFloat(ledVf.value);
+        syncPresetButtons('.led-vf-btn', 'data-vf', isNaN(vfNum) ? '' : vfNum.toFixed(1));
+        var result = calculateLedResistor(ledVs.value, ledVf.value, ledIf.value, ledCount.value);
+        if (!result.valid) {
+          ledWarningText.textContent = result.error;
+          ledWarningBanner.classList.remove('hidden');
+          ledE24Display.textContent = '—';
+          ledExactDisplay.textContent = '';
+          ledMetricsGrid.classList.add('opacity-50');
+          ledCodesDisplay.textContent = '—';
+          ledPackageDisplay.textContent = '—';
+          ledActualIfDisplay.textContent = '—';
+          ledPowerDisplay.textContent = '—';
+          ledPowerDerated.textContent = '—';
+          currentLedCopy = '';
+          return;
+        }
+
+        ledWarningBanner.classList.add('hidden');
+        ledMetricsGrid.classList.remove('opacity-50');
+        ledE24Display.textContent = result.e24Formatted;
+        ledExactDisplay.textContent = '(Exact: ' + result.exactFormatted + ')';
+        ledCodesDisplay.textContent = result.code3 + ' / ' + result.code4;
+        ledPackageDisplay.textContent = result.packageDisplay;
+        ledActualIfDisplay.textContent = result.actualIfMa.toFixed(2) + ' mA';
+        ledPowerDisplay.textContent = result.powerMw.toFixed(2) + ' mW';
+        ledPowerDerated.textContent = '2× derated req: ' + result.requiredRatedMw.toFixed(2) + ' mW';
+
+        currentLedCopy = 'LED Resistor: ' + result.e24Formatted + ' (SMD ' + result.code3 + ' / ' + result.code4 + '), Actual If = ' + result.actualIfMa.toFixed(2) + ' mA, Power = ' + result.powerMw.toFixed(2) + ' mW, Min Package = ' + result.packageDisplay;
+      }
+
+      [ledVs, ledVf, ledIf, ledCount].forEach(function (el) {
+        if (el) el.addEventListener('input', renderLed);
+      });
+      document.querySelectorAll('.led-vf-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          ledVf.value = btn.getAttribute('data-vf');
+          renderLed();
+        });
+      });
+      if (ledVs) renderLed();
+      setupCopy('copy-led-btn', 'copy-led-label', function () {
+        return currentLedCopy;
+      });
+    })(typeof window !== 'undefined' ? window : globalThis);
+  </script>
+</body>
+</html>
+
