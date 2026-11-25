@@ -117,6 +117,29 @@
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5" aria-hidden="true"><line x1="2" y1="12" x2="6" y2="12"/><rect x="6" y="7" width="12" height="10" rx="2"/><line x1="9" y1="7" x2="9" y2="17"/><line x1="12" y1="7" x2="12" y2="17"/><line x1="15" y1="7" x2="15" y2="17"/><line x1="18" y1="12" x2="22" y2="12"/></svg>',
     },
     {
+      id: 'smd-decoder',
+      title: 'SMD Resistor & Capacitor Code Decoder',
+      shortTitle: 'SMD Code Decoder',
+      category: 'Electronics',
+      description:
+        'Decode 3-digit, 4-digit, R-notation, and EIA-96 SMD resistor markings, convert MLCC capacitor codes, and size LED series resistors with standard E24 values.',
+      url: '/tools/smd-decoder/',
+      keywords: [
+        'smd resistor code',
+        'eia-96 calculator',
+        'smd capacitor decoder',
+        '3 digit resistor',
+        '4 digit resistor',
+        'mlcc capacitor code',
+        'led series resistor',
+        'pcb repair',
+      ],
+      badge: 'EIA-96 & MLCC',
+      featured: false,
+      iconSvg:
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5" aria-hidden="true"><rect x="6" y="7" width="12" height="10" rx="1.5"/><path d="M2 9h4M2 15h4M18 9h4M18 15h4"/><line x1="10" y1="12" x2="14" y2="12"/></svg>',
+    },
+    {
       id: 'ps5-storage-calculator',
       title: 'PS5 "Can I Fit GTA 6?" Storage Calculator & Visualizer',
       shortTitle: 'PS5 Storage Calc',
