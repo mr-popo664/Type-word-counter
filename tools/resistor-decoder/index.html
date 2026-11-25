@@ -262,6 +262,109 @@
             <p class="text-sm sm:text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
               Precision metal-film resistors use 5 or 6 bands because tighter tolerances (such as <span class="font-mono text-xs">±1%</span> Brown or <span class="font-mono text-xs">±0.1%</span> Violet) require three significant digits: <span class="font-mono text-xs">(100 × D1 + 10 × D2 + D3) × 10^M</span>. A 6th band specifies the Temperature Coefficient of Resistance (TCR) in <span class="font-mono text-xs">ppm/K</span>. For example, a Brown 6th band (<span class="font-mono text-xs">100 ppm/K</span>) shifts resistance by at most <span class="font-mono text-xs">0.01%</span> per degree Celsius, making it ideal for precision op-amp gain dividers and instrumentation amplifiers.
             </p>
+
+            <h3 class="text-base sm:text-lg font-semibold text-slate-900 dark:text-zinc-100 pt-2">
+              IEC 60062 Resistor Color Code Reference Chart
+            </h3>
+            <div class="mt-surface rounded-xl overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                <thead>
+                  <tr class="border-b border-slate-200 dark:border-zinc-800 bg-slate-50/80 dark:bg-zinc-900/60 text-slate-900 dark:text-zinc-100 font-semibold">
+                    <th class="py-3 px-4">Band Color</th>
+                    <th class="py-3 px-4">Digit (D1–D3)</th>
+                    <th class="py-3 px-4">Multiplier</th>
+                    <th class="py-3 px-4">Tolerance</th>
+                    <th class="py-3 px-4">TCR (6th Band)</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 dark:divide-zinc-800 text-slate-600 dark:text-zinc-400">
+                  <tr>
+                    <td class="py-2.5 px-4 font-medium text-slate-900 dark:text-zinc-100 flex items-center gap-2"><span class="inline-block w-3 h-3 rounded-full bg-zinc-950 border border-slate-400"></span>Black</td>
+                    <td class="py-2.5 px-4 font-mono">0</td>
+                    <td class="py-2.5 px-4 font-mono">×1 Ω (10⁰)</td>
+                    <td class="py-2.5 px-4">—</td>
+                    <td class="py-2.5 px-4 font-mono">250 ppm/K</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-4 font-medium text-slate-900 dark:text-zinc-100 flex items-center gap-2"><span class="inline-block w-3 h-3 rounded-full bg-amber-900 border border-slate-400"></span>Brown</td>
+                    <td class="py-2.5 px-4 font-mono">1</td>
+                    <td class="py-2.5 px-4 font-mono">×10 Ω (10¹)</td>
+                    <td class="py-2.5 px-4 font-mono">±1% (F)</td>
+                    <td class="py-2.5 px-4 font-mono">100 ppm/K</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-4 font-medium text-slate-900 dark:text-zinc-100 flex items-center gap-2"><span class="inline-block w-3 h-3 rounded-full bg-red-600 border border-slate-400"></span>Red</td>
+                    <td class="py-2.5 px-4 font-mono">2</td>
+                    <td class="py-2.5 px-4 font-mono">×100 Ω (10²)</td>
+                    <td class="py-2.5 px-4 font-mono">±2% (G)</td>
+                    <td class="py-2.5 px-4 font-mono">50 ppm/K</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-4 font-medium text-slate-900 dark:text-zinc-100 flex items-center gap-2"><span class="inline-block w-3 h-3 rounded-full bg-orange-500 border border-slate-400"></span>Orange</td>
+                    <td class="py-2.5 px-4 font-mono">3</td>
+                    <td class="py-2.5 px-4 font-mono">×1 kΩ (10³)</td>
+                    <td class="py-2.5 px-4 font-mono">±0.05% (W)</td>
+                    <td class="py-2.5 px-4 font-mono">15 ppm/K</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-4 font-medium text-slate-900 dark:text-zinc-100 flex items-center gap-2"><span class="inline-block w-3 h-3 rounded-full bg-yellow-400 border border-slate-400"></span>Yellow</td>
+                    <td class="py-2.5 px-4 font-mono">4</td>
+                    <td class="py-2.5 px-4 font-mono">×10 kΩ (10⁴)</td>
+                    <td class="py-2.5 px-4 font-mono">±0.02% (P)</td>
+                    <td class="py-2.5 px-4 font-mono">25 ppm/K</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-4 font-medium text-slate-900 dark:text-zinc-100 flex items-center gap-2"><span class="inline-block w-3 h-3 rounded-full bg-green-600 border border-slate-400"></span>Green</td>
+                    <td class="py-2.5 px-4 font-mono">5</td>
+                    <td class="py-2.5 px-4 font-mono">×100 kΩ (10⁵)</td>
+                    <td class="py-2.5 px-4 font-mono">±0.5% (D)</td>
+                    <td class="py-2.5 px-4 font-mono">20 ppm/K</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-4 font-medium text-slate-900 dark:text-zinc-100 flex items-center gap-2"><span class="inline-block w-3 h-3 rounded-full bg-blue-600 border border-slate-400"></span>Blue</td>
+                    <td class="py-2.5 px-4 font-mono">6</td>
+                    <td class="py-2.5 px-4 font-mono">×1 MΩ (10⁶)</td>
+                    <td class="py-2.5 px-4 font-mono">±0.25% (C)</td>
+                    <td class="py-2.5 px-4 font-mono">10 ppm/K</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-4 font-medium text-slate-900 dark:text-zinc-100 flex items-center gap-2"><span class="inline-block w-3 h-3 rounded-full bg-violet-600 border border-slate-400"></span>Violet</td>
+                    <td class="py-2.5 px-4 font-mono">7</td>
+                    <td class="py-2.5 px-4 font-mono">×10 MΩ (10⁷)</td>
+                    <td class="py-2.5 px-4 font-mono">±0.1% (B)</td>
+                    <td class="py-2.5 px-4 font-mono">5 ppm/K</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-4 font-medium text-slate-900 dark:text-zinc-100 flex items-center gap-2"><span class="inline-block w-3 h-3 rounded-full bg-slate-500 border border-slate-400"></span>Grey</td>
+                    <td class="py-2.5 px-4 font-mono">8</td>
+                    <td class="py-2.5 px-4 font-mono">×100 MΩ (10⁸)</td>
+                    <td class="py-2.5 px-4 font-mono">±0.01% (L)</td>
+                    <td class="py-2.5 px-4 font-mono">1 ppm/K</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-4 font-medium text-slate-900 dark:text-zinc-100 flex items-center gap-2"><span class="inline-block w-3 h-3 rounded-full bg-white border border-slate-400"></span>White</td>
+                    <td class="py-2.5 px-4 font-mono">9</td>
+                    <td class="py-2.5 px-4 font-mono">×1 GΩ (10⁹)</td>
+                    <td class="py-2.5 px-4">—</td>
+                    <td class="py-2.5 px-4">—</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-4 font-medium text-slate-900 dark:text-zinc-100 flex items-center gap-2"><span class="inline-block w-3 h-3 rounded-full bg-amber-400 border border-slate-400"></span>Gold</td>
+                    <td class="py-2.5 px-4">—</td>
+                    <td class="py-2.5 px-4 font-mono">×0.1 Ω (10⁻¹)</td>
+                    <td class="py-2.5 px-4 font-mono">±5% (J)</td>
+                    <td class="py-2.5 px-4">—</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-4 font-medium text-slate-900 dark:text-zinc-100 flex items-center gap-2"><span class="inline-block w-3 h-3 rounded-full bg-slate-300 border border-slate-400"></span>Silver</td>
+                    <td class="py-2.5 px-4">—</td>
+                    <td class="py-2.5 px-4 font-mono">×0.01 Ω (10⁻²)</td>
+                    <td class="py-2.5 px-4 font-mono">±10% (K)</td>
+                    <td class="py-2.5 px-4">—</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </section>
 
           <section class="space-y-4 pt-8 border-t border-slate-200 dark:border-zinc-800">
@@ -281,6 +384,17 @@
                   Evaluate worst-case min/max voltage divider drift using the Tolerance Range readout before finalizing ADC sensor scaling schematics.
                 </p>
               </div>
+            </div>
+            <div class="mt-surface rounded-xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="space-y-1">
+                <h3 class="text-sm font-semibold text-slate-900 dark:text-zinc-100">Working with Surface-Mount (SMD) PCBs?</h3>
+                <p class="text-sm text-slate-600 dark:text-zinc-400">
+                  Chip resistors on modern motherboards and SMD boards use printed 3-digit, 4-digit, R-notation, or EIA-96 codes instead of color rings.
+                </p>
+              </div>
+              <a href="/tools/smd-decoder/" class="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-semibold whitespace-nowrap transition-colors">
+                Open SMD Code Decoder &rarr;
+              </a>
             </div>
           </section>
 
