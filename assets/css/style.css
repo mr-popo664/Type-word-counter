@@ -205,3 +205,14 @@ html.dark .mt-grid-backdrop {
     scroll-behavior: auto !important;
   }
 }
+
+/* Reserve navbar height before layout.js populates #site-header to prevent CLS */
+#site-header:empty {
+  display: block;
+  min-height: 56px;
+}
+@media (min-width: 640px) {
+  #site-header:empty {
+    min-height: 64px;
+  }
+}
