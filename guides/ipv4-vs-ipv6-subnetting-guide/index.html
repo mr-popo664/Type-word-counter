@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IPv4 vs. IPv6 Subnetting Guide: CIDR & RFC 5952 Rules</title>
+    <meta name="description" content="Learn IPv4 CIDR subnet masks, VLSM host math, IPv6 /48 and /64 prefix allocation, and RFC 5952 canonical address compression with examples." />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="https://mohit-tools.com/guides/ipv4-vs-ipv6-subnetting-guide/" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Mohit Tools" />
+    <meta property="og:title" content="IPv4 vs. IPv6 Subnetting Guide: CIDR & RFC 5952 Rules" />
+    <meta property="og:description" content="Learn IPv4 CIDR subnet masks, VLSM host math, IPv6 /48 and /64 prefix allocation, and RFC 5952 canonical address compression with examples." />
+    <meta property="og:url" content="https://mohit-tools.com/guides/ipv4-vs-ipv6-subnetting-guide/" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="IPv4 vs. IPv6 Subnetting Guide: CIDR & RFC 5952 Rules" />
+    <meta name="twitter:description" content="Learn IPv4 CIDR subnet masks, VLSM host math, IPv6 /48 and /64 prefix allocation, and RFC 5952 canonical address compression with examples." />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "IPv4 vs. IPv6 Subnetting Guide: CIDR Masks, /64 Prefixes & RFC 5952 Compression",
+        "datePublished": "2026-11-28",
+        "dateModified": "2026-11-28",
+        "author": { "@type": "Person", "name": "Mohit Sonar" },
+        "publisher": { "@type": "Organization", "name": "Mohit Tools", "url": "https://mohit-tools.com/" },
+        "mainEntityOfPage": "https://mohit-tools.com/guides/ipv4-vs-ipv6-subnetting-guide/"
+      }
+    </script>
+
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('mt_theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (saved === 'dark' || (!saved && prefersDark)) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+            },
+          },
+        },
+      };
+    </script>
+
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-83D8V0E26W"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-83D8V0E26W');
+    </script>
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6956638858546916" crossorigin="anonymous"></script>
+  </head>
+  <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased min-h-screen flex flex-col">
+    <header class="sticky top-0 z-30 border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-950/95 backdrop-blur-md">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-4">
+        <a href="/" class="text-lg font-bold tracking-tight text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400">
+          Mohit Tools
+        </a>
+        <nav aria-label="Main navigation" class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300">
+          <a href="/" class="hover:text-slate-900 dark:hover:text-white">Home</a>
+          <a href="/#tools-directory" class="hover:text-slate-900 dark:hover:text-white">All Tools</a>
+          <a href="/guides/" class="text-indigo-600 dark:text-indigo-400 font-semibold">Guides</a>
+          <a href="/about.html" class="hover:text-slate-900 dark:hover:text-white">About</a>
+          <a href="/contact.html" class="hover:text-slate-900 dark:hover:text-white">Contact</a>
+        </nav>
+        <button
+          id="theme-toggle-btn"
+          type="button"
+          class="min-h-[40px] px-3.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+        >
+          <span id="theme-label">Dark</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-6 pt-6 pb-16">
+      <nav aria-label="Breadcrumb" class="mb-4 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+        <ol class="flex flex-wrap items-center gap-1.5">
+          <li><a href="/" class="hover:text-indigo-600 dark:hover:text-indigo-400">Home</a></li>
+          <li aria-hidden="true">/</li>
+          <li><a href="/guides/" class="hover:text-indigo-600 dark:hover:text-indigo-400">Guides</a></li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page" class="text-slate-800 dark:text-slate-200 font-medium">IPv4 vs. IPv6 Subnetting</li>
+        </ol>
+      </nav>
+      
+      <article class="space-y-8 text-slate-700 dark:text-slate-300 leading-relaxed">
+        <header class="space-y-3 border-b border-slate-200 dark:border-slate-800 pb-6">
+          <div class="flex flex-wrap items-center gap-2 text-xs font-mono text-indigo-600 dark:text-indigo-400">
+            <span>BY MOHIT SONAR</span>
+            <span>&middot;</span>
+            <time datetime="2026-11-28">NOVEMBER 28, 2026</time>
+            <span>&middot;</span>
+            <span>6 MIN READ</span>
+          </div>
+          <h1 class="text-2xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
+            IPv4 vs. IPv6 Subnetting Guide: CIDR Masks, /64 Prefixes &amp; RFC 5952 Compression
+          </h1>
+          <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300">
+            A practical reference for networking students and engineers comparing 32-bit IPv4 CIDR subnetting with 128-bit IPv6 prefix allocation and canonical address formatting.
+          </p>
+        </header>
+
+        <div class="rounded-2xl border border-indigo-200 dark:border-indigo-900/70 bg-indigo-50/70 dark:bg-indigo-950/30 p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="space-y-1">
+            <p class="text-sm font-bold text-slate-900 dark:text-white">Practice subnet calculations interactively in your browser</p>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">Verify binary masks, host ranges, and RFC 5952 IPv6 compression instantaneously.</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <a href="/tools/subnet-calculator/" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-semibold">IPv4 Calc</a>
+            <a href="/tools/ipv6-subnet-calculator/" class="px-4 py-2 rounded-xl border border-indigo-300 dark:border-indigo-700 bg-white dark:bg-slate-900 text-indigo-700 dark:text-indigo-300 text-xs sm:text-sm font-semibold">IPv6 Calc</a>
+          </div>
+        </div>
+
+        <section class="space-y-4">
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">1. Core Architectural Differences Between IPv4 and IPv6</h2>
+          <p>
+            Internet Protocol version 4 (IPv4) uses 32-bit addresses written in dotted-decimal notation (such as <code class="font-mono text-xs bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded">192.168.10.0/24</code>), providing $2^{32}$ (4,294,967,296) total addresses. Because public IPv4 space is exhausted, networks rely heavily on Network Address Translation (NAT) and Variable Length Subnet Masking (VLSM) to conserve every usable host IP.
+          </p>
+          <p>
+            Internet Protocol version 6 (IPv6) expands address length to 128 bits written as eight 16-bit hexadecimal groups separated by colons (such as <code class="font-mono text-xs bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded">2001:db8:85a3::8a2e:370:7334</code>). Instead of conserving individual host addresses, IPv6 subnetting focuses on clean hierarchical routing across nibble boundaries (4-bit hex digits).
+          </p>
+          <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+            <table class="w-full text-left border-collapse text-xs sm:text-sm">
+              <thead>
+                <tr class="border-b border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-white">
+                  <th class="py-3 px-3.5 font-semibold">Feature</th>
+                  <th class="py-3 px-3.5 font-semibold">IPv4 (RFC 4632)</th>
+                  <th class="py-3 px-3.5 font-semibold">IPv6 (RFC 5952)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+                <tr>
+                  <td class="py-2.5 px-3.5 font-medium text-slate-900 dark:text-white">Address Bit Length</td>
+                  <td class="py-2.5 px-3.5 font-mono">32 bits (4 octets)</td>
+                  <td class="py-2.5 px-3.5 font-mono">128 bits (8 hextets)</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3.5 font-medium text-slate-900 dark:text-white">Standard LAN Subnet</td>
+                  <td class="py-2.5 px-3.5 font-mono">/24 (254 usable hosts)</td>
+                  <td class="py-2.5 px-3.5 font-mono">/64 (2<sup>64</sup> interface IDs)</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3.5 font-medium text-slate-900 dark:text-white">Broadcast Traffic</td>
+                  <td class="py-2.5 px-3.5">Yes (last address in subnet)</td>
+                  <td class="py-2.5 px-3.5">None (replaced by Multicast <code class="font-mono text-xs">ff00::/8</code>)</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3.5 font-medium text-slate-900 dark:text-white">Auto-Configuration</td>
+                  <td class="py-2.5 px-3.5">DHCPv4</td>
+                  <td class="py-2.5 px-3.5">SLAAC (requires <code class="font-mono text-xs">/64</code>) or DHCPv6</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="space-y-4">
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">2. How IPv4 CIDR &amp; Usable Host Math Works</h2>
+          <p>
+            In IPv4, a CIDR prefix like <code class="font-mono text-xs bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded">/26</code> locks the first 26 bits as the network ID and leaves $32 - 26 = 6$ host bits. That produces $2^6 = 64$ total IP addresses per block (block size = 64). Subtracting the network address (all host bits <code class="font-mono text-xs">0</code>) and the broadcast address (all host bits <code class="font-mono text-xs">1</code>) leaves <code class="font-mono text-xs">62</code> usable host addresses. Use our <a href="/tools/subnet-calculator/" class="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">Visual IPv4 Subnet Calculator</a> to inspect the exact binary bitmask and wildcard mask for any prefix from <code class="font-mono text-xs">/1</code> to <code class="font-mono text-xs">/32</code>.
+          </p>
+        </section>
+
+        <section class="space-y-4">
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">3. IPv6 Prefix Allocation (/48, /56, /64) &amp; RFC 5952 Rules</h2>
+          <p>
+            In IPv6, Regional Internet Registries assign <code class="font-mono text-xs bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded">/32</code> blocks to ISPs, enterprises receive <code class="font-mono text-xs bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded">/48</code> site prefixes (providing 65,536 individual <code class="font-mono text-xs">/64</code> LAN subnets), and residential broadband routers receive <code class="font-mono text-xs bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded">/56</code> prefixes (256 LAN subnets). Because Stateless Address Autoconfiguration (SLAAC) relies on a 64-bit Interface Identifier, standard local networks are always sized to <code class="font-mono text-xs">/64</code>.
+          </p>
+          <p>
+            Under <strong>RFC 5952</strong>, canonical IPv6 text formatting requires lowercase hexadecimal digits, suppression of leading zeros inside each 16-bit group (<code class="font-mono text-xs">0db8</code> becomes <code class="font-mono text-xs">db8</code>), and using <code class="font-mono text-xs">::</code> only once for the longest run of two or more consecutive all-zero groups. Test any compressed or expanded address in our <a href="/tools/ipv6-subnet-calculator/" class="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">IPv6 Subnet Calculator</a>.
+          </p>
+        </section>
+      </article>
+
+    </main>
+
+    <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 mt-auto">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-1 sm:grid-cols-3 gap-8 text-sm">
+        <div class="space-y-2">
+          <a href="/" class="text-base font-bold text-slate-900 dark:text-white">Mohit Tools</a>
+          <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+            Privacy-first, 100% client-side browser utilities and technical documentation built by Mohit Sonar.
+          </p>
+        </div>
+        <div class="space-y-2">
+          <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white">Popular Tools</h3>
+          <ul class="space-y-1.5 text-xs text-slate-600 dark:text-slate-400">
+            <li><a href="/tools/exam-photo-resizer/" class="hover:text-indigo-600 dark:hover:text-indigo-400">Exam Photo, Signature &amp; PDF Resizer</a></li>
+            <li><a href="/tools/ipv6-subnet-calculator/" class="hover:text-indigo-600 dark:hover:text-indigo-400">IPv6 Subnet Calculator</a></li>
+            <li><a href="/tools/subnet-calculator/" class="hover:text-indigo-600 dark:hover:text-indigo-400">IPv4 CIDR Subnet Calculator</a></li>
+            <li><a href="/tools/smd-decoder/" class="hover:text-indigo-600 dark:hover:text-indigo-400">SMD &amp; Resistor Decoders</a></li>
+          </ul>
+        </div>
+        <div class="space-y-2">
+          <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white">Platform &amp; Policies</h3>
+          <ul class="space-y-1.5 text-xs text-slate-600 dark:text-slate-400">
+            <li><a href="/guides/" class="hover:text-indigo-600 dark:hover:text-indigo-400">Technical Guides</a></li>
+            <li><a href="/about.html" class="hover:text-indigo-600 dark:hover:text-indigo-400">About</a></li>
+            <li><a href="/contact.html" class="hover:text-indigo-600 dark:hover:text-indigo-400">Contact</a></li>
+            <li><a href="/privacy-policy.html" class="hover:text-indigo-600 dark:hover:text-indigo-400">Privacy Policy</a></li>
+            <li><a href="/terms.html" class="hover:text-indigo-600 dark:hover:text-indigo-400">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-slate-200 dark:border-slate-800 py-5 px-4 text-center text-xs text-slate-500 dark:text-slate-400">
+        &copy; 2026 Mohit Tools (mohit-tools.com). All rights reserved.
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        var btn = document.getElementById('theme-toggle-btn');
+        var lbl = document.getElementById('theme-label');
+        function sync() {
+          lbl.textContent = document.documentElement.classList.contains('dark') ? 'Light' : 'Dark';
+        }
+        sync();
+        btn.addEventListener('click', function () {
+          var dark = document.documentElement.classList.toggle('dark');
+          try { localStorage.setItem('mt_theme', dark ? 'dark' : 'light'); } catch (e) {}
+          sync();
+        });
+      })();
+    </script>
+  </body>
+</html>
