@@ -54,6 +54,30 @@
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5" aria-hidden="true"><rect x="2" y="3" width="6" height="5" rx="1"/><rect x="16" y="3" width="6" height="5" rx="1"/><rect x="9" y="16" width="6" height="5" rx="1"/><path d="M5 8v3a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8"/><line x1="12" y1="12" x2="12" y2="16"/></svg>',
     },
     {
+      id: 'ipv6-subnet-calculator',
+      title: 'IPv6 Subnet Calculator & Address Compressor',
+      shortTitle: 'IPv6 Subnet Calc',
+      category: 'Networking',
+      description:
+        'Calculate IPv6 network prefixes, usable /64 subnets, RFC 5952 canonical compression, and Modified EUI-64 link-local addresses with live 128-bit hextet visualization.',
+      url: '/tools/ipv6-subnet-calculator/',
+      keywords: [
+        'ipv6',
+        'ipv6 subnet calculator',
+        'cidr',
+        'rfc 5952',
+        'ipv6 compressor',
+        'eui-64',
+        'mac to ipv6',
+        '128-bit visualizer',
+        'ip6.arpa',
+      ],
+      badge: '128-Bit BigInt',
+      featured: false,
+      iconSvg:
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5" aria-hidden="true"><rect x="2" y="3" width="6" height="5" rx="1"/><rect x="16" y="3" width="6" height="5" rx="1"/><rect x="9" y="16" width="6" height="5" rx="1"/><path d="M5 8v3a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8"/><line x1="12" y1="12" x2="12" y2="16"/></svg>',
+    },
+    {
       id: 'safe-zone-checker',
       title: 'TikTok, Reels & Shorts Safe-Zone Overlay Checker',
       shortTitle: 'Safe-Zone Checker',
