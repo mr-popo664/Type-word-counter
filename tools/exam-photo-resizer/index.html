@@ -1,0 +1,2898 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exam Photo, Signature &amp; PDF Resizer (SSC, UPSC, NEET)</title>
+    <meta
+      name="description"
+      content="Resize exam photos, signatures (10-20KB, 20-100KB), and scanned PDFs (under 256KB) with exact pixels and 200/300 DPI for SSC, UPSC, NEET, and college forms."
+    />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="https://mohit-tools.com/tools/exam-photo-resizer/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mohit Tools" />
+    <meta property="og:title" content="Exam Photo, Signature &amp; PDF Resizer (SSC, UPSC, NEET)" />
+    <meta
+      property="og:description"
+      content="Resize exam photos, signatures (10-20KB, 20-100KB), and scanned PDFs (under 256KB) with exact pixels and 200/300 DPI for SSC, UPSC, NEET, and college forms."
+    />
+    <meta property="og:url" content="https://mohit-tools.com/tools/exam-photo-resizer/" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Exam Photo, Signature &amp; PDF Resizer (SSC, UPSC, NEET)" />
+    <meta
+      name="twitter:description"
+      content="Resize exam photos, signatures (10-20KB, 20-100KB), and scanned PDFs (under 256KB) with exact pixels and 200/300 DPI for SSC, UPSC, NEET, and college forms."
+    />
+
+    <!-- Structured Data (@graph) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": ["WebApplication", "SoftwareApplication"],
+            "name": "Exam Photo, Signature & PDF Resizer",
+            "url": "https://mohit-tools.com/tools/exam-photo-resizer/",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Any",
+            "browserRequirements": "Requires JavaScript and HTML5 Canvas",
+            "description": "Client-side tool to resize exam photos, signatures (10-20KB, 20-100KB), and scanned PDFs (under 256KB) with exact pixel dimensions and 200/300/600 DPI for SSC, UPSC, NEET, JEE, RRB, MPSC, MahaDBT, and PAN Card forms.",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "INR"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Mohit Tools",
+              "url": "https://mohit-tools.com/"
+            }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://mohit-tools.com/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Tools",
+                "item": "https://mohit-tools.com/#tools-directory"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Exam Photo, Signature & PDF Resizer",
+                "item": "https://mohit-tools.com/tools/exam-photo-resizer/"
+              }
+            ]
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Are my passport photos, signatures, or Aadhaar marksheets uploaded to any server?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. Every crop, paper-whitening pass, JPEG binary-search compression, JFIF DPI header patch, and PDF merge runs 100% locally inside your browser using HTML5 Canvas and WebAssembly/JavaScript. Zero bytes of your personal documents ever leave your device."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How does this tool keep a crisp signature between 10 KB and 20 KB without going too small?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Government portals like SSC OTR reject files below 10 KB just as strictly as files above 20 KB. First our engine binary-searches JPEG quality to land near the midpoint of your target KB window. If even 98% quality is still smaller than the Min KB floor, it inserts a harmless standard JFIF COM metadata segment so the file sits safely inside the required KB range with zero pixel distortion."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does the downloaded JPG actually carry 200 DPI, 300 DPI, or 600 DPI metadata?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Standard browser canvas exports default to 72 or 96 DPI. After compressing your image, our engine patches bytes 13 to 17 of the JPEG APP0 JFIF header with pixels-per-inch units and the exact big-endian X and Y density (200, 300, or 600 DPI), so Windows File Properties, macOS Preview, and strict portal validators read the required DPI."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How does the UPSC 3x Vertical Signature Stack option work?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "UPSC requires a single 400 x 400 px JPEG (20-100 KB, 300 DPI) showing your signature signed three times vertically one below the other. Simply upload one clear photo of your signature, crop it once in the framing box, and enable the UPSC 3x Vertical Signature Stack toggle to duplicate it cleanly three times vertically inside the 400 x 400 px output."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Will my 12MP to 50MP smartphone camera photo crash or lag my budget Android phone?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. As soon as you select a large smartphone camera photo, the tool automatically pre-downscales it onto an intermediate canvas capped at 2000 px on the longest side while preserving aspect ratio. This prevents mobile browser memory spikes and keeps touch-dragging and slider adjustments smooth."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How do I merge multiple marksheets into one PDF under 256 KB for MahaDBT or NEET?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Switch to the Multi-Image to Target-KB PDF Maker tab, select up to 10 photos of your marksheets or certificates, arrange their page order with Move Up or Move Down, pick 256 KB (MahaDBT) or 300 KB (NEET) from the Max PDF Size Cap selector, and click Generate & Download PDF. The tool automatically calibrates resolution and JPEG compression before building the A4 PDF so the final .pdf stays strictly under your limit."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+
+    <!-- Pre-paint Theme Script to Prevent Flash -->
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('mt_theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (saved === 'dark' || (!saved && prefersDark)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Fonts: Plus Jakarta Sans + JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- pdf-lib via jsDelivr CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js" defer></script>
+
+    <style>
+      body {
+        font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+      }
+      .tabular-nums {
+        font-variant-numeric: tabular-nums;
+      }
+      /* Custom range slider for comfortable touch dragging */
+      input[type='range'] {
+        -webkit-appearance: none;
+        appearance: none;
+        height: 8px;
+        border-radius: 9999px;
+        outline: none;
+      }
+      input[type='range']::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 24px;
+        height: 24px;
+        border-radius: 9999px;
+        background: #4f46e5;
+        border: 3px solid #ffffff;
+        box-shadow: 0 1px 4px rgba(15, 23, 42, 0.3);
+        cursor: pointer;
+      }
+      .dark input[type='range']::-webkit-slider-thumb {
+        background: #818cf8;
+        border-color: #0f172a;
+      }
+      input[type='range']::-moz-range-thumb {
+        width: 24px;
+        height: 24px;
+        border-radius: 9999px;
+        background: #4f46e5;
+        border: 3px solid #ffffff;
+        box-shadow: 0 1px 4px rgba(15, 23, 42, 0.3);
+        cursor: pointer;
+      }
+      .dark input[type='range']::-moz-range-thumb {
+        background: #818cf8;
+        border-color: #0f172a;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased min-h-screen flex flex-col selection:bg-indigo-600 selection:text-white">
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-30 border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-950/95 backdrop-blur-md">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-4 sm:gap-8">
+        <!-- Zone 1: Brand Wordmark -->
+        <a
+          href="/"
+          class="text-lg font-bold tracking-tight text-slate-900 dark:text-white whitespace-nowrap shrink-0 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+        >
+          Mohit Tools
+        </a>
+
+        <!-- Zone 2: Navigation Links (Desktop) -->
+        <nav aria-label="Main navigation" class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300">
+          <a href="/" class="hover:text-slate-900 dark:hover:text-white hover:underline underline-offset-4 whitespace-nowrap shrink-0 transition-colors">Home</a>
+          <a href="/#tools-directory" class="hover:text-slate-900 dark:hover:text-white hover:underline underline-offset-4 whitespace-nowrap shrink-0 transition-colors">All Tools</a>
+          <a href="/about.html" class="hover:text-slate-900 dark:hover:text-white hover:underline underline-offset-4 whitespace-nowrap shrink-0 transition-colors">About</a>
+          <a href="/contact.html" class="hover:text-slate-900 dark:hover:text-white hover:underline underline-offset-4 whitespace-nowrap shrink-0 transition-colors">Contact</a>
+        </nav>
+
+        <!-- Zone 3: Theme Toggle (+ Mobile Menu Button) -->
+        <div class="flex items-center gap-2 shrink-0">
+          <button
+            id="theme-toggle-btn"
+            type="button"
+            aria-label="Toggle dark or light theme"
+            class="min-h-[44px] px-3.5 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 whitespace-nowrap shrink-0 flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+          >
+            <span id="theme-icon-sun" class="hidden dark:inline-flex items-center" aria-hidden="true">
+              <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="4" />
+                <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32 1.41-1.41" />
+              </svg>
+            </span>
+            <span id="theme-icon-moon" class="inline-flex dark:hidden items-center" aria-hidden="true">
+              <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+            </span>
+            <span id="theme-toggle-label">Dark</span>
+          </button>
+
+          <button
+            id="mobile-menu-btn"
+            type="button"
+            aria-label="Open navigation menu"
+            aria-expanded="false"
+            aria-controls="mobile-nav-drawer"
+            class="md:hidden min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Navigation Drawer -->
+      <nav
+        id="mobile-nav-drawer"
+        aria-label="Mobile navigation"
+        class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 px-4 py-3"
+      >
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium text-slate-700 dark:text-slate-200">
+          <a href="/" class="min-h-[44px] inline-flex items-center hover:text-indigo-600 dark:hover:text-indigo-400">Home</a>
+          <a href="/#tools-directory" class="min-h-[44px] inline-flex items-center hover:text-indigo-600 dark:hover:text-indigo-400">All Tools</a>
+          <a href="/about.html" class="min-h-[44px] inline-flex items-center hover:text-indigo-600 dark:hover:text-indigo-400">About</a>
+          <a href="/contact.html" class="min-h-[44px] inline-flex items-center hover:text-indigo-600 dark:hover:text-indigo-400">Contact</a>
+        </div>
+      </nav>
+    </header>
+
+    <div class="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 pt-4 pb-16">
+      <!-- Breadcrumb -->
+      <nav aria-label="Breadcrumb" class="mb-3 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+        <ol class="flex flex-wrap items-center gap-1.5">
+          <li><a href="/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Home</a></li>
+          <li aria-hidden="true" class="text-slate-400 dark:text-slate-600">&gt;</li>
+          <li><a href="/#tools-directory" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Tools</a></li>
+          <li aria-hidden="true" class="text-slate-400 dark:text-slate-600">&gt;</li>
+          <li aria-current="page" class="text-slate-800 dark:text-slate-200 font-medium">Exam Photo, Signature &amp; PDF Resizer</li>
+        </ol>
+      </nav>
+
+      <!-- Hero Header -->
+      <section class="mb-4 sm:mb-5">
+        <p class="text-xs sm:text-sm font-medium text-indigo-600 dark:text-indigo-400 mb-1.5 tracking-tight">
+          Students &amp; Creators <span aria-hidden="true" class="mx-1 text-slate-400 dark:text-slate-600">&middot;</span> 100% Client-Side
+        </p>
+        <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white max-w-3xl" style="text-wrap: balance;">
+          Exam Photo, Signature &amp; Document PDF Resizer
+        </h1>
+        <p class="mt-2 text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed">
+          Resize passport photos, signatures, thumb impressions, and scanned document PDFs to exact KB windows, pixel dimensions, and 200/300 DPI for SSC, UPSC, NEET, JEE, RRB, and college forms&mdash;100% locally in your browser.
+        </p>
+      </section>
+
+      <!-- Interactive Tool Workspace -->
+      <main id="tool-workspace" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm overflow-x-clip">
+        <!-- Workspace Mode Tabs -->
+        <div role="tablist" aria-label="Tool workspace mode" class="grid grid-cols-1 sm:grid-cols-2 border-b border-slate-200 dark:border-slate-800 bg-slate-100/70 dark:bg-slate-950/60 p-1.5 gap-1.5">
+          <button
+            id="tab-btn-photo"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            aria-controls="panel-photo"
+            class="min-h-[44px] px-4 py-2.5 rounded-xl text-sm font-semibold transition-all text-left sm:text-center bg-white dark:bg-slate-800 text-indigo-700 dark:text-indigo-300 shadow-sm border border-slate-200/80 dark:border-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+          >
+            1. Exam Photo &amp; Signature Resizer
+          </button>
+          <button
+            id="tab-btn-pdf"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-pdf"
+            class="min-h-[44px] px-4 py-2.5 rounded-xl text-sm font-semibold transition-all text-left sm:text-center text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+          >
+            2. Multi-Image to Target-KB PDF Maker
+          </button>
+        </div>
+
+        <!-- TAB 1 PANEL: Exam Photo & Signature Resizer -->
+        <section id="panel-photo" role="tabpanel" aria-labelledby="tab-btn-photo" class="p-4 sm:p-5 space-y-4">
+          <!-- Step 1: Preset Selector -->
+          <div class="space-y-2.5">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5">
+              <label for="preset-select" class="text-sm font-semibold text-slate-900 dark:text-white">
+                Step 1 &mdash; Select Exam or Document Preset
+              </label>
+              <span class="text-xs font-mono tabular-nums text-slate-500 dark:text-slate-400">
+                Strict 1024-byte KB engine &middot; JFIF DPI stamp
+              </span>
+            </div>
+
+            <select
+              id="preset-select"
+              class="w-full min-h-[44px] px-3.5 py-2 text-base rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            ></select>
+
+            <!-- Quick Tap Chips -->
+            <div id="preset-chips" class="flex flex-nowrap overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible sm:pb-0 gap-2 pt-0.5" role="group" aria-label="Popular exam presets"></div>
+
+            <!-- Preset / Custom Spec Inputs -->
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 pt-1">
+              <div>
+                <label for="spec-width" class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Width (px)</label>
+                <input
+                  id="spec-width"
+                  type="number"
+                  min="40"
+                  max="3000"
+                  value="480"
+                  class="w-full min-h-[44px] px-3 py-2 text-base font-mono tabular-nums rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+              </div>
+              <div>
+                <label for="spec-height" class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Height (px)</label>
+                <input
+                  id="spec-height"
+                  type="number"
+                  min="40"
+                  max="3000"
+                  value="160"
+                  class="w-full min-h-[44px] px-3 py-2 text-base font-mono tabular-nums rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+              </div>
+              <div>
+                <label for="spec-min-kb" class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Min KB</label>
+                <input
+                  id="spec-min-kb"
+                  type="number"
+                  min="1"
+                  max="2048"
+                  value="10"
+                  class="w-full min-h-[44px] px-3 py-2 text-base font-mono tabular-nums rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+              </div>
+              <div>
+                <label for="spec-max-kb" class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Max KB</label>
+                <input
+                  id="spec-max-kb"
+                  type="number"
+                  min="2"
+                  max="4096"
+                  value="20"
+                  class="w-full min-h-[44px] px-3 py-2 text-base font-mono tabular-nums rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+              </div>
+              <div class="col-span-2 sm:col-span-1">
+                <label for="spec-dpi" class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Target DPI</label>
+                <select
+                  id="spec-dpi"
+                  class="w-full min-h-[44px] px-3 py-2 text-base font-mono tabular-nums rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                >
+                  <option value="200">200 DPI</option>
+                  <option value="300">300 DPI</option>
+                  <option value="600">600 DPI</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <hr class="border-slate-200 dark:border-slate-800" />
+
+          <!-- Workspace 2-Column Split on Desktop, Single Column on Mobile -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <!-- Left Column: Step 2 Upload & Interactive Framing Canvas + Step 3 Adjustments -->
+            <div class="lg:col-span-7 space-y-5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <h2 class="text-sm font-semibold text-slate-900 dark:text-white">
+                  Step 2 &mdash; Upload &amp; Frame Inside Target Box
+                </h2>
+                <span class="text-xs font-medium text-emerald-700 dark:text-emerald-400">
+                  0 KB Uploaded &mdash; Processed Locally in Browser
+                </span>
+              </div>
+
+              <!-- Upload Dropzone -->
+              <div
+                id="photo-dropzone"
+                class="relative rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-950/60 p-5 text-center transition-colors hover:border-indigo-500 dark:hover:border-indigo-400"
+              >
+                <input
+                  id="photo-file-input"
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  class="sr-only"
+                />
+                <div class="space-y-3">
+                  <div class="mx-auto w-11 h-11 rounded-xl bg-indigo-50 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M16 8l-4-4-4 4M12 4v12" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-sm font-semibold text-slate-900 dark:text-white">
+                      Tap to choose photo or signature, or drag and drop
+                    </p>
+                    <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                      JPG, PNG, or WebP &middot; 12MP&ndash;50MP camera photos auto-downscaled safely
+                    </p>
+                  </div>
+                  <div class="flex flex-wrap items-center justify-center gap-2.5 pt-1">
+                    <button
+                      id="photo-pick-btn"
+                      type="button"
+                      class="min-h-[44px] px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+                    >
+                      Select Image File
+                    </button>
+                    <button
+                      id="photo-sample-btn"
+                      type="button"
+                      class="min-h-[44px] px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+                    >
+                      Try Sample
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Interactive Framing Canvas Area (Shown once image loaded) -->
+              <div id="framing-stage" class="hidden space-y-4">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="text-xs font-medium text-slate-600 dark:text-slate-400">
+                    Drag inside frame to position &middot; White canvas fill active
+                  </span>
+                  <button
+                    id="photo-change-btn"
+                    type="button"
+                    class="min-h-[44px] px-3 py-1.5 text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"
+                  >
+                    Replace Image
+                  </button>
+                </div>
+
+                <!-- Framing Viewport -->
+                <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-950 p-3 sm:p-4 flex items-center justify-center">
+                  <canvas
+                    id="framing-canvas"
+                    data-testid="framing-canvas"
+                    class="max-w-full max-h-[340px] rounded-lg border border-slate-300 dark:border-slate-700 bg-white shadow-sm cursor-grab active:cursor-grabbing touch-none select-none"
+                  ></canvas>
+                </div>
+
+                <!-- Zoom & Fit Controls -->
+                <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
+                  <div class="sm:col-span-7 space-y-1.5">
+                    <div class="flex items-center justify-between text-xs">
+                      <label for="zoom-slider" class="font-medium text-slate-700 dark:text-slate-300">Zoom</label>
+                      <span id="zoom-value" class="font-mono tabular-nums text-slate-600 dark:text-slate-400">1.00x</span>
+                    </div>
+                    <input
+                      id="zoom-slider"
+                      type="range"
+                      min="0.5"
+                      max="2.5"
+                      step="0.02"
+                      value="1"
+                      class="w-full bg-slate-200 dark:bg-slate-800"
+                    />
+                  </div>
+                  <div class="sm:col-span-5 flex flex-wrap gap-2 sm:justify-end">
+                    <button
+                      id="fit-white-btn"
+                      type="button"
+                      class="flex-1 sm:flex-none min-h-[44px] px-3.5 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-xs font-semibold text-slate-800 dark:text-slate-100 whitespace-nowrap"
+                    >
+                      Fit Inside White Canvas
+                    </button>
+                    <button
+                      id="fill-frame-btn"
+                      type="button"
+                      class="min-h-[44px] px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-xs font-medium text-slate-700 dark:text-slate-300 whitespace-nowrap"
+                    >
+                      Fill
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 3: Smart Exam Adjustments -->
+              <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/50 p-4 space-y-4">
+                <h2 class="text-sm font-semibold text-slate-900 dark:text-white">
+                  Step 3 &mdash; Smart Exam Adjustments
+                </h2>
+
+                <!-- Signature Paper Whitener -->
+                <div class="space-y-1.5">
+                  <div class="flex items-center justify-between text-xs sm:text-sm">
+                    <label for="whitener-slider" class="font-medium text-slate-800 dark:text-slate-200">
+                      Signature Paper Whitener
+                    </label>
+                    <span id="whitener-value" class="font-mono tabular-nums text-indigo-600 dark:text-indigo-400 font-semibold">0%</span>
+                  </div>
+                  <input
+                    id="whitener-slider"
+                    type="range"
+                    min="0"
+                    max="100"
+                    step="1"
+                    value="0"
+                    class="w-full bg-slate-200 dark:bg-slate-800"
+                  />
+                  <p class="text-xs text-slate-500 dark:text-slate-400">
+                    Turns greyish smartphone paper shadows into pure #FFFFFF while keeping blue or black ink crisp.
+                  </p>
+                </div>
+
+                <!-- UPSC 3x Vertical Stack Toggle -->
+                <div class="flex items-center justify-between gap-4 pt-1 border-t border-slate-200 dark:border-slate-800">
+                  <div>
+                    <label for="upsc-stack-toggle" class="block text-sm font-medium text-slate-800 dark:text-slate-200 cursor-pointer">
+                      UPSC 3&times; Vertical Signature Stack
+                    </label>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                      Duplicates one cropped signature 3 times vertically inside the frame.
+                    </p>
+                  </div>
+                  <input
+                    id="upsc-stack-toggle"
+                    type="checkbox"
+                    class="w-6 h-6 min-w-[24px] rounded border-slate-300 dark:border-slate-600 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                  />
+                </div>
+
+                <!-- Name & Date Stamp Toggle -->
+                <div class="pt-1 border-t border-slate-200 dark:border-slate-800 space-y-3">
+                  <div class="flex items-center justify-between gap-4">
+                    <div>
+                      <label for="name-date-toggle" class="block text-sm font-medium text-slate-800 dark:text-slate-200 cursor-pointer">
+                        Name &amp; Date Stamp on Photo
+                      </label>
+                      <p class="text-xs text-slate-500 dark:text-slate-400">
+                        Adds a crisp white bottom strip with candidate name and date of photo.
+                      </p>
+                    </div>
+                    <input
+                      id="name-date-toggle"
+                      type="checkbox"
+                      class="w-6 h-6 min-w-[24px] rounded border-slate-300 dark:border-slate-600 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                    />
+                  </div>
+
+                  <div id="name-date-fields" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label for="stamp-name" class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Candidate Name</label>
+                      <input
+                        id="stamp-name"
+                        type="text"
+                        placeholder="e.g. ROHIT SHARMA"
+                        value="ROHIT SHARMA"
+                        class="w-full min-h-[44px] px-3 py-2 text-base rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      />
+                    </div>
+                    <div>
+                      <label for="stamp-date" class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Date of Photo (DOP)</label>
+                      <input
+                        id="stamp-date"
+                        type="text"
+                        placeholder="e.g. 27/11/2026"
+                        value="27/11/2026"
+                        class="w-full min-h-[44px] px-3 py-2 text-base font-mono rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column: Step 4/5 Live Telemetry, Pre-Flight Checklist & Download -->
+            <div class="lg:col-span-5 lg:sticky lg:top-20 space-y-4">
+              <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/50 p-4 sm:p-5 space-y-4">
+                <div class="flex items-center justify-between gap-2">
+                  <h2 class="text-sm font-semibold text-slate-900 dark:text-white">
+                    Step 4 &mdash; Live Telemetry &amp; Pre-Flight Check
+                  </h2>
+                  <span id="processing-badge" class="hidden text-xs font-mono text-indigo-600 dark:text-indigo-400">
+                    Optimizing...
+                  </span>
+                </div>
+
+                <!-- Telemetry Grid -->
+                <div class="grid grid-cols-2 gap-3">
+                  <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3">
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Original Size</p>
+                    <p id="tel-orig-size" class="mt-1 text-base font-bold font-mono tabular-nums text-slate-900 dark:text-white">&mdash;</p>
+                  </div>
+                  <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3">
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Ready Size</p>
+                    <p id="tel-ready-size" data-testid="ready-size" class="mt-1 text-base font-bold font-mono tabular-nums text-indigo-600 dark:text-indigo-400">&mdash;</p>
+                  </div>
+                  <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3">
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Output Pixels</p>
+                    <p id="tel-dimensions" class="mt-1 text-sm font-semibold font-mono tabular-nums text-slate-900 dark:text-white">480 &times; 160 px</p>
+                  </div>
+                  <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3">
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Stamped DPI &amp; Quality</p>
+                    <p id="tel-dpi-quality" class="mt-1 text-sm font-semibold font-mono tabular-nums text-slate-900 dark:text-white">200 DPI &middot; &mdash;</p>
+                  </div>
+                </div>
+
+                <!-- Output Filename Preview -->
+                <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2.5 flex items-center justify-between gap-2">
+                  <span class="text-xs text-slate-500 dark:text-slate-400">Portal Filename</span>
+                  <span id="tel-filename" class="text-xs font-mono font-semibold text-slate-900 dark:text-white truncate">ssc_signature.jpg</span>
+                </div>
+
+                <!-- Portal Pre-Flight Checklist -->
+                <div class="space-y-2 pt-1">
+                  <p class="text-xs font-semibold text-slate-700 dark:text-slate-300">Portal Pre-Flight Validation</p>
+                  <ul id="preflight-list" class="space-y-1.5 text-xs font-medium">
+                    <li id="chk-format" class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+                      <span aria-hidden="true" class="font-mono">[ ]</span> Format: JPG (Baseline JFIF)
+                    </li>
+                    <li id="chk-pixels" class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+                      <span aria-hidden="true" class="font-mono">[ ]</span> Exact Pixels Matched
+                    </li>
+                    <li id="chk-window" class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+                      <span aria-hidden="true" class="font-mono">[ ]</span> Inside [Min, Max] KB Window
+                    </li>
+                    <li id="chk-dpi" class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+                      <span aria-hidden="true" class="font-mono">[ ]</span> DPI Header Stamped
+                    </li>
+                    <li id="chk-filename" class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+                      <span aria-hidden="true" class="font-mono">[ ]</span> Portal-Safe Filename
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Warning message if extreme constraints -->
+                <p id="photo-warning" class="hidden text-xs text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800 rounded-lg p-2.5"></p>
+
+                <!-- Primary Download CTA -->
+                <button
+                  id="download-jpg-btn"
+                  type="button"
+                  disabled
+                  class="w-full min-h-[48px] px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 dark:disabled:bg-slate-800 disabled:text-slate-500 dark:disabled:text-slate-500 disabled:cursor-not-allowed text-white text-sm sm:text-base font-semibold shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+                >
+                  Download Ready JPG
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 2 PANEL: Multi-Image to Target-KB PDF Maker -->
+        <section id="panel-pdf" role="tabpanel" aria-labelledby="tab-btn-pdf" class="hidden p-4 sm:p-6 space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div>
+              <h2 class="text-base font-semibold text-slate-900 dark:text-white">
+                Merge Marksheets &amp; Certificates into a Target-KB PDF
+              </h2>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-0.5">
+                Select 1 to 10 JPG or PNG scans, order pages, and cap the final A4 PDF strictly under 256 KB (MahaDBT) or 300 KB (NEET).
+              </p>
+            </div>
+            <span class="text-xs font-medium text-emerald-700 dark:text-emerald-400 whitespace-nowrap">
+              0 KB Uploaded &mdash; Local A4 PDF Builder
+            </span>
+          </div>
+
+          <!-- Controls Row: Max PDF Size Cap + Add Pages -->
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 items-end">
+            <div class="sm:col-span-5">
+              <label for="pdf-cap-select" class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                Max PDF Size Cap
+              </label>
+              <select
+                id="pdf-cap-select"
+                class="w-full min-h-[44px] px-3.5 py-2.5 text-base rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                <option value="100">100 KB</option>
+                <option value="200">200 KB</option>
+                <option value="256" selected>256 KB (MahaDBT)</option>
+                <option value="300">300 KB (NEET)</option>
+                <option value="500">500 KB</option>
+                <option value="1024">1 MB (1024 KB)</option>
+              </select>
+            </div>
+            <div class="sm:col-span-4">
+              <label for="pdf-filename-input" class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                Output PDF Filename
+              </label>
+              <input
+                id="pdf-filename-input"
+                type="text"
+                value="merged_documents.pdf"
+                class="w-full min-h-[44px] px-3.5 py-2 text-base font-mono rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+            </div>
+            <div class="sm:col-span-3 flex gap-2">
+              <input id="pdf-file-input" type="file" accept="image/jpeg,image/png,image/webp" multiple class="sr-only" />
+              <button
+                id="pdf-add-btn"
+                type="button"
+                class="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+              >
+                + Add Scan Pages
+              </button>
+            </div>
+          </div>
+
+          <!-- PDF Dropzone / Empty State -->
+          <div
+            id="pdf-dropzone"
+            class="rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-950/60 p-6 text-center transition-colors hover:border-indigo-500"
+          >
+            <p class="text-sm font-semibold text-slate-900 dark:text-white">
+              Drop 1&ndash;10 marksheet or certificate photos here
+            </p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+              10th/12th Marksheet, Aadhaar, Leaving Certificate, Caste/Income Certificate (JPG, PNG, WebP)
+            </p>
+            <div class="mt-3 flex flex-wrap justify-center gap-2.5">
+              <button
+                id="pdf-pick-empty-btn"
+                type="button"
+                class="min-h-[44px] px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold transition-colors"
+              >
+                Select 1&ndash;10 Images
+              </button>
+              <button
+                id="pdf-sample-btn"
+                type="button"
+                class="min-h-[44px] px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-sm font-medium transition-colors"
+              >
+                Load 2 Sample Pages
+              </button>
+            </div>
+          </div>
+
+          <!-- PDF Pages Queue -->
+          <div id="pdf-pages-wrap" class="hidden space-y-3">
+            <div class="flex items-center justify-between">
+              <span id="pdf-page-count" class="text-xs font-semibold font-mono tabular-nums text-slate-700 dark:text-slate-300">
+                0 / 10 pages queued
+              </span>
+              <button
+                id="pdf-clear-btn"
+                type="button"
+                class="min-h-[44px] px-3 text-xs font-medium text-rose-600 dark:text-rose-400 hover:underline"
+              >
+                Clear All Pages
+              </button>
+            </div>
+            <ul id="pdf-pages-list" class="space-y-2.5"></ul>
+          </div>
+
+          <!-- PDF Result & Action -->
+          <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/50 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="space-y-1">
+              <p class="text-xs text-slate-500 dark:text-slate-400">PDF Output Status</p>
+              <p id="pdf-status-text" data-testid="pdf-status" class="text-sm font-mono tabular-nums font-semibold text-slate-900 dark:text-white">
+                Add 1&ndash;10 images to build your target-KB PDF.
+              </p>
+            </div>
+            <button
+              id="pdf-generate-btn"
+              type="button"
+              disabled
+              class="min-h-[48px] px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 dark:disabled:bg-slate-800 disabled:text-slate-500 disabled:cursor-not-allowed text-white text-sm font-semibold whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+            >
+              Generate &amp; Download PDF
+            </button>
+          </div>
+        </section>
+      </main>
+
+      <!-- SEO Editorial Guides, 2026 Table & FAQ -->
+      <article class="mt-12 sm:mt-16 max-w-4xl space-y-10 text-slate-700 dark:text-slate-300 leading-relaxed">
+        <!-- Section 1 -->
+        <section class="space-y-4">
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            How to Resize Photos &amp; Signatures to Exact KB Without Portal Rejection
+          </h2>
+          <p>
+            Indian recruitment portals and scholarship websites run strict automated validators the moment you select a file. Unlike social networks that accept any JPEG and recompress it on their servers, portals run by SSC, UPSC, NTA, RRB, MPSC, and MahaDBT reject files outright if a passport photo is even 200 bytes outside the allowed KB window, if the pixel width or height misses the specification, or if the JPEG header reports the default 72 DPI instead of 200 or 300 DPI.
+          </p>
+          <p>
+            Most candidates run into trouble because standard phone photo-editor apps reduce file size blindly without giving control over both the minimum and maximum KB limits. When you compress a clean white-paper signature down to fit under 20 KB, ordinary compressors frequently overshoot and drop the file to 6 KB or 8 KB, triggering an immediate <em>&ldquo;File size must be between 10 KB and 20 KB&rdquo;</em> error on SSC OTR or MPSC forms.
+          </p>
+          <ol class="list-decimal pl-5 space-y-2.5 text-sm sm:text-base">
+            <li>
+              <strong class="text-slate-900 dark:text-white">Pick your exam preset first:</strong> Select your exact examination or document type from the preset dropdown or quick chips above. The tool automatically locks the exact pixel width, pixel height, Min KB floor, Max KB ceiling, required DPI, and portal-safe filename.
+            </li>
+            <li>
+              <strong class="text-slate-900 dark:text-white">Upload directly from your phone gallery or computer:</strong> Large 12MP to 50MP smartphone camera shots are automatically pre-downscaled inside browser memory to a 2000 px working buffer so mid-range Android devices never stutter or crash.
+            </li>
+            <li>
+              <strong class="text-slate-900 dark:text-white">Frame and whiten in real time:</strong> Drag your image inside the locked aspect-ratio canvas, adjust the zoom slider, or tap <em>Fit Inside White Canvas</em> so no edge of your signature or ears on your passport photo gets clipped. If you photographed your signature under indoor room lighting, slide the <em>Signature Paper Whitener</em> to 55%&ndash;80% to convert grey paper shadows into pure <code class="font-mono text-xs bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded">#FFFFFF</code>.
+            </li>
+            <li>
+              <strong class="text-slate-900 dark:text-white">Download the verified JPEG:</strong> Verify that all five green pre-flight checks pass&mdash;format, pixel dimensions, KB window (using strict 1024-byte KB math), stamped DPI, and clean filename&mdash;then tap <em>Download Ready JPG</em>.
+            </li>
+          </ol>
+        </section>
+
+        <!-- Section 2: 2026 Comparison Table -->
+        <section class="space-y-4">
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            2026 Indian Exam Photo, Signature &amp; PDF Size Requirements (SSC, UPSC, NEET, MahaDBT)
+          </h2>
+          <p>
+            Portal specifications evolve every recruitment cycle. For example, SSC transitioned its One-Time Registration (OTR) portal to live webcam capture for photographs in recent cycles while enforcing a strict 4.0 &times; 2.0 cm / <code class="font-mono text-xs bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded">10&ndash;20 KB</code> signature rule, whereas UPSC introduced square <code class="font-mono text-xs bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded">400 &times; 400 px</code> guidelines and a mandatory triple-signature vertical stack. Use the reference matrix below before submitting your form:
+          </p>
+
+          <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+            <table class="w-full text-left border-collapse text-xs sm:text-sm">
+              <thead>
+                <tr class="border-b border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-950/70 text-slate-900 dark:text-white">
+                  <th class="py-3 px-3.5 font-semibold">Exam / Portal</th>
+                  <th class="py-3 px-3.5 font-semibold">Document Type</th>
+                  <th class="py-3 px-3.5 font-semibold">Pixel Dimensions</th>
+                  <th class="py-3 px-3.5 font-semibold">File Size Window</th>
+                  <th class="py-3 px-3.5 font-semibold">DPI &amp; Format</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200 dark:divide-slate-800 font-mono tabular-nums">
+                <tr>
+                  <td class="py-2.5 px-3.5 font-sans font-medium text-slate-900 dark:text-white">SSC 2026 OTR / CGL / CHSL / GD</td>
+                  <td class="py-2.5 px-3.5 font-sans">Signature (Live photo via OTR cam)</td>
+                  <td class="py-2.5 px-3.5">480 &times; 160 px</td>
+                  <td class="py-2.5 px-3.5">10 &ndash; 20 KB</td>
+                  <td class="py-2.5 px-3.5">200 DPI &middot; JPG</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3.5 font-sans font-medium text-slate-900 dark:text-white">SSC Legacy / Selection Phase</td>
+                  <td class="py-2.5 px-3.5 font-sans">Passport Photo</td>
+                  <td class="py-2.5 px-3.5">275 &times; 354 px</td>
+                  <td class="py-2.5 px-3.5">20 &ndash; 50 KB</td>
+                  <td class="py-2.5 px-3.5">200 DPI &middot; JPG</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3.5 font-sans font-medium text-slate-900 dark:text-white">UPSC (CSE / NDA / CDS / CAPF)</td>
+                  <td class="py-2.5 px-3.5 font-sans">Photo (<code class="text-xs">photo.jpg</code>)</td>
+                  <td class="py-2.5 px-3.5">400 &times; 400 px</td>
+                  <td class="py-2.5 px-3.5">20 &ndash; 200 KB</td>
+                  <td class="py-2.5 px-3.5">300 DPI &middot; JPG</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3.5 font-sans font-medium text-slate-900 dark:text-white">UPSC (CSE / NDA / CAPF)</td>
+                  <td class="py-2.5 px-3.5 font-sans">3&times; Vertical Signature (<code class="text-xs">signature.jpg</code>)</td>
+                  <td class="py-2.5 px-3.5">400 &times; 400 px</td>
+                  <td class="py-2.5 px-3.5">20 &ndash; 100 KB</td>
+                  <td class="py-2.5 px-3.5">300 DPI &middot; JPG</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3.5 font-sans font-medium text-slate-900 dark:text-white">NTA NEET / JEE / CUET</td>
+                  <td class="py-2.5 px-3.5 font-sans">Passport Photo</td>
+                  <td class="py-2.5 px-3.5">275 &times; 354 px</td>
+                  <td class="py-2.5 px-3.5">10 &ndash; 200 KB</td>
+                  <td class="py-2.5 px-3.5">200 DPI &middot; JPG</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3.5 font-sans font-medium text-slate-900 dark:text-white">NTA NEET / JEE</td>
+                  <td class="py-2.5 px-3.5 font-sans">Signature &amp; Left Thumb</td>
+                  <td class="py-2.5 px-3.5">275 &times; 118 / 350 &times; 350</td>
+                  <td class="py-2.5 px-3.5">10 &ndash; 100 / 10 &ndash; 200 KB</td>
+                  <td class="py-2.5 px-3.5">200 DPI &middot; JPG</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3.5 font-sans font-medium text-slate-900 dark:text-white">Railway RRB (NTPC / ALP / Group D)</td>
+                  <td class="py-2.5 px-3.5 font-sans">Passport Photo</td>
+                  <td class="py-2.5 px-3.5">350 &times; 450 px</td>
+                  <td class="py-2.5 px-3.5">30 &ndash; 70 KB</td>
+                  <td class="py-2.5 px-3.5">200 DPI &middot; JPG</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3.5 font-sans font-medium text-slate-900 dark:text-white">MPSC (Maharashtra)</td>
+                  <td class="py-2.5 px-3.5 font-sans">Photo &amp; Signature</td>
+                  <td class="py-2.5 px-3.5">275 &times; 354 / 275 &times; 118</td>
+                  <td class="py-2.5 px-3.5">20 &ndash; 50 / 10 &ndash; 20 KB</td>
+                  <td class="py-2.5 px-3.5">200 DPI &middot; JPG</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3.5 font-sans font-medium text-slate-900 dark:text-white">MahaDBT Scholarship Portal</td>
+                  <td class="py-2.5 px-3.5 font-sans">Marksheets / Certificates</td>
+                  <td class="py-2.5 px-3.5">A4 Document</td>
+                  <td class="py-2.5 px-3.5">15 &ndash; 256 KB</td>
+                  <td class="py-2.5 px-3.5">PDF</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3.5 font-sans font-medium text-slate-900 dark:text-white">PAN Card (NSDL / UTIITSL)</td>
+                  <td class="py-2.5 px-3.5 font-sans">Photo &amp; Signature</td>
+                  <td class="py-2.5 px-3.5">213 &times; 213 / 400 &times; 200</td>
+                  <td class="py-2.5 px-3.5">10 &ndash; 30 KB</td>
+                  <td class="py-2.5 px-3.5">300 / 600 DPI &middot; JPG</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Section 3 -->
+        <section class="space-y-4">
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            SSC Signature Resizer (10KB to 20KB) &amp; UPSC 3-Signature Vertical Rules Explained
+          </h2>
+          <p>
+            The <strong class="text-slate-900 dark:text-white">SSC Signature (10&ndash;20 KB)</strong> check is notoriously picky because two constraints collide: a crisp black-ink signature on pure white paper compresses extraordinarily well in JPEG, often falling below 9 KB even at 95% quality. When an ordinary online compressor produces an 8.4 KB file, the SSC OTR form rejects it immediately. Conversely, if a candidate shoots the signature on dim, textured paper to inflate the file size, automated OCR verification flags the grey background for poor contrast. Our resizer solves both problems simultaneously: the <em>Signature Paper Whitener</em> cleans the paper to pure white, and if the crisp output still falls below 10 KB, our Minimum KB Floor Protection injects a standard harmless JFIF <code class="font-mono text-xs bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded">COM</code> comment segment so the file registers safely between 12 KB and 15 KB without altering a single pixel.
+          </p>
+          <p>
+            For <strong class="text-slate-900 dark:text-white">UPSC Civil Services, NDA, CDS, and CAPF</strong> applications, the commission requires applicants to sign three times vertically on a blank white sheet, scan it inside a square <code class="font-mono text-xs bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded">400 &times; 400 px</code> canvas at <code class="font-mono text-xs bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded">300 DPI</code>, keep the file size between <code class="font-mono text-xs bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded">20 KB and 100 KB</code>, and name the file strictly <code class="font-mono text-xs bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded">signature.jpg</code> (and <code class="font-mono text-xs bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded">photo.jpg</code> for the photograph). Selecting the <em>UPSC Signature (3&times; Vertical Stack)</em> preset enables the 3&times; vertical duplicator automatically so a single neat signature crop generates a balanced three-tier vertical layout ready for upload.
+          </p>
+        </section>
+
+        <!-- Section 4 -->
+        <section class="space-y-4">
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            How to Merge &amp; Compress Marksheets into a Single PDF Under 256 KB for MahaDBT &amp; College Forms
+          </h2>
+          <p>
+            Scholarship portals like <strong class="text-slate-900 dark:text-white">MahaDBT</strong> (Post-Matric, EBC, OBC, and SC/ST schemes) and state engineering/medical CAP counselling rounds frequently require a single combined PDF containing your 10th marksheet, 12th marksheet, Leaving Certificate, Income Certificate, or Caste Validity Certificate&mdash;all squeezed strictly under <strong class="text-slate-900 dark:text-white">256 KB</strong> (or 300 KB for NTA NEET category/PwD PDFs).
+          </p>
+          <p>
+            Taking photos of 3 or 4 A4 sheets on a modern phone easily totals 12 MB to 18 MB. Standard &ldquo;Print to PDF&rdquo; tools leave every page at full camera resolution, producing a 6 MB PDF that fails portal upload. In Tab 2 (<em>Multi-Image to Target-KB PDF Maker</em>), our client-side engine iteratively scales down each page onto a clean white A4 canvas and runs a binary search across JPEG quality tiers before embedding the pages into a compact <code class="font-mono text-xs bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded">pdf-lib</code> document. It verifies the final <code class="font-mono text-xs bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded">.pdf</code> byte size directly in memory so your merged file stays readable and strictly under 256 KB or your chosen cap.
+          </p>
+        </section>
+
+        <!-- Section 5 -->
+        <section class="space-y-4">
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            5 Common Reasons Government &amp; College Portals Reject Uploads (and How to Fix Them)
+          </h2>
+          <ul class="list-disc pl-5 space-y-2.5 text-sm sm:text-base">
+            <li>
+              <strong class="text-slate-900 dark:text-white">1. Hidden PNG or WebP extensions renamed to <code class="font-mono text-xs">.jpg</code>:</strong> Renaming <code class="font-mono text-xs">photo.png</code> to <code class="font-mono text-xs">photo.jpg</code> in Windows or Android file managers does not change the file&rsquo;s magic bytes. Portals inspect the header bytes and reject mismatched files. Always re-encode cleanly to true baseline JPEG.
+            </li>
+            <li>
+              <strong class="text-slate-900 dark:text-white">2. Transparent PNG signatures turning solid black:</strong> When a digital signature PNG with a transparent alpha channel is converted to JPEG naively, transparent pixels become <code class="font-mono text-xs">#000000</code> black, hiding the ink completely. Our canvas always paints pure <code class="font-mono text-xs">#FFFFFF</code> before drawing your image.
+            </li>
+            <li>
+              <strong class="text-slate-900 dark:text-white">3. Spaces, brackets, or special characters in filenames:</strong> Filenames like <code class="font-mono text-xs">IMG_2026 (1).jpg</code> or <code class="font-mono text-xs">WhatsApp Image 2026-11-27.jpeg</code> often crash legacy portal validators. Our presets enforce clean lowercase underscore filenames such as <code class="font-mono text-xs">ssc_signature.jpg</code> or <code class="font-mono text-xs">photo.jpg</code>.
+            </li>
+            <li>
+              <strong class="text-slate-900 dark:text-white">4. Missing 200 or 300 DPI metadata in JFIF headers:</strong> Browser canvas exports do not embed physical print DPI. Patching the JPEG <code class="font-mono text-xs">APP0</code> density bytes ensures portal DPI validators accept the image on the first attempt.
+            </li>
+            <li>
+              <strong class="text-slate-900 dark:text-white">5. Wrong aspect ratio distorting faces or clipping signature strokes:</strong> Stretching a 4:3 selfie into a square 1:1 UPSC frame squashes facial proportions and triggers biometric rejection. Use the interactive drag-and-zoom framing box with <em>Fit Inside White Canvas</em> to preserve natural proportions.
+            </li>
+          </ul>
+        </section>
+
+        <!-- Section 6: 6 Detailed FAQs matching JSON-LD -->
+        <section class="space-y-4">
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            Frequently Asked Questions
+          </h2>
+          <div class="divide-y divide-slate-200 dark:divide-slate-800 border-y border-slate-200 dark:border-slate-800">
+            <details class="group py-4" open>
+              <summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-semibold text-slate-900 dark:text-white">
+                <span>1. Are my passport photos, signatures, or Aadhaar marksheets uploaded to any server?</span>
+                <span aria-hidden="true" class="text-slate-400 group-open:rotate-180 transition-transform">&#9662;</span>
+              </summary>
+              <p class="mt-2.5 text-sm sm:text-base text-slate-600 dark:text-slate-300">
+                No. Every crop, paper-whitening pass, JPEG binary-search compression, JFIF DPI header patch, and PDF merge runs 100% locally inside your browser using HTML5 Canvas and JavaScript. Zero bytes of your personal documents ever leave your device.
+              </p>
+            </details>
+
+            <details class="group py-4">
+              <summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-semibold text-slate-900 dark:text-white">
+                <span>2. How does this tool keep a crisp signature between 10 KB and 20 KB without going too small?</span>
+                <span aria-hidden="true" class="text-slate-400 group-open:rotate-180 transition-transform">&#9662;</span>
+              </summary>
+              <p class="mt-2.5 text-sm sm:text-base text-slate-600 dark:text-slate-300">
+                Government portals like SSC OTR reject files below 10 KB just as strictly as files above 20 KB. First our engine binary-searches JPEG quality to land near the midpoint of your target KB window. If even 98% quality is still smaller than the Min KB floor, it inserts a harmless standard JFIF <code class="font-mono text-xs bg-slate-200 dark:bg-slate-800 px-1 py-0.5 rounded">COM</code> metadata segment so the file sits safely inside the required KB range with zero pixel distortion.
+              </p>
+            </details>
+
+            <details class="group py-4">
+              <summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-semibold text-slate-900 dark:text-white">
+                <span>3. Does the downloaded JPG actually carry 200 DPI, 300 DPI, or 600 DPI metadata?</span>
+                <span aria-hidden="true" class="text-slate-400 group-open:rotate-180 transition-transform">&#9662;</span>
+              </summary>
+              <p class="mt-2.5 text-sm sm:text-base text-slate-600 dark:text-slate-300">
+                Yes. Standard browser canvas exports default to 72 or 96 DPI. After compressing your image, our engine patches bytes 13 to 17 of the JPEG <code class="font-mono text-xs bg-slate-200 dark:bg-slate-800 px-1 py-0.5 rounded">APP0</code> JFIF header with pixels-per-inch units and the exact big-endian X and Y density (200, 300, or 600 DPI), so Windows File Properties, macOS Preview, and strict portal validators read the required DPI.
+              </p>
+            </details>
+
+            <details class="group py-4">
+              <summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-semibold text-slate-900 dark:text-white">
+                <span>4. How does the UPSC 3&times; Vertical Signature Stack option work?</span>
+                <span aria-hidden="true" class="text-slate-400 group-open:rotate-180 transition-transform">&#9662;</span>
+              </summary>
+              <p class="mt-2.5 text-sm sm:text-base text-slate-600 dark:text-slate-300">
+                UPSC requires a single 400 &times; 400 px JPEG (20&ndash;100 KB, 300 DPI) showing your signature signed three times vertically one below the other. Simply upload one clear photo of your signature, crop it once in the framing box, and enable the <em>UPSC 3&times; Vertical Signature Stack</em> toggle to duplicate it cleanly three times vertically inside the 400 &times; 400 px output.
+              </p>
+            </details>
+
+            <details class="group py-4">
+              <summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-semibold text-slate-900 dark:text-white">
+                <span>5. Will my 12MP to 50MP smartphone camera photo crash or lag my budget Android phone?</span>
+                <span aria-hidden="true" class="text-slate-400 group-open:rotate-180 transition-transform">&#9662;</span>
+              </summary>
+              <p class="mt-2.5 text-sm sm:text-base text-slate-600 dark:text-slate-300">
+                No. As soon as you select a large smartphone camera photo, the tool automatically pre-downscales it onto an intermediate canvas capped at 2000 px on the longest side while preserving aspect ratio. This prevents mobile browser memory spikes and keeps touch-dragging and slider adjustments smooth.
+              </p>
+            </details>
+
+            <details class="group py-4">
+              <summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-semibold text-slate-900 dark:text-white">
+                <span>6. How do I merge multiple marksheets into one PDF under 256 KB for MahaDBT or NEET?</span>
+                <span aria-hidden="true" class="text-slate-400 group-open:rotate-180 transition-transform">&#9662;</span>
+              </summary>
+              <p class="mt-2.5 text-sm sm:text-base text-slate-600 dark:text-slate-300">
+                Switch to the <em>Multi-Image to Target-KB PDF Maker</em> tab, select up to 10 photos of your marksheets or certificates, arrange their page order with Move Up or Move Down, pick <em>256 KB (MahaDBT)</em> or <em>300 KB (NEET)</em> from the Max PDF Size Cap selector, and click <em>Generate &amp; Download PDF</em>. The tool automatically calibrates resolution and JPEG compression before building the A4 PDF so the final <code class="font-mono text-xs bg-slate-200 dark:bg-slate-800 px-1 py-0.5 rounded">.pdf</code> stays strictly under your limit.
+              </p>
+            </details>
+          </div>
+        </section>
+
+        <!-- Section 7: Related Utilities -->
+        <section class="space-y-4">
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            Related Utilities on Mohit Tools
+          </h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a
+              href="/tools/carousel-splitter/"
+              class="block p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-indigo-500 dark:hover:border-indigo-400 transition-colors"
+            >
+              <p class="text-sm font-semibold text-slate-900 dark:text-white">Instagram Carousel Splitter</p>
+              <p class="mt-1 text-xs text-slate-600 dark:text-slate-400">
+                Slice wide panoramas into seamless multi-slide Instagram posts directly in your browser.
+              </p>
+            </a>
+            <a
+              href="/tools/safe-zone-checker/"
+              class="block p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-indigo-500 dark:hover:border-indigo-400 transition-colors"
+            >
+              <p class="text-sm font-semibold text-slate-900 dark:text-white">TikTok, Reels &amp; Shorts Safe Zone Checker</p>
+              <p class="mt-1 text-xs text-slate-600 dark:text-slate-400">
+                Preview UI overlay zones before exporting 9:16 short-form vertical videos.
+              </p>
+            </a>
+            <a
+              href="/tools/word-counter/"
+              class="block p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-indigo-500 dark:hover:border-indigo-400 transition-colors"
+            >
+              <p class="text-sm font-semibold text-slate-900 dark:text-white">Word &amp; Character Counter</p>
+              <p class="mt-1 text-xs text-slate-600 dark:text-slate-400">
+                Check word limits, character counts, and reading times for essays and SOPs.
+              </p>
+            </a>
+          </div>
+        </section>
+      </article>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 mt-auto">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-12">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+          <!-- Brand Blurb -->
+          <div class="md:col-span-4 space-y-3">
+            <a href="/" class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">Mohit Tools</a>
+            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+              Fast, zero-upload browser utilities built for students, creators, network engineers, and developers.
+            </p>
+            <div class="pt-1">
+              <a
+                href="https://buymeacoffee.com/crushedcorsair"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex min-h-[44px] items-center gap-2 px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-sm font-semibold text-slate-800 dark:text-slate-200 transition-colors"
+              >
+                Buy Me a Coffee
+              </a>
+            </div>
+          </div>
+
+          <!-- Column 1: Utilities -->
+          <div class="md:col-span-3 space-y-2.5">
+            <h3 class="text-xs font-semibold tracking-wider text-slate-900 dark:text-white uppercase">Utilities</h3>
+            <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+              <li><a href="/tools/word-counter/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Word Counter</a></li>
+              <li><a href="/tools/subnet-calculator/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">IPv4 Subnet Calc</a></li>
+              <li><a href="/tools/ipv6-subnet-calculator/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">IPv6 Subnet Calc</a></li>
+              <li><a href="/tools/safe-zone-checker/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Safe-Zone Checker</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 2: Specialized -->
+          <div class="md:col-span-3 space-y-2.5">
+            <h3 class="text-xs font-semibold tracking-wider text-slate-900 dark:text-white uppercase">Specialized</h3>
+            <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+              <li><a href="/tools/carousel-splitter/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Carousel Splitter</a></li>
+              <li><a href="/tools/resistor-decoder/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Resistor Decoder</a></li>
+              <li><a href="/tools/smd-decoder/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">SMD Code Decoder</a></li>
+              <li><a href="/tools/ps5-storage-calculator/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">PS5 Storage Calc</a></li>
+              <li><a href="/tools/leonida-tracker/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Leonida Tracker</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 3: Platform -->
+          <div class="md:col-span-2 space-y-2.5">
+            <h3 class="text-xs font-semibold tracking-wider text-slate-900 dark:text-white uppercase">Platform</h3>
+            <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+              <li><a href="/about.html" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">About</a></li>
+              <li><a href="/contact.html" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Contact</a></li>
+              <li><a href="/privacy-policy.html" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Privacy Policy</a></li>
+              <li><a href="/terms.html" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Terms of Service</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800 space-y-2 text-xs text-slate-500 dark:text-slate-400">
+          <p>
+            &copy; 2026 Mohit Tools (mohit-tools.com). All rights reserved. Client-side processing &middot; Zero server uploads &middot; Static web architecture.
+          </p>
+          <p>
+            Storage &amp; Privacy Notice: This utility uses browser <code class="font-mono">localStorage</code> solely to remember your Dark/Light theme preference and privacy-friendly anonymized analytics. Uploaded photos, signatures, and PDFs never leave your device.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Application Vanilla JavaScript -->
+    <script>
+      (function () {
+        'use strict';
+
+        // =====================================================================
+        // 1. EXAM PRESETS CONFIGURATION
+        // =====================================================================
+        var EXAM_PRESETS = [
+          {
+            id: 'ssc_sig',
+            name: 'SSC Signature (2026 OTR / CGL / CHSL / GD)',
+            chip: 'SSC Signature',
+            width: 480,
+            height: 160,
+            minKB: 10,
+            maxKB: 20,
+            dpi: 200,
+            filename: 'ssc_signature.jpg',
+            defaultFit: 'contain',
+            upscStack: false,
+          },
+          {
+            id: 'ssc_photo',
+            name: 'SSC Passport Photo (Legacy / Phase Posts)',
+            chip: 'SSC Photo',
+            width: 275,
+            height: 354,
+            minKB: 20,
+            maxKB: 50,
+            dpi: 200,
+            filename: 'ssc_photo.jpg',
+            defaultFit: 'cover',
+            upscStack: false,
+          },
+          {
+            id: 'upsc_photo',
+            name: 'UPSC (CSE / NDA / CAPF) Photo',
+            chip: 'UPSC Photo',
+            width: 400,
+            height: 400,
+            minKB: 20,
+            maxKB: 200,
+            dpi: 300,
+            filename: 'photo.jpg',
+            defaultFit: 'cover',
+            upscStack: false,
+          },
+          {
+            id: 'upsc_sig',
+            name: 'UPSC Signature (3× Vertical Stack)',
+            chip: 'UPSC 3× Sig',
+            width: 400,
+            height: 400,
+            minKB: 20,
+            maxKB: 100,
+            dpi: 300,
+            filename: 'signature.jpg',
+            defaultFit: 'contain',
+            upscStack: true,
+          },
+          {
+            id: 'neet_photo',
+            name: 'NTA NEET / JEE / CUET Passport Photo',
+            chip: 'NEET / JEE Photo',
+            width: 275,
+            height: 354,
+            minKB: 10,
+            maxKB: 200,
+            dpi: 200,
+            filename: 'neet_photo.jpg',
+            defaultFit: 'cover',
+            upscStack: false,
+          },
+          {
+            id: 'neet_sig',
+            name: 'NTA NEET / JEE Signature',
+            chip: 'NEET Sig',
+            width: 275,
+            height: 118,
+            minKB: 10,
+            maxKB: 100,
+            dpi: 200,
+            filename: 'neet_signature.jpg',
+            defaultFit: 'contain',
+            upscStack: false,
+          },
+          {
+            id: 'neet_thumb',
+            name: 'NTA NEET Left Thumb Impression',
+            chip: 'NEET Thumb',
+            width: 350,
+            height: 350,
+            minKB: 10,
+            maxKB: 200,
+            dpi: 200,
+            filename: 'neet_thumb.jpg',
+            defaultFit: 'contain',
+            upscStack: false,
+          },
+          {
+            id: 'rrb_photo',
+            name: 'Railway RRB (NTPC / ALP / Group D) Photo',
+            chip: 'RRB Photo',
+            width: 350,
+            height: 450,
+            minKB: 30,
+            maxKB: 70,
+            dpi: 200,
+            filename: 'rrb_photo.jpg',
+            defaultFit: 'cover',
+            upscStack: false,
+          },
+          {
+            id: 'mpsc_photo',
+            name: 'MPSC (Maharashtra) Photo',
+            chip: 'MPSC Photo',
+            width: 275,
+            height: 354,
+            minKB: 20,
+            maxKB: 50,
+            dpi: 200,
+            filename: 'mpsc_photo.jpg',
+            defaultFit: 'cover',
+            upscStack: false,
+          },
+          {
+            id: 'mpsc_sig',
+            name: 'MPSC (Maharashtra) Signature',
+            chip: 'MPSC Sig',
+            width: 275,
+            height: 118,
+            minKB: 10,
+            maxKB: 20,
+            dpi: 200,
+            filename: 'mpsc_signature.jpg',
+            defaultFit: 'contain',
+            upscStack: false,
+          },
+          {
+            id: 'pan_photo',
+            name: 'PAN Card Photo (NSDL / UTIITSL)',
+            chip: 'PAN Photo',
+            width: 213,
+            height: 213,
+            minKB: 10,
+            maxKB: 30,
+            dpi: 300,
+            filename: 'pan_photo.jpg',
+            defaultFit: 'cover',
+            upscStack: false,
+          },
+          {
+            id: 'pan_sig',
+            name: 'PAN Card Signature',
+            chip: 'PAN Sig',
+            width: 400,
+            height: 200,
+            minKB: 10,
+            maxKB: 30,
+            dpi: 600,
+            filename: 'pan_signature.jpg',
+            defaultFit: 'contain',
+            upscStack: false,
+          },
+          {
+            id: 'custom',
+            name: 'Custom Size & KB Window',
+            chip: 'Custom',
+            width: 300,
+            height: 300,
+            minKB: 20,
+            maxKB: 100,
+            dpi: 200,
+            filename: 'exam_document.jpg',
+            defaultFit: 'contain',
+            upscStack: false,
+          },
+        ];
+
+        // =====================================================================
+        // 2. PURE BINARY / JFIF / IMAGE HELPERS
+        // =====================================================================
+
+        /**
+         * Patches JPEG APP0 JFIF DPI metadata (bytes 13..17) with pixels/inch (0x01)
+         * and big-endian X/Y density. Inserts a valid APP0 segment if missing.
+         */
+        function patchJpegDpi(jpegBytes, dpi) {
+          var targetDpi = Math.max(72, Math.min(2400, Math.round(dpi || 200)));
+          if (!jpegBytes || jpegBytes.length < 4 || jpegBytes[0] !== 0xff || jpegBytes[1] !== 0xd8) {
+            return jpegBytes;
+          }
+
+          var hi = (targetDpi >> 8) & 0xff;
+          var lo = targetDpi & 0xff;
+
+          // Check if APP0 JFIF already sits at offset 2
+          if (
+            jpegBytes.length >= 18 &&
+            jpegBytes[2] === 0xff &&
+            jpegBytes[3] === 0xe0 &&
+            jpegBytes[6] === 0x4a && // 'J'
+            jpegBytes[7] === 0x46 && // 'F'
+            jpegBytes[8] === 0x49 && // 'I'
+            jpegBytes[9] === 0x46 && // 'F'
+            jpegBytes[10] === 0x00
+          ) {
+            var copy = new Uint8Array(jpegBytes);
+            copy[13] = 0x01; // units: pixels per inch
+            copy[14] = hi;
+            copy[15] = lo;
+            copy[16] = hi;
+            copy[17] = lo;
+            return copy;
+          }
+
+          // Fallback: prepend standard 18-byte APP0 JFIF header right after SOI (FF D8)
+          var app0 = new Uint8Array([
+            0xff, 0xe0, 0x00, 0x10,
+            0x4a, 0x46, 0x49, 0x46, 0x00,
+            0x01, 0x01, 0x01,
+            hi, lo, hi, lo,
+            0x00, 0x00,
+          ]);
+          var out = new Uint8Array(jpegBytes.length + app0.length);
+          out.set(jpegBytes.subarray(0, 2), 0);
+          out.set(app0, 2);
+          out.set(jpegBytes.subarray(2), 2 + app0.length);
+          return out;
+        }
+
+        /**
+         * Inserts harmless JFIF COM (0xFF 0xFE) comment segment(s) after APP0
+         * when even quality 0.98 is smaller than minBytes.
+         */
+        function padJpegToMinBytes(jpegBytes, targetMinBytes) {
+          if (!jpegBytes || jpegBytes.length >= targetMinBytes) {
+            return jpegBytes;
+          }
+          var insertAt = 2;
+          if (jpegBytes.length >= 6 && jpegBytes[2] === 0xff && jpegBytes[3] === 0xe0) {
+            var app0Len = (jpegBytes[4] << 8) | jpegBytes[5];
+            if (2 + 2 + app0Len <= jpegBytes.length) {
+              insertAt = 4 + app0Len;
+            }
+          }
+
+          var remaining = targetMinBytes - jpegBytes.length;
+          var segments = [];
+          while (remaining > 0) {
+            // Each COM segment adds (4 + payloadLen) bytes; max segment length field is 65535 => max payload 65531
+            var totalChunk = Math.min(remaining, 65535);
+            if (totalChunk < 5) {
+              totalChunk = 5;
+            }
+            var payloadLen = totalChunk - 4;
+            var lenField = payloadLen + 2;
+            var seg = new Uint8Array(totalChunk);
+            seg[0] = 0xff;
+            seg[1] = 0xfe;
+            seg[2] = (lenField >> 8) & 0xff;
+            seg[3] = lenField & 0xff;
+            for (var i = 4; i < totalChunk; i++) {
+              seg[i] = 0x20; // ASCII space
+            }
+            segments.push(seg);
+            remaining -= totalChunk;
+          }
+
+          var extraLen = 0;
+          for (var s = 0; s < segments.length; s++) {
+            extraLen += segments[s].length;
+          }
+          var out = new Uint8Array(jpegBytes.length + extraLen);
+          out.set(jpegBytes.subarray(0, insertAt), 0);
+          var cursor = insertAt;
+          for (var k = 0; k < segments.length; k++) {
+            out.set(segments[k], cursor);
+            cursor += segments[k].length;
+          }
+          out.set(jpegBytes.subarray(insertAt), cursor);
+          return out;
+        }
+
+        /**
+         * Reads DPI stored in JPEG APP0 JFIF header for telemetry verification.
+         */
+        function readJpegDpi(jpegBytes) {
+          if (
+            jpegBytes &&
+            jpegBytes.length >= 18 &&
+            jpegBytes[2] === 0xff &&
+            jpegBytes[3] === 0xe0 &&
+            jpegBytes[6] === 0x4a &&
+            jpegBytes[7] === 0x46 &&
+            jpegBytes[8] === 0x49 &&
+            jpegBytes[9] === 0x46
+          ) {
+            return (jpegBytes[14] << 8) | jpegBytes[15];
+          }
+          return 0;
+        }
+
+        function formatKB(byteCount) {
+          return (byteCount / 1024).toFixed(2) + ' KB';
+        }
+
+        function sanitizeFilename(raw, fallback) {
+          var clean = String(raw || '')
+            .trim()
+            .toLowerCase()
+            .replace(/[^a-z0-9._-]+/g, '_')
+            .replace(/^_+|_+$/g, '');
+          if (!clean) clean = fallback || 'exam_document.jpg';
+          if (!/\.jpe?g$/i.test(clean)) {
+            clean = clean.replace(/\.[^.]+$/, '') + '.jpg';
+          }
+          return clean;
+        }
+
+        /**
+         * Applies Signature Paper Whitener in-place on a canvas context.
+         * Smoothly elevates grey paper pixels to pure #FFFFFF while deepening ink.
+         */
+        function applyPaperWhitener(ctx, width, height, strengthPct) {
+          if (!strengthPct || strengthPct <= 0) return;
+          var w = Math.max(0, Math.min(1, strengthPct / 100));
+          var imgData = ctx.getImageData(0, 0, width, height);
+          var data = imgData.data;
+
+          // White point drops from 250 down to 145 as strength approaches 100%
+          var whitePoint = 250 - 105 * w;
+          var softZone = 34;
+          var inkDarken = 0.35 * w;
+
+          for (var i = 0; i < data.length; i += 4) {
+            var r = data[i];
+            var g = data[i + 1];
+            var b = data[i + 2];
+            var lum = 0.299 * r + 0.587 * g + 0.114 * b;
+            var maxC = Math.max(r, g, b);
+            var minC = Math.min(r, g, b);
+            var chroma = maxC - minC;
+
+            // Paper tends to have low chroma and high luminance
+            var effLum = lum + (chroma < 28 ? 10 * w : -12 * w);
+
+            if (effLum >= whitePoint) {
+              data[i] = 255;
+              data[i + 1] = 255;
+              data[i + 2] = 255;
+            } else if (effLum > whitePoint - softZone) {
+              var t = (effLum - (whitePoint - softZone)) / softZone;
+              // smoothstep
+              t = t * t * (3 - 2 * t);
+              data[i] = Math.round(r + (255 - r) * t);
+              data[i + 1] = Math.round(g + (255 - g) * t);
+              data[i + 2] = Math.round(b + (255 - b) * t);
+            } else {
+              // Preserve ink color while gently deepening contrast
+              var factor = 1 - inkDarken * (1 - effLum / Math.max(1, whitePoint));
+              data[i] = Math.max(0, Math.round(r * factor));
+              data[i + 1] = Math.max(0, Math.round(g * factor));
+              data[i + 2] = Math.max(0, Math.round(b * factor));
+            }
+          }
+          ctx.putImageData(imgData, 0, 0);
+        }
+
+        function canvasToJpegBytes(canvas, quality) {
+          return new Promise(function (resolve, reject) {
+            canvas.toBlob(
+              function (blob) {
+                if (!blob) {
+                  reject(new Error('Failed to encode JPEG blob'));
+                  return;
+                }
+                blob.arrayBuffer().then(
+                  function (buf) {
+                    resolve(new Uint8Array(buf));
+                  },
+                  reject
+                );
+              },
+              'image/jpeg',
+              quality
+            );
+          });
+        }
+
+        /**
+         * Binary-searches JPEG quality to hit [minKB, maxKB] near the midpoint,
+         * stamps JFIF DPI, and applies COM padding if below minKB.
+         */
+        async function compressCanvasToWindow(canvas, minKB, maxKB, dpi) {
+          var minBytes = Math.max(1024, Math.round(minKB * 1024));
+          var maxBytes = Math.max(minBytes + 1024, Math.round(maxKB * 1024));
+          var midpoint = Math.round((minBytes + maxBytes) / 2);
+
+          // First check upper quality bound (0.98)
+          var highRaw = await canvasToJpegBytes(canvas, 0.98);
+          var highPatched = patchJpegDpi(highRaw, dpi);
+
+          if (highPatched.length < minBytes) {
+            var padTarget = Math.min(maxBytes - 64, Math.max(minBytes + 512, Math.round(minBytes + (maxBytes - minBytes) * 0.35)));
+            if (padTarget < minBytes) padTarget = minBytes;
+            var padded = padJpegToMinBytes(highPatched, padTarget);
+            return {
+              bytes: padded,
+              quality: 0.98,
+              padded: true,
+              withinWindow: padded.length >= minBytes && padded.length <= maxBytes,
+            };
+          }
+
+          if (highPatched.length <= maxBytes && highPatched.length >= midpoint) {
+            return {
+              bytes: highPatched,
+              quality: 0.98,
+              padded: false,
+              withinWindow: true,
+            };
+          }
+
+          // Binary search between 0.05 and 0.98
+          var low = 0.05;
+          var high = 0.98;
+          var bestInWindow = null;
+          var bestUnderMax = null;
+          var smallestBytes = highPatched;
+          var smallestQ = 0.98;
+
+          for (var iter = 0; iter < 8; iter++) {
+            var mid = (low + high) / 2;
+            var raw = await canvasToJpegBytes(canvas, mid);
+            var candidate = patchJpegDpi(raw, dpi);
+            var size = candidate.length;
+
+            if (size < smallestBytes.length) {
+              smallestBytes = candidate;
+              smallestQ = mid;
+            }
+
+            if (size <= maxBytes) {
+              if (!bestUnderMax || size > bestUnderMax.bytes.length) {
+                bestUnderMax = { bytes: candidate, quality: mid };
+              }
+              if (size >= minBytes) {
+                if (
+                  !bestInWindow ||
+                  Math.abs(size - midpoint) < Math.abs(bestInWindow.bytes.length - midpoint)
+                ) {
+                  bestInWindow = { bytes: candidate, quality: mid };
+                }
+                if (Math.abs(size - midpoint) <= Math.max(512, midpoint * 0.05)) {
+                  break;
+                }
+              }
+            }
+
+            if (size > midpoint) {
+              high = mid;
+            } else {
+              low = mid;
+            }
+          }
+
+          if (bestInWindow) {
+            return {
+              bytes: bestInWindow.bytes,
+              quality: bestInWindow.quality,
+              padded: false,
+              withinWindow: true,
+            };
+          }
+
+          if (bestUnderMax) {
+            if (bestUnderMax.bytes.length < minBytes) {
+              var padTarget2 = Math.min(maxBytes - 64, minBytes + Math.round((maxBytes - minBytes) * 0.3));
+              if (padTarget2 < minBytes) padTarget2 = minBytes;
+              var padded2 = padJpegToMinBytes(bestUnderMax.bytes, padTarget2);
+              return {
+                bytes: padded2,
+                quality: bestUnderMax.quality,
+                padded: true,
+                withinWindow: padded2.length >= minBytes && padded2.length <= maxBytes,
+              };
+            }
+            return {
+              bytes: bestUnderMax.bytes,
+              quality: bestUnderMax.quality,
+              padded: false,
+              withinWindow: bestUnderMax.bytes.length >= minBytes && bestUnderMax.bytes.length <= maxBytes,
+            };
+          }
+
+          // Fallback: check minimum quality 0.01
+          var minRaw = await canvasToJpegBytes(canvas, 0.01);
+          var minPatched = patchJpegDpi(minRaw, dpi);
+          var finalBytes = minPatched.length < smallestBytes.length ? minPatched : smallestBytes;
+          var finalQ = minPatched.length < smallestBytes.length ? 0.01 : smallestQ;
+          return {
+            bytes: finalBytes,
+            quality: finalQ,
+            padded: false,
+            withinWindow: finalBytes.length >= minBytes && finalBytes.length <= maxBytes,
+          };
+        }
+
+        /**
+         * Loads an uploaded image File and downscales to <= 2000px longest side
+         * so 12MP-50MP smartphone photos never crash mobile browsers.
+         */
+        function loadDownscaledSource(file) {
+          return new Promise(function (resolve, reject) {
+            var url = URL.createObjectURL(file);
+            var img = new Image();
+            img.onload = function () {
+              try {
+                var natW = img.naturalWidth || img.width;
+                var natH = img.naturalHeight || img.height;
+                var maxDim = 2000;
+                var scale = 1;
+                if (Math.max(natW, natH) > maxDim) {
+                  scale = maxDim / Math.max(natW, natH);
+                }
+                var outW = Math.max(1, Math.round(natW * scale));
+                var outH = Math.max(1, Math.round(natH * scale));
+                var c = document.createElement('canvas');
+                c.width = outW;
+                c.height = outH;
+                var ctx = c.getContext('2d');
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillRect(0, 0, outW, outH);
+                ctx.drawImage(img, 0, 0, outW, outH);
+                URL.revokeObjectURL(url);
+                resolve({ canvas: c, width: outW, height: outH, originalBytes: file.size, name: file.name });
+              } catch (err) {
+                URL.revokeObjectURL(url);
+                reject(err);
+              }
+            };
+            img.onerror = function () {
+              URL.revokeObjectURL(url);
+              reject(new Error('Could not decode image file.'));
+            };
+            img.src = url;
+          });
+        }
+
+        // =====================================================================
+        // 3. DOM REFERENCES & APPLICATION STATE
+        // =====================================================================
+        var themeToggleBtn = document.getElementById('theme-toggle-btn');
+        var themeToggleLabel = document.getElementById('theme-toggle-label');
+        var mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        var mobileNavDrawer = document.getElementById('mobile-nav-drawer');
+
+        var tabBtnPhoto = document.getElementById('tab-btn-photo');
+        var tabBtnPdf = document.getElementById('tab-btn-pdf');
+        var panelPhoto = document.getElementById('panel-photo');
+        var panelPdf = document.getElementById('panel-pdf');
+
+        var presetSelect = document.getElementById('preset-select');
+        var presetChips = document.getElementById('preset-chips');
+        var specWidth = document.getElementById('spec-width');
+        var specHeight = document.getElementById('spec-height');
+        var specMinKb = document.getElementById('spec-min-kb');
+        var specMaxKb = document.getElementById('spec-max-kb');
+        var specDpi = document.getElementById('spec-dpi');
+
+        var photoDropzone = document.getElementById('photo-dropzone');
+        var photoFileInput = document.getElementById('photo-file-input');
+        var photoPickBtn = document.getElementById('photo-pick-btn');
+        var photoSampleBtn = document.getElementById('photo-sample-btn');
+        var photoChangeBtn = document.getElementById('photo-change-btn');
+        var framingStage = document.getElementById('framing-stage');
+        var framingCanvas = document.getElementById('framing-canvas');
+        var zoomSlider = document.getElementById('zoom-slider');
+        var zoomValue = document.getElementById('zoom-value');
+        var fitWhiteBtn = document.getElementById('fit-white-btn');
+        var fillFrameBtn = document.getElementById('fill-frame-btn');
+
+        var whitenerSlider = document.getElementById('whitener-slider');
+        var whitenerValue = document.getElementById('whitener-value');
+        var upscStackToggle = document.getElementById('upsc-stack-toggle');
+        var nameDateToggle = document.getElementById('name-date-toggle');
+        var nameDateFields = document.getElementById('name-date-fields');
+        var stampName = document.getElementById('stamp-name');
+        var stampDate = document.getElementById('stamp-date');
+
+        var processingBadge = document.getElementById('processing-badge');
+        var telOrigSize = document.getElementById('tel-orig-size');
+        var telReadySize = document.getElementById('tel-ready-size');
+        var telDimensions = document.getElementById('tel-dimensions');
+        var telDpiQuality = document.getElementById('tel-dpi-quality');
+        var telFilename = document.getElementById('tel-filename');
+        var photoWarning = document.getElementById('photo-warning');
+        var downloadJpgBtn = document.getElementById('download-jpg-btn');
+
+        var chkFormat = document.getElementById('chk-format');
+        var chkPixels = document.getElementById('chk-pixels');
+        var chkWindow = document.getElementById('chk-window');
+        var chkDpi = document.getElementById('chk-dpi');
+        var chkFilename = document.getElementById('chk-filename');
+
+        var state = {
+          presetId: 'ssc_sig',
+          width: 480,
+          height: 160,
+          minKB: 10,
+          maxKB: 20,
+          dpi: 200,
+          filename: 'ssc_signature.jpg',
+          sourceCanvas: null,
+          sourceOriginalBytes: 0,
+          zoom: 1,
+          offsetX: 0,
+          offsetY: 0,
+          whitener: 0,
+          upscStack: false,
+          nameDateStamp: false,
+          readyBytes: null,
+          readyQuality: 0,
+          compressTimer: null,
+          compressJobId: 0,
+        };
+
+        // =====================================================================
+        // 4. THEME & NAVIGATION INTERACTIONS
+        // =====================================================================
+        function syncThemeLabel() {
+          var isDark = document.documentElement.classList.contains('dark');
+          themeToggleLabel.textContent = isDark ? 'Light' : 'Dark';
+        }
+        syncThemeLabel();
+
+        themeToggleBtn.addEventListener('click', function () {
+          var isDark = document.documentElement.classList.toggle('dark');
+          try {
+            localStorage.setItem('mt_theme', isDark ? 'dark' : 'light');
+          } catch (e) {}
+          syncThemeLabel();
+        });
+
+        mobileMenuBtn.addEventListener('click', function () {
+          var expanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+          mobileMenuBtn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+          mobileNavDrawer.classList.toggle('hidden');
+        });
+
+        function switchTab(mode) {
+          var isPhoto = mode === 'photo';
+          tabBtnPhoto.setAttribute('aria-selected', isPhoto ? 'true' : 'false');
+          tabBtnPdf.setAttribute('aria-selected', isPhoto ? 'false' : 'true');
+
+          if (isPhoto) {
+            tabBtnPhoto.className =
+              'min-h-[44px] px-4 py-2.5 rounded-xl text-sm font-semibold transition-all text-left sm:text-center bg-white dark:bg-slate-800 text-indigo-700 dark:text-indigo-300 shadow-sm border border-slate-200/80 dark:border-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500';
+            tabBtnPdf.className =
+              'min-h-[44px] px-4 py-2.5 rounded-xl text-sm font-semibold transition-all text-left sm:text-center text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500';
+            panelPhoto.classList.remove('hidden');
+            panelPdf.classList.add('hidden');
+          } else {
+            tabBtnPdf.className =
+              'min-h-[44px] px-4 py-2.5 rounded-xl text-sm font-semibold transition-all text-left sm:text-center bg-white dark:bg-slate-800 text-indigo-700 dark:text-indigo-300 shadow-sm border border-slate-200/80 dark:border-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500';
+            tabBtnPhoto.className =
+              'min-h-[44px] px-4 py-2.5 rounded-xl text-sm font-semibold transition-all text-left sm:text-center text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500';
+            panelPdf.classList.remove('hidden');
+            panelPhoto.classList.add('hidden');
+          }
+        }
+
+        tabBtnPhoto.addEventListener('click', function () {
+          switchTab('photo');
+        });
+        tabBtnPdf.addEventListener('click', function () {
+          switchTab('pdf');
+        });
+
+        // =====================================================================
+        // 5. PRESET RENDERING & SYNC
+        // =====================================================================
+        function populatePresets() {
+          presetSelect.innerHTML = '';
+          presetChips.innerHTML = '';
+
+          var quickChipIds = ['ssc_sig', 'upsc_photo', 'upsc_sig', 'neet_photo', 'neet_sig', 'rrb_photo', 'mpsc_photo', 'pan_photo'];
+
+          EXAM_PRESETS.forEach(function (p) {
+            var opt = document.createElement('option');
+            opt.value = p.id;
+            opt.textContent = p.name + ' (' + p.width + '×' + p.height + 'px, ' + p.minKB + '–' + p.maxKB + ' KB, ' + p.dpi + ' DPI)';
+            presetSelect.appendChild(opt);
+
+            if (quickChipIds.indexOf(p.id) !== -1) {
+              var chip = document.createElement('button');
+              chip.type = 'button';
+              chip.setAttribute('data-preset-id', p.id);
+              chip.textContent = p.chip;
+              chip.className =
+                'min-h-[38px] px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500';
+              chip.addEventListener('click', function () {
+                applyPreset(p.id);
+              });
+              presetChips.appendChild(chip);
+            }
+          });
+        }
+
+        function syncChipActiveStyles() {
+          var buttons = presetChips.querySelectorAll('button[data-preset-id]');
+          for (var i = 0; i < buttons.length; i++) {
+            var btn = buttons[i];
+            var active = btn.getAttribute('data-preset-id') === state.presetId;
+            if (active) {
+              btn.className =
+                'min-h-[38px] px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors whitespace-nowrap shrink-0 bg-indigo-600 border-indigo-600 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500';
+            } else {
+              btn.className =
+                'min-h-[38px] px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors whitespace-nowrap shrink-0 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500';
+            }
+          }
+        }
+
+        function applyPreset(presetId) {
+          var preset = EXAM_PRESETS.find(function (p) {
+            return p.id === presetId;
+          }) || EXAM_PRESETS[0];
+
+          state.presetId = preset.id;
+          state.width = preset.width;
+          state.height = preset.height;
+          state.minKB = preset.minKB;
+          state.maxKB = preset.maxKB;
+          state.dpi = preset.dpi;
+          state.filename = preset.filename;
+          state.upscStack = Boolean(preset.upscStack);
+
+          presetSelect.value = preset.id;
+          specWidth.value = String(preset.width);
+          specHeight.value = String(preset.height);
+          specMinKb.value = String(preset.minKB);
+          specMaxKb.value = String(preset.maxKB);
+          specDpi.value = String(preset.dpi);
+          upscStackToggle.checked = state.upscStack;
+
+          syncChipActiveStyles();
+          updateTelemetryLabels();
+
+          if (state.sourceCanvas) {
+            if (preset.defaultFit === 'contain') {
+              fitInsideWhiteCanvas(false);
+            } else {
+              fillFrameCanvas(false);
+            }
+            renderFramingAndScheduleCompress(true);
+          }
+        }
+
+        function updateTelemetryLabels() {
+          telDimensions.textContent = state.width + ' × ' + state.height + ' px';
+          telFilename.textContent = sanitizeFilename(state.filename, 'exam_document.jpg');
+          if (!state.readyBytes) {
+            telDpiQuality.textContent = state.dpi + ' DPI · —';
+          }
+        }
+
+        presetSelect.addEventListener('change', function () {
+          applyPreset(presetSelect.value);
+        });
+
+        function handleCustomSpecChange() {
+          var w = Math.max(40, Math.min(3000, parseInt(specWidth.value, 10) || 300));
+          var h = Math.max(40, Math.min(3000, parseInt(specHeight.value, 10) || 300));
+          var minK = Math.max(1, Math.min(2048, parseInt(specMinKb.value, 10) || 10));
+          var maxK = Math.max(minK + 1, Math.min(4096, parseInt(specMaxKb.value, 10) || 100));
+          var dpiVal = parseInt(specDpi.value, 10) || 200;
+
+          state.presetId = 'custom';
+          presetSelect.value = 'custom';
+          state.width = w;
+          state.height = h;
+          state.minKB = minK;
+          state.maxKB = maxK;
+          state.dpi = dpiVal;
+          state.filename = 'custom_' + w + 'x' + h + '.jpg';
+
+          syncChipActiveStyles();
+          updateTelemetryLabels();
+          if (state.sourceCanvas) {
+            renderFramingAndScheduleCompress();
+          }
+        }
+
+        [specWidth, specHeight, specMinKb, specMaxKb, specDpi].forEach(function (el) {
+          el.addEventListener('change', handleCustomSpecChange);
+        });
+
+        // =====================================================================
+        // 6. CANVAS RENDERING, FRAMING & ADJUSTMENTS
+        // =====================================================================
+        function getBaseContainScale(srcW, srcH, dstW, dstH) {
+          return Math.min(dstW / srcW, dstH / srcH);
+        }
+
+        function getBaseCoverScale(srcW, srcH, dstW, dstH) {
+          return Math.max(dstW / srcW, dstH / srcH);
+        }
+
+        function fitInsideWhiteCanvas(shouldRender) {
+          if (!state.sourceCanvas) return;
+          var contain = getBaseContainScale(state.sourceCanvas.width, state.sourceCanvas.height, state.width, state.height);
+          var cover = getBaseCoverScale(state.sourceCanvas.width, state.sourceCanvas.height, state.width, state.height);
+          // Normalize zoom slider relative to contain-to-cover midpoint, or simpler: zoom=1 means contain scale when fit, wait:
+          // Let's define zoom=1.0 as contain scale for signatures or cover? Even clearer:
+          // Define scale = baseScale * zoom, where baseScale = getBaseContainScale(...)
+          // Wait: if baseScale = contain, then zoom=1.0 is ALWAYS Fit Inside White Canvas! And Fill sets zoom = cover / contain!
+          state.zoom = 1.0;
+          state.offsetX = 0;
+          state.offsetY = 0;
+          zoomSlider.value = '1';
+          zoomValue.textContent = '1.00x';
+          if (shouldRender !== false) {
+            renderFramingAndScheduleCompress();
+          }
+        }
+
+        function fillFrameCanvas(shouldRender) {
+          if (!state.sourceCanvas) return;
+          var contain = getBaseContainScale(state.sourceCanvas.width, state.sourceCanvas.height, state.width, state.height);
+          var cover = getBaseCoverScale(state.sourceCanvas.width, state.sourceCanvas.height, state.width, state.height);
+          var targetZoom = Math.min(2.5, Math.max(0.5, cover / contain));
+          state.zoom = targetZoom;
+          state.offsetX = 0;
+          state.offsetY = 0;
+          zoomSlider.value = targetZoom.toFixed(2);
+          zoomValue.textContent = targetZoom.toFixed(2) + 'x';
+          if (shouldRender !== false) {
+            renderFramingAndScheduleCompress();
+          }
+        }
+
+        /**
+         * Renders the exact targetW x targetH output canvas (with white background,
+         * crop/zoom/pan, whitener, optional 3x UPSC vertical stack, and optional Name & Date strip).
+         */
+        function renderOutputCanvas() {
+          var outW = state.width;
+          var outH = state.height;
+          var out = document.createElement('canvas');
+          out.width = outW;
+          out.height = outH;
+          var ctx = out.getContext('2d');
+
+          // Pure #FFFFFF background (prevents black transparent PNG artifacts)
+          ctx.fillStyle = '#FFFFFF';
+          ctx.fillRect(0, 0, outW, outH);
+
+          if (!state.sourceCanvas) return out;
+
+          // Step A: Render single cropped frame at outW x outH (or band height when stacked)
+          var singleCanvas = document.createElement('canvas');
+          singleCanvas.width = outW;
+          singleCanvas.height = outH;
+          var sctx = singleCanvas.getContext('2d');
+          sctx.fillStyle = '#FFFFFF';
+          sctx.fillRect(0, 0, outW, outH);
+
+          var src = state.sourceCanvas;
+          var baseScale = getBaseContainScale(src.width, src.height, outW, outH);
+          var scale = baseScale * state.zoom;
+          var drawW = src.width * scale;
+          var drawH = src.height * scale;
+          var drawX = (outW - drawW) / 2 + state.offsetX;
+          var drawY = (outH - drawH) / 2 + state.offsetY;
+
+          sctx.imageSmoothingEnabled = true;
+          sctx.imageSmoothingQuality = 'high';
+          sctx.drawImage(src, drawX, drawY, drawW, drawH);
+
+          // Apply Signature Paper Whitener on singleCanvas
+          if (state.whitener > 0) {
+            applyPaperWhitener(sctx, outW, outH, state.whitener);
+          }
+
+          if (state.upscStack) {
+            var padY = Math.max(8, Math.round(outH * 0.04));
+            var gapY = Math.max(6, Math.round(outH * 0.035));
+            var bandH = Math.floor((outH - 2 * padY - 2 * gapY) / 3);
+            var bandW = outW - 2 * Math.max(8, Math.round(outW * 0.04));
+
+            // Find tight non-white bounding box of the whitened/framed signature or draw scaled singleCanvas cleanly
+            var fitScale = Math.min(bandW / outW, bandH / outH);
+            // Actually let's check if singleCanvas is square-ish (400x400) -> scaling by bandH/outH shrinks width too much!
+            // Better: crop/fit from the drawn image aspect inside each band!
+            var bandCanvas = document.createElement('canvas');
+            bandCanvas.width = bandW;
+            bandCanvas.height = bandH;
+            var bctx = bandCanvas.getContext('2d');
+            bctx.fillStyle = '#FFFFFF';
+            bctx.fillRect(0, 0, bandW, bandH);
+
+            var bBase = getBaseContainScale(src.width, src.height, bandW, bandH);
+            var bScale = bBase * state.zoom;
+            var bDrawW = src.width * bScale;
+            var bDrawH = src.height * bScale;
+            var bX = (bandW - bDrawW) / 2 + state.offsetX * (bandW / outW);
+            var bY = (bandH - bDrawH) / 2 + state.offsetY * (bandH / outH);
+            bctx.imageSmoothingEnabled = true;
+            bctx.imageSmoothingQuality = 'high';
+            bctx.drawImage(src, bX, bY, bDrawW, bDrawH);
+            if (state.whitener > 0) {
+              applyPaperWhitener(bctx, bandW, bandH, state.whitener);
+            }
+
+            var leftX = Math.round((outW - bandW) / 2);
+            for (var idx = 0; idx < 3; idx++) {
+              var topY = padY + idx * (bandH + gapY);
+              ctx.drawImage(bandCanvas, leftX, topY);
+            }
+          } else {
+            ctx.drawImage(singleCanvas, 0, 0);
+          }
+
+          // Optional Name & Date Strip
+          if (state.nameDateStamp) {
+            var stripH = Math.max(32, Math.round(outH * 0.165));
+            var stripY = outH - stripH;
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, stripY, outW, stripH);
+
+            ctx.fillStyle = '#CBD5E1';
+            ctx.fillRect(0, stripY, outW, 1);
+
+            var nameText = (stampName.value || '').trim().toUpperCase();
+            var dateText = (stampDate.value || '').trim();
+            var line1FontPx = Math.max(9, Math.round(stripH * 0.34));
+            var line2FontPx = Math.max(8, Math.round(stripH * 0.28));
+
+            ctx.fillStyle = '#0F172A';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            // Auto-shrink name font if too wide
+            while (line1FontPx > 8) {
+              ctx.font = '700 ' + line1FontPx + 'px "Plus Jakarta Sans", Arial, sans-serif';
+              if (ctx.measureText(nameText).width <= outW - 16) break;
+              line1FontPx--;
+            }
+
+            if (nameText && dateText) {
+              ctx.font = '700 ' + line1FontPx + 'px "Plus Jakarta Sans", Arial, sans-serif';
+              ctx.fillText(nameText, outW / 2, stripY + stripH * 0.35);
+              ctx.font = '600 ' + line2FontPx + 'px "JetBrains Mono", Arial, sans-serif';
+              ctx.fillText('DOP: ' + dateText, outW / 2, stripY + stripH * 0.73);
+            } else if (nameText || dateText) {
+              ctx.font = '700 ' + line1FontPx + 'px "Plus Jakarta Sans", Arial, sans-serif';
+              ctx.fillText(nameText || ('DOP: ' + dateText), outW / 2, stripY + stripH * 0.52);
+            }
+          }
+
+          return out;
+        }
+
+        function drawFramingPreview(outputCanvas) {
+          var maxDisplayW = 540;
+          var maxDisplayH = 320;
+          var ratio = Math.min(maxDisplayW / state.width, maxDisplayH / state.height);
+          var dispW = Math.max(120, Math.round(state.width * ratio));
+          var dispH = Math.max(80, Math.round(state.height * ratio));
+
+          framingCanvas.width = dispW;
+          framingCanvas.height = dispH;
+          var pctx = framingCanvas.getContext('2d');
+          pctx.fillStyle = '#FFFFFF';
+          pctx.fillRect(0, 0, dispW, dispH);
+          pctx.imageSmoothingEnabled = true;
+          pctx.imageSmoothingQuality = 'high';
+          pctx.drawImage(outputCanvas, 0, 0, dispW, dispH);
+
+          // Subtle rule-of-thirds / framing guides (preview-only, not baked into output)
+          pctx.strokeStyle = 'rgba(79, 70, 229, 0.25)';
+          pctx.lineWidth = 1;
+          pctx.setLineDash([4, 4]);
+          pctx.strokeRect(1.5, 1.5, dispW - 3, dispH - 3);
+          pctx.setLineDash([]);
+        }
+
+        function setChecklistItem(el, ok, text) {
+          el.textContent = '';
+          var mark = document.createElement('span');
+          mark.setAttribute('aria-hidden', 'true');
+          mark.className = 'font-mono font-bold';
+          mark.textContent = ok ? '✓' : '!';
+          el.appendChild(mark);
+          el.appendChild(document.createTextNode(' ' + text));
+          el.className = ok
+            ? 'flex items-center gap-2 text-emerald-700 dark:text-emerald-400'
+            : 'flex items-center gap-2 text-amber-700 dark:text-amber-300';
+        }
+
+        function resetChecklist() {
+          var items = [
+            [chkFormat, 'Format: JPG (Baseline JFIF)'],
+            [chkPixels, 'Exact Pixels Matched'],
+            [chkWindow, 'Inside [Min, Max] KB Window'],
+            [chkDpi, 'DPI Header Stamped'],
+            [chkFilename, 'Portal-Safe Filename'],
+          ];
+          items.forEach(function (pair) {
+            pair[0].textContent = '';
+            var mark = document.createElement('span');
+            mark.setAttribute('aria-hidden', 'true');
+            mark.className = 'font-mono';
+            mark.textContent = '[ ]';
+            pair[0].appendChild(mark);
+            pair[0].appendChild(document.createTextNode(' ' + pair[1]));
+            pair[0].className = 'flex items-center gap-2 text-slate-500 dark:text-slate-400';
+          });
+        }
+
+        function renderFramingAndScheduleCompress(immediate) {
+          if (!state.sourceCanvas) return;
+          var outputCanvas = renderOutputCanvas();
+          drawFramingPreview(outputCanvas);
+
+          if (state.compressTimer) {
+            clearTimeout(state.compressTimer);
+          }
+          processingBadge.classList.remove('hidden');
+          var currentJob = ++state.compressJobId;
+
+          var runJob = async function () {
+            try {
+              var result = await compressCanvasToWindow(outputCanvas, state.minKB, state.maxKB, state.dpi);
+              if (currentJob !== state.compressJobId) return;
+
+              state.readyBytes = result.bytes;
+              state.readyQuality = result.quality;
+              var actualDpi = readJpegDpi(result.bytes);
+              var safeName = sanitizeFilename(state.filename, 'exam_document.jpg');
+
+              telOrigSize.textContent = formatKB(state.sourceOriginalBytes);
+              telReadySize.textContent = formatKB(result.bytes.length);
+              telDimensions.textContent = state.width + ' × ' + state.height + ' px';
+              telDpiQuality.textContent = (actualDpi || state.dpi) + ' DPI · Q ' + Math.round(result.quality * 100) + '%';
+              telFilename.textContent = safeName;
+
+              setChecklistItem(chkFormat, result.bytes[0] === 0xff && result.bytes[1] === 0xd8, 'Format: JPG (Baseline JFIF)');
+              setChecklistItem(chkPixels, true, 'Exact Pixels: ' + state.width + ' × ' + state.height + ' px');
+              setChecklistItem(
+                chkWindow,
+                result.withinWindow,
+                result.withinWindow
+                  ? 'Inside ' + state.minKB + '–' + state.maxKB + ' KB Window (' + formatKB(result.bytes.length) + ')'
+                  : 'Outside ' + state.minKB + '–' + state.maxKB + ' KB (' + formatKB(result.bytes.length) + ')'
+              );
+              setChecklistItem(chkDpi, actualDpi === state.dpi, 'DPI Stamped: ' + actualDpi + ' DPI');
+              setChecklistItem(chkFilename, true, 'Portal-Safe Filename: ' + safeName);
+
+              if (!result.withinWindow) {
+                photoWarning.textContent =
+                  'Note: Image complexity makes ' +
+                  state.minKB +
+                  '–' +
+                  state.maxKB +
+                  ' KB tight at ' +
+                  state.width +
+                  '×' +
+                  state.height +
+                  ' px. Try raising Paper Whitener or widening the KB window slightly.';
+                photoWarning.classList.remove('hidden');
+              } else {
+                photoWarning.classList.add('hidden');
+              }
+
+              downloadJpgBtn.disabled = false;
+            } catch (err) {
+              photoWarning.textContent = 'Compression error: ' + (err && err.message ? err.message : 'Unable to encode JPEG.');
+              photoWarning.classList.remove('hidden');
+            } finally {
+              if (currentJob === state.compressJobId) {
+                processingBadge.classList.add('hidden');
+              }
+            }
+          };
+
+          if (immediate) {
+            runJob();
+          } else {
+            state.compressTimer = setTimeout(runJob, 90);
+          }
+        }
+
+        // Pointer drag on framing canvas
+        var dragActive = false;
+        var dragStartX = 0;
+        var dragStartY = 0;
+        var dragOrigOffsetX = 0;
+        var dragOrigOffsetY = 0;
+
+        framingCanvas.addEventListener('pointerdown', function (e) {
+          if (!state.sourceCanvas) return;
+          dragActive = true;
+          dragStartX = e.clientX;
+          dragStartY = e.clientY;
+          dragOrigOffsetX = state.offsetX;
+          dragOrigOffsetY = state.offsetY;
+          try {
+            framingCanvas.setPointerCapture(e.pointerId);
+          } catch (err) {}
+        });
+
+        framingCanvas.addEventListener('pointermove', function (e) {
+          if (!dragActive || !state.sourceCanvas) return;
+          var rect = framingCanvas.getBoundingClientRect();
+          var scaleX = state.width / Math.max(1, rect.width);
+          var scaleY = state.height / Math.max(1, rect.height);
+          state.offsetX = dragOrigOffsetX + (e.clientX - dragStartX) * scaleX;
+          state.offsetY = dragOrigOffsetY + (e.clientY - dragStartY) * scaleY;
+          renderFramingAndScheduleCompress();
+        });
+
+        function endDrag() {
+          dragActive = false;
+        }
+        framingCanvas.addEventListener('pointerup', endDrag);
+        framingCanvas.addEventListener('pointercancel', endDrag);
+
+        zoomSlider.addEventListener('input', function () {
+          state.zoom = parseFloat(zoomSlider.value) || 1;
+          zoomValue.textContent = state.zoom.toFixed(2) + 'x';
+          renderFramingAndScheduleCompress();
+        });
+
+        fitWhiteBtn.addEventListener('click', function () {
+          fitInsideWhiteCanvas(true);
+        });
+        fillFrameBtn.addEventListener('click', function () {
+          fillFrameCanvas(true);
+        });
+
+        whitenerSlider.addEventListener('input', function () {
+          state.whitener = parseInt(whitenerSlider.value, 10) || 0;
+          whitenerValue.textContent = state.whitener + '%';
+          renderFramingAndScheduleCompress();
+        });
+
+        upscStackToggle.addEventListener('change', function () {
+          state.upscStack = upscStackToggle.checked;
+          renderFramingAndScheduleCompress();
+        });
+
+        nameDateToggle.addEventListener('change', function () {
+          state.nameDateStamp = nameDateToggle.checked;
+          if (state.nameDateStamp) {
+            nameDateFields.classList.remove('hidden');
+          } else {
+            nameDateFields.classList.add('hidden');
+          }
+          renderFramingAndScheduleCompress();
+        });
+
+        [stampName, stampDate].forEach(function (inp) {
+          inp.addEventListener('input', function () {
+            if (state.nameDateStamp) {
+              renderFramingAndScheduleCompress();
+            }
+          });
+        });
+
+        // File upload handlers
+        async function handleSelectedPhotoFile(file) {
+          if (!file) return;
+          try {
+            var loaded = await loadDownscaledSource(file);
+            state.sourceCanvas = loaded.canvas;
+            state.sourceOriginalBytes = loaded.originalBytes;
+            photoDropzone.classList.add('hidden');
+            framingStage.classList.remove('hidden');
+
+            var preset = EXAM_PRESETS.find(function (p) {
+              return p.id === state.presetId;
+            });
+            if (preset && preset.defaultFit === 'cover') {
+              fillFrameCanvas(false);
+            } else {
+              fitInsideWhiteCanvas(false);
+            }
+            renderFramingAndScheduleCompress(true);
+          } catch (err) {
+            photoWarning.textContent = 'Could not read that image file. Please select a valid JPG, PNG, or WebP.';
+            photoWarning.classList.remove('hidden');
+          }
+        }
+
+        photoPickBtn.addEventListener('click', function () {
+          photoFileInput.click();
+        });
+        photoChangeBtn.addEventListener('click', function () {
+          photoFileInput.click();
+        });
+        photoFileInput.addEventListener('change', function () {
+          if (photoFileInput.files && photoFileInput.files[0]) {
+            handleSelectedPhotoFile(photoFileInput.files[0]);
+            photoFileInput.value = '';
+          }
+        });
+
+        photoDropzone.addEventListener('dragover', function (e) {
+          e.preventDefault();
+          photoDropzone.classList.add('border-indigo-500', 'bg-indigo-50/40', 'dark:bg-indigo-950/30');
+        });
+        photoDropzone.addEventListener('dragleave', function () {
+          photoDropzone.classList.remove('border-indigo-500', 'bg-indigo-50/40', 'dark:bg-indigo-950/30');
+        });
+        photoDropzone.addEventListener('drop', function (e) {
+          e.preventDefault();
+          photoDropzone.classList.remove('border-indigo-500', 'bg-indigo-50/40', 'dark:bg-indigo-950/30');
+          if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
+            handleSelectedPhotoFile(e.dataTransfer.files[0]);
+          }
+        });
+
+        // Built-in client-side sample generator (no external URLs)
+        photoSampleBtn.addEventListener('click', function () {
+          var isSig = state.presetId.indexOf('sig') !== -1 || state.presetId.indexOf('thumb') !== -1;
+          var sc = document.createElement('canvas');
+          if (isSig) {
+            sc.width = 900;
+            sc.height = 360;
+            var sctx = sc.getContext('2d');
+            sctx.fillStyle = '#E2E5EA'; // slightly greyish phone-photo paper to showcase whitener
+            sctx.fillRect(0, 0, sc.width, sc.height);
+            sctx.strokeStyle = '#1E3A8A';
+            sctx.lineWidth = 7;
+            sctx.lineCap = 'round';
+            sctx.lineJoin = 'round';
+            sctx.beginPath();
+            sctx.moveTo(140, 220);
+            sctx.bezierCurveTo(210, 80, 260, 270, 340, 150);
+            sctx.bezierCurveTo(390, 90, 420, 240, 500, 175);
+            sctx.bezierCurveTo(560, 130, 620, 210, 740, 170);
+            sctx.stroke();
+            sctx.beginPath();
+            sctx.moveTo(180, 255);
+            sctx.quadraticCurveTo(450, 235, 720, 248);
+            sctx.stroke();
+          } else {
+            sc.width = 700;
+            sc.height = 880;
+            var pctx = sc.getContext('2d');
+            pctx.fillStyle = '#F8FAFC';
+            pctx.fillRect(0, 0, sc.width, sc.height);
+            // Shoulders
+            pctx.fillStyle = '#334155';
+            pctx.beginPath();
+            pctx.ellipse(350, 840, 250, 210, 0, Math.PI, 2 * Math.PI);
+            pctx.fill();
+            // Shirt collar
+            pctx.fillStyle = '#FFFFFF';
+            pctx.beginPath();
+            pctx.moveTo(285, 645);
+            pctx.lineTo(350, 735);
+            pctx.lineTo(415, 645);
+            pctx.closePath();
+            pctx.fill();
+            // Neck & Head
+            pctx.fillStyle = '#D9A784';
+            pctx.fillRect(305, 520, 90, 135);
+            pctx.fillStyle = '#E5B796';
+            pctx.beginPath();
+            pctx.ellipse(350, 390, 135, 165, 0, 0, Math.PI * 2);
+            pctx.fill();
+            // Hair
+            pctx.fillStyle = '#1E293B';
+            pctx.beginPath();
+            pctx.ellipse(350, 270, 140, 95, 0, Math.PI, 2 * Math.PI);
+            pctx.fill();
+            // Eyes & smile
+            pctx.fillStyle = '#0F172A';
+            pctx.beginPath();
+            pctx.arc(300, 385, 11, 0, Math.PI * 2);
+            pctx.arc(400, 385, 11, 0, Math.PI * 2);
+            pctx.fill();
+            pctx.strokeStyle = '#9A5B40';
+            pctx.lineWidth = 6;
+            pctx.beginPath();
+            pctx.arc(350, 445, 38, 0.15 * Math.PI, 0.85 * Math.PI);
+            pctx.stroke();
+          }
+
+          sc.toBlob(
+            function (blob) {
+              if (!blob) return;
+              state.sourceCanvas = sc;
+              state.sourceOriginalBytes = blob.size;
+              photoDropzone.classList.add('hidden');
+              framingStage.classList.remove('hidden');
+              var preset = EXAM_PRESETS.find(function (p) {
+                return p.id === state.presetId;
+              });
+              if (preset && preset.defaultFit === 'cover') {
+                fillFrameCanvas(false);
+              } else {
+                fitInsideWhiteCanvas(false);
+              }
+              renderFramingAndScheduleCompress(true);
+            },
+            'image/jpeg',
+            0.92
+          );
+        });
+
+        downloadJpgBtn.addEventListener('click', function () {
+          if (!state.readyBytes) return;
+          var safeName = sanitizeFilename(state.filename, 'exam_document.jpg');
+          var blob = new Blob([state.readyBytes], { type: 'image/jpeg' });
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = url;
+          a.download = safeName;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          setTimeout(function () {
+            URL.revokeObjectURL(url);
+          }, 1500);
+        });
+
+        // =====================================================================
+        // 7. TAB 2: MULTI-IMAGE TO TARGET-KB PDF MAKER
+        // =====================================================================
+        var pdfCapSelect = document.getElementById('pdf-cap-select');
+        var pdfFilenameInput = document.getElementById('pdf-filename-input');
+        var pdfFileInput = document.getElementById('pdf-file-input');
+        var pdfAddBtn = document.getElementById('pdf-add-btn');
+        var pdfPickEmptyBtn = document.getElementById('pdf-pick-empty-btn');
+        var pdfSampleBtn = document.getElementById('pdf-sample-btn');
+        var pdfDropzone = document.getElementById('pdf-dropzone');
+        var pdfPagesWrap = document.getElementById('pdf-pages-wrap');
+        var pdfPageCount = document.getElementById('pdf-page-count');
+        var pdfClearBtn = document.getElementById('pdf-clear-btn');
+        var pdfPagesList = document.getElementById('pdf-pages-list');
+        var pdfStatusText = document.getElementById('pdf-status-text');
+        var pdfGenerateBtn = document.getElementById('pdf-generate-btn');
+
+        var pdfPages = []; // { id, name, canvas, width, height, originalBytes, thumbUrl }
+        var pdfIdSeq = 1;
+
+        function renderPdfPagesList() {
+          pdfPagesList.innerHTML = '';
+          if (pdfPages.length === 0) {
+            pdfPagesWrap.classList.add('hidden');
+            pdfDropzone.classList.remove('hidden');
+            pdfGenerateBtn.disabled = true;
+            pdfStatusText.textContent = 'Add 1–10 images to build your target-KB PDF.';
+            pdfPageCount.textContent = '0 / 10 pages queued';
+            return;
+          }
+
+          pdfPagesWrap.classList.remove('hidden');
+          pdfDropzone.classList.add('hidden');
+          pdfGenerateBtn.disabled = false;
+          pdfPageCount.textContent = pdfPages.length + ' / 10 pages queued';
+          pdfStatusText.textContent =
+            'Ready to pack ' + pdfPages.length + ' page(s) under ' + pdfCapSelect.value + ' KB cap.';
+
+          pdfPages.forEach(function (page, index) {
+            var li = document.createElement('li');
+            li.className =
+              'flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900';
+
+            var left = document.createElement('div');
+            left.className = 'flex items-center gap-3 min-w-0';
+
+            var img = document.createElement('img');
+            img.src = page.thumbUrl;
+            img.alt = 'Page ' + (index + 1) + ': ' + page.name;
+            img.className = 'w-12 h-14 object-cover rounded-lg border border-slate-200 dark:border-slate-700 bg-white shrink-0';
+
+            var meta = document.createElement('div');
+            meta.className = 'min-w-0';
+            var title = document.createElement('p');
+            title.className = 'text-sm font-semibold text-slate-900 dark:text-white truncate';
+            title.textContent = 'Page ' + (index + 1) + ' — ' + page.name;
+            var sub = document.createElement('p');
+            sub.className = 'text-xs font-mono tabular-nums text-slate-500 dark:text-slate-400';
+            sub.textContent = page.width + '×' + page.height + ' px · ' + formatKB(page.originalBytes);
+            meta.appendChild(title);
+            meta.appendChild(sub);
+
+            left.appendChild(img);
+            left.appendChild(meta);
+
+            var actions = document.createElement('div');
+            actions.className = 'flex items-center gap-2 shrink-0';
+
+            var upBtn = document.createElement('button');
+            upBtn.type = 'button';
+            upBtn.textContent = 'Move Up';
+            upBtn.disabled = index === 0;
+            upBtn.setAttribute('aria-label', 'Move page ' + (index + 1) + ' up');
+            upBtn.className =
+              'min-h-[44px] px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed';
+            upBtn.addEventListener('click', function () {
+              if (index === 0) return;
+              var tmp = pdfPages[index - 1];
+              pdfPages[index - 1] = pdfPages[index];
+              pdfPages[index] = tmp;
+              renderPdfPagesList();
+            });
+
+            var downBtn = document.createElement('button');
+            downBtn.type = 'button';
+            downBtn.textContent = 'Move Down';
+            downBtn.disabled = index === pdfPages.length - 1;
+            downBtn.setAttribute('aria-label', 'Move page ' + (index + 1) + ' down');
+            downBtn.className =
+              'min-h-[44px] px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed';
+            downBtn.addEventListener('click', function () {
+              if (index === pdfPages.length - 1) return;
+              var tmp = pdfPages[index + 1];
+              pdfPages[index + 1] = pdfPages[index];
+              pdfPages[index] = tmp;
+              renderPdfPagesList();
+            });
+
+            var removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.textContent = 'Remove';
+            removeBtn.setAttribute('aria-label', 'Remove page ' + (index + 1));
+            removeBtn.className =
+              'min-h-[44px] px-3 py-1.5 rounded-lg border border-rose-200 dark:border-rose-900 text-xs font-medium text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50';
+            removeBtn.addEventListener('click', function () {
+              pdfPages.splice(index, 1);
+              renderPdfPagesList();
+            });
+
+            actions.appendChild(upBtn);
+            actions.appendChild(downBtn);
+            actions.appendChild(removeBtn);
+
+            li.appendChild(left);
+            li.appendChild(actions);
+            pdfPagesList.appendChild(li);
+          });
+        }
+
+        async function addPdfFiles(fileList) {
+          var files = Array.prototype.slice.call(fileList || []);
+          var slotsLeft = 10 - pdfPages.length;
+          if (slotsLeft <= 0) {
+            pdfStatusText.textContent = 'Maximum 10 pages reached. Remove a page to add more.';
+            return;
+          }
+          var toLoad = files.slice(0, slotsLeft);
+          for (var i = 0; i < toLoad.length; i++) {
+            try {
+              var loaded = await loadDownscaledSource(toLoad[i]);
+              var thumbUrl = loaded.canvas.toDataURL('image/jpeg', 0.6);
+              pdfPages.push({
+                id: pdfIdSeq++,
+                name: loaded.name,
+                canvas: loaded.canvas,
+                width: loaded.width,
+                height: loaded.height,
+                originalBytes: loaded.originalBytes,
+                thumbUrl: thumbUrl,
+              });
+            } catch (err) {}
+          }
+          renderPdfPagesList();
+        }
+
+        pdfAddBtn.addEventListener('click', function () {
+          pdfFileInput.click();
+        });
+        pdfPickEmptyBtn.addEventListener('click', function () {
+          pdfFileInput.click();
+        });
+        pdfFileInput.addEventListener('change', function () {
+          if (pdfFileInput.files && pdfFileInput.files.length > 0) {
+            addPdfFiles(pdfFileInput.files);
+            pdfFileInput.value = '';
+          }
+        });
+
+        pdfDropzone.addEventListener('dragover', function (e) {
+          e.preventDefault();
+          pdfDropzone.classList.add('border-indigo-500');
+        });
+        pdfDropzone.addEventListener('dragleave', function () {
+          pdfDropzone.classList.remove('border-indigo-500');
+        });
+        pdfDropzone.addEventListener('drop', function (e) {
+          e.preventDefault();
+          pdfDropzone.classList.remove('border-indigo-500');
+          if (e.dataTransfer && e.dataTransfer.files) {
+            addPdfFiles(e.dataTransfer.files);
+          }
+        });
+
+        pdfClearBtn.addEventListener('click', function () {
+          pdfPages = [];
+          renderPdfPagesList();
+        });
+
+        pdfCapSelect.addEventListener('change', function () {
+          if (pdfPages.length > 0) {
+            pdfStatusText.textContent =
+              'Ready to pack ' + pdfPages.length + ' page(s) under ' + pdfCapSelect.value + ' KB cap.';
+          }
+        });
+
+        pdfSampleBtn.addEventListener('click', function () {
+          var samples = ['10th_marksheet_scan.jpg', '12th_marksheet_scan.jpg'];
+          samples.forEach(function (label, idx) {
+            if (pdfPages.length >= 10) return;
+            var c = document.createElement('canvas');
+            c.width = 1000;
+            c.height = 1400;
+            var ctx = c.getContext('2d');
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, c.width, c.height);
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 6;
+            ctx.strokeRect(45, 45, 910, 1310);
+            ctx.fillStyle = '#0F172A';
+            ctx.font = 'bold 42px sans-serif';
+            ctx.fillText('SAMPLE STATEMENT OF MARKS #' + (idx + 1), 110, 150);
+            ctx.fillStyle = '#475569';
+            ctx.font = '26px monospace';
+            for (var r = 0; r < 8; r++) {
+              ctx.fillText('SUBJECT 0' + (r + 1) + ' ............... PASS (9' + ((r + idx) % 9) + '/100)', 110, 280 + r * 95);
+            }
+            pdfPages.push({
+              id: pdfIdSeq++,
+              name: label,
+              canvas: c,
+              width: c.width,
+              height: c.height,
+              originalBytes: 420 * 1024,
+              thumbUrl: c.toDataURL('image/jpeg', 0.6),
+            });
+          });
+          renderPdfPagesList();
+        });
+
+        function scalePageToJpegBytes(sourceCanvas, maxSide, quality) {
+          var scale = Math.min(1, maxSide / Math.max(sourceCanvas.width, sourceCanvas.height));
+          var w = Math.max(1, Math.round(sourceCanvas.width * scale));
+          var h = Math.max(1, Math.round(sourceCanvas.height * scale));
+          var tmp = document.createElement('canvas');
+          tmp.width = w;
+          tmp.height = h;
+          var tctx = tmp.getContext('2d');
+          tctx.fillStyle = '#FFFFFF';
+          tctx.fillRect(0, 0, w, h);
+          tctx.imageSmoothingEnabled = true;
+          tctx.imageSmoothingQuality = 'high';
+          tctx.drawImage(sourceCanvas, 0, 0, w, h);
+          return canvasToJpegBytes(tmp, quality);
+        }
+
+        async function buildPdfUnderCap(pages, maxKB) {
+          if (typeof window.PDFLib === 'undefined') {
+            throw new Error('PDF engine is still loading. Please retry in a moment.');
+          }
+          var maxBytes = maxKB * 1024;
+          var overheadReserve = 1600 + pages.length * 420;
+          var perPageBudget = Math.max(2048, Math.floor((maxBytes - overheadReserve) / pages.length));
+
+          var resolutionTiers = [1500, 1200, 960, 760, 600, 480, 380];
+          var bestPdfBytes = null;
+
+          for (var t = 0; t < resolutionTiers.length; t++) {
+            var maxSide = resolutionTiers[t];
+            // Binary search a shared quality level across pages for consistent legibility
+            var lowQ = 0.18;
+            var highQ = 0.88;
+            var candidateJpegs = null;
+
+            for (var step = 0; step < 7; step++) {
+              var midQ = (lowQ + highQ) / 2;
+              var totalJpegSize = 0;
+              var encodedList = [];
+              for (var p = 0; p < pages.length; p++) {
+                var jpg = await scalePageToJpegBytes(pages[p].canvas, maxSide, midQ);
+                encodedList.push(jpg);
+                totalJpegSize += jpg.length;
+              }
+              if (totalJpegSize + overheadReserve <= maxBytes) {
+                candidateJpegs = encodedList;
+                lowQ = midQ;
+              } else {
+                highQ = midQ;
+              }
+            }
+
+            // If this resolution tier fit within budget, assemble and verify exact PDF byte length
+            if (candidateJpegs) {
+              var pdfDoc = await window.PDFLib.PDFDocument.create();
+              for (var i = 0; i < candidateJpegs.length; i++) {
+                var embedded = await pdfDoc.embedJpg(candidateJpegs[i]);
+                var isLandscape = pages[i].width > pages[i].height;
+                var pageW = isLandscape ? 841.89 : 595.28;
+                var pageH = isLandscape ? 595.28 : 841.89;
+                var pdfPage = pdfDoc.addPage([pageW, pageH]);
+                var margin = 16;
+                var availW = pageW - margin * 2;
+                var availH = pageH - margin * 2;
+                var fit = Math.min(availW / embedded.width, availH / embedded.height);
+                var drawW = embedded.width * fit;
+                var drawH = embedded.height * fit;
+                pdfPage.drawImage(embedded, {
+                  x: (pageW - drawW) / 2,
+                  y: (pageH - drawH) / 2,
+                  width: drawW,
+                  height: drawH,
+                });
+              }
+              var pdfBytes = await pdfDoc.save();
+              if (pdfBytes.length <= maxBytes) {
+                return pdfBytes;
+              }
+              bestPdfBytes = pdfBytes;
+            }
+          }
+
+          // Extreme fallback at lowest tier/quality
+          var fallbackDoc = await window.PDFLib.PDFDocument.create();
+          for (var j = 0; j < pages.length; j++) {
+            var fbJpg = await scalePageToJpegBytes(pages[j].canvas, 340, 0.14);
+            var fbEmb = await fallbackDoc.embedJpg(fbJpg);
+            var fbPage = fallbackDoc.addPage([595.28, 841.89]);
+            var fbFit = Math.min(563.28 / fbEmb.width, 809.89 / fbEmb.height);
+            fbPage.drawImage(fbEmb, {
+              x: (595.28 - fbEmb.width * fbFit) / 2,
+              y: (841.89 - fbEmb.height * fbFit) / 2,
+              width: fbEmb.width * fbFit,
+              height: fbEmb.height * fbFit,
+            });
+          }
+          var fbOut = await fallbackDoc.save();
+          if (bestPdfBytes && bestPdfBytes.length < fbOut.length) {
+            return bestPdfBytes;
+          }
+          return fbOut;
+        }
+
+        pdfGenerateBtn.addEventListener('click', async function () {
+          if (pdfPages.length === 0) return;
+          var maxKB = parseInt(pdfCapSelect.value, 10) || 256;
+          pdfGenerateBtn.disabled = true;
+          pdfStatusText.textContent = 'Compressing pages & assembling A4 PDF under ' + maxKB + ' KB...';
+
+          try {
+            var pdfBytes = await buildPdfUnderCap(pdfPages, maxKB);
+            var outName = String(pdfFilenameInput.value || 'merged_documents.pdf').trim().replace(/[^a-zA-Z0-9._-]+/g, '_');
+            if (!/\.pdf$/i.test(outName)) outName += '.pdf';
+
+            var withinCap = pdfBytes.length <= maxKB * 1024;
+            pdfStatusText.textContent =
+              (withinCap ? '✓ Ready: ' : '⚠ Closest possible: ') +
+              formatKB(pdfBytes.length) +
+              ' (' +
+              pdfPages.length +
+              ' A4 page' +
+              (pdfPages.length > 1 ? 's' : '') +
+              ', cap ' +
+              maxKB +
+              ' KB)';
+
+            var blob = new Blob([pdfBytes], { type: 'application/pdf' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = outName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(function () {
+              URL.revokeObjectURL(url);
+            }, 1500);
+          } catch (err) {
+            pdfStatusText.textContent = 'Error: ' + (err && err.message ? err.message : 'PDF generation failed.');
+          } finally {
+            pdfGenerateBtn.disabled = false;
+          }
+        });
+
+        // =====================================================================
+        // 8. INITIALIZATION
+        // =====================================================================
+        populatePresets();
+        applyPreset('ssc_sig');
+        resetChecklist();
+
+        // Expose pure helper functions in window.__examResizerEngine for automated tests
+        window.__examResizerEngine = {
+          EXAM_PRESETS: EXAM_PRESETS,
+          patchJpegDpi: patchJpegDpi,
+          padJpegToMinBytes: padJpegToMinBytes,
+          readJpegDpi: readJpegDpi,
+          sanitizeFilename: sanitizeFilename,
+          formatKB: formatKB,
+        };
+      })();
+    </script>
+  </body>
+</html>
+

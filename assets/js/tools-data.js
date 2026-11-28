@@ -78,6 +78,27 @@
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5" aria-hidden="true"><rect x="2" y="3" width="6" height="5" rx="1"/><rect x="16" y="3" width="6" height="5" rx="1"/><rect x="9" y="16" width="6" height="5" rx="1"/><path d="M5 8v3a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8"/><line x1="12" y1="12" x2="12" y2="16"/></svg>',
     },
     {
+      id: 'exam-photo-resizer',
+      title: 'Exam Photo, Signature & Document PDF Resizer',
+      shortTitle: 'Exam Photo & PDF',
+      category: 'Creators',
+      description:
+        'Resize passport photos, signatures (10-20KB, 20-100KB), and multi-page scanned PDFs (under 256KB) with exact pixels and 200/300 DPI for SSC, UPSC, NEET, and college forms.',
+      url: '/tools/exam-photo-resizer/',
+      keywords: [
+        'exam photo resizer',
+        'ssc signature resizer 10kb to 20kb',
+        'upsc 3 signature vertical',
+        'neet photo signature resizer',
+        'compress pdf under 256kb mahadbt',
+        '200 dpi 300 dpi converter',
+      ],
+      badge: 'SSC / UPSC / PDF',
+      featured: false,
+      iconSvg:
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>',
+    },
+    {
       id: 'safe-zone-checker',
       title: 'TikTok, Reels & Shorts Safe-Zone Overlay Checker',
       shortTitle: 'Safe-Zone Checker',
