@@ -1,0 +1,2404 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IPv6 Subnet Calculator, 128-Bit Visualizer &amp; RFC 5952 Compressor — Mohit Tools</title>
+    <meta
+      name="description"
+      content="Free client-side IPv6 subnet calculator, 128-bit hextet visualizer, RFC 5952 canonical compressor, and Modified EUI-64 generator using BigInt math."
+    />
+    <link rel="canonical" href="https://mohit-tools.com/tools/ipv6-subnet-calculator/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mohit Tools" />
+    <meta property="og:url" content="https://mohit-tools.com/tools/ipv6-subnet-calculator/" />
+    <meta property="og:title" content="IPv6 Subnet Calculator, 128-Bit Visualizer &amp; RFC 5952 Compressor — Mohit Tools" />
+    <meta
+      property="og:description"
+      content="Calculate IPv6 network prefixes, /64 subnets, RFC 5952 compression, and Modified EUI-64 addresses with live 128-bit hextet visualization."
+    />
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="IPv6 Subnet Calculator, 128-Bit Visualizer &amp; RFC 5952 Compressor — Mohit Tools" />
+    <meta
+      name="twitter:description"
+      content="Calculate IPv6 network prefixes, /64 subnets, RFC 5952 compression, and Modified EUI-64 addresses with live 128-bit hextet visualization."
+    />
+
+    <!-- Theme Initialization (prevents FOUC before paint) -->
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (saved === 'dark' || (!saved && prefersDark)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Fonts: Plus Jakarta Sans + JetBrains Mono (2+1 rule) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      .tabular-nums {
+        font-variant-numeric: tabular-nums;
+      }
+      input[type='range'] {
+        accent-color: #4f46e5;
+      }
+      .dark input[type='range'] {
+        accent-color: #818cf8;
+      }
+      .no-theme-transition *,
+      .no-theme-transition *::before,
+      .no-theme-transition *::after {
+        transition: none !important;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+
+    <!-- Structured Data: SoftwareApplication + FAQPage -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "SoftwareApplication",
+            "name": "IPv6 Subnet Calculator, 128-Bit Visualizer & RFC 5952 Compressor",
+            "url": "https://mohit-tools.com/tools/ipv6-subnet-calculator/",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Any",
+            "browserRequirements": "Requires JavaScript with BigInt support",
+            "description": "Client-side IPv6 CIDR subnet calculator, 128-bit hextet visualizer, RFC 5952 canonical address compressor, and Modified EUI-64 generator.",
+            "publisher": {
+              "@type": "Organization",
+              "name": "Mohit Tools",
+              "url": "https://mohit-tools.com/"
+            },
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Why are standard IPv6 LAN subnets always /64?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "RFC 4291 and RFC 5375 standardize /64 for Ethernet and end-user LAN segments because Stateless Address Autoconfiguration (SLAAC, RFC 4862) requires a full 64-bit Interface Identifier. Using longer prefixes such as /80 or /96 on client subnets breaks SLAAC, privacy extensions (RFC 8981), and many router Neighbor Discovery optimizations."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What are the exact rules for compressing an IPv6 address under RFC 5952?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "RFC 5952 mandates four rules: (1) strip leading zeros from every 16-bit field while keeping at least one digit, (2) compress only the longest consecutive run of two or more all-zero hextets into '::', (3) never use '::' to shorten a single isolated zero hextet, and (4) break equal-length zero-run ties by compressing the leftmost run and always emit lowercase hex digits."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Why does Modified EUI-64 flip the 7th bit of the MAC address?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "In IEEE 802 48-bit MAC addresses, the 7th bit of the first byte (the U/L or Universal/Local bit, mask 0x02) is 0 for factory-burned globally unique addresses and 1 for locally administered addresses. IPv6 Modified EUI-64 inverts this bit so that 1 denotes a globally unique interface ID and 0 denotes a locally administered one, allowing manual IPv6 hosts like ::1 to avoid colliding with hardware-derived IDs."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What is the difference between Global Unicast (2000::/3), Unique Local (fd00::/8), and Link-Local (fe80::/10)?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Global Unicast Addresses (2000::/3) are publicly routable across the Internet like public IPv4 space. Unique Local Addresses (fc00::/7, specifically fd00::/8 with a 40-bit random Global ID) are for private internal routing across site VPNs without Internet reachability. Link-Local Addresses (fe80::/10) are mandatory on every IPv6 interface, never routed past the local Layer-2 link, and used for Neighbor Discovery and router next-hops."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Why use /127 instead of /64 on point-to-point router links (RFC 6164)?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "On a two-router transit link, assigning a /64 leaves 2^64 - 2 unused addresses vulnerable to Neighbor Discovery cache exhaustion attacks where an external scanner probes nonexistent neighbors. RFC 6164 recommends /127 (providing exactly two addresses, with Subnet-Router Anycast avoided cleanly) to harden infrastructure links and conserve Neighbor Cache memory."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Are my IPv6 prefixes or MAC addresses sent to any server?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. Every calculation—128-bit BigInt bitwise masking, RFC 5952 canonical compression, reverse ip6.arpa generation, and Modified EUI-64 conversion—runs locally inside your browser with zero server uploads or API calls."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 font-sans antialiased selection:bg-indigo-600 selection:text-white">
+    <!-- Top Navigation Bar (Strict 3-Zone Contract) -->
+    <header class="sticky top-0 z-40 border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-950/95 backdrop-blur-sm">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-8">
+        <!-- Zone 1: Brand Wordmark -->
+        <a
+          href="/"
+          class="text-lg font-bold tracking-tight text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-sm"
+        >
+          Mohit Tools
+        </a>
+
+        <!-- Zone 2: Navigation Links -->
+        <nav aria-label="Primary navigation" class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300">
+          <a href="/" class="hover:text-slate-900 dark:hover:text-white hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0">Home</a>
+          <a href="/#tools" class="hover:text-slate-900 dark:hover:text-white hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0">All Tools</a>
+          <a href="/about.html" class="hover:text-slate-900 dark:hover:text-white hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0">About</a>
+          <a href="/Contact.html" class="hover:text-slate-900 dark:hover:text-white hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0">Contact</a>
+        </nav>
+
+        <!-- Zone 3: Primary Action (Theme Toggle) + Mobile Drawer Trigger -->
+        <div class="flex items-center gap-2 shrink-0">
+          <button
+            id="theme-toggle"
+            type="button"
+            aria-label="Toggle dark and light theme"
+            class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+          >
+            <svg id="theme-icon-sun" class="w-4 h-4 hidden dark:block text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+            </svg>
+            <svg id="theme-icon-moon" class="w-4 h-4 block dark:hidden text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+            </svg>
+            <span id="theme-toggle-label">Dark Mode</span>
+          </button>
+          <button
+            id="mobile-menu-toggle"
+            type="button"
+            aria-label="Open mobile navigation menu"
+            aria-expanded="false"
+            aria-controls="mobile-nav-panel"
+            class="md:hidden inline-flex items-center justify-center p-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          >
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="4" y1="6" x2="20" y2="6"></line>
+              <line x1="4" y1="12" x2="20" y2="12"></line>
+              <line x1="4" y1="18" x2="20" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Nav Panel -->
+      <nav id="mobile-nav-panel" aria-label="Mobile navigation" class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 px-4 py-3">
+        <div class="flex flex-col gap-2 text-sm font-medium text-slate-700 dark:text-slate-200">
+          <a href="/" class="py-1.5 hover:text-indigo-600 dark:hover:text-indigo-400">Home</a>
+          <a href="/#tools" class="py-1.5 hover:text-indigo-600 dark:hover:text-indigo-400">All Tools</a>
+          <a href="/about.html" class="py-1.5 hover:text-indigo-600 dark:hover:text-indigo-400">About</a>
+          <a href="/Contact.html" class="py-1.5 hover:text-indigo-600 dark:hover:text-indigo-400">Contact</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10 space-y-12">
+      <!-- Breadcrumb & Hero Header -->
+      <section aria-labelledby="page-title" class="space-y-4">
+        <nav aria-label="Breadcrumb" class="flex flex-wrap items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+          <a href="/" class="hover:text-slate-900 dark:hover:text-slate-200 transition-colors">Home</a>
+          <span aria-hidden="true">&gt;</span>
+          <a href="/#tools" class="hover:text-slate-900 dark:hover:text-slate-200 transition-colors">Tools</a>
+          <span aria-hidden="true">&gt;</span>
+          <span class="text-slate-800 dark:text-slate-200 font-medium">IPv6 Subnet Calculator &amp; Address Compressor</span>
+        </nav>
+
+        <div class="space-y-3 max-w-4xl">
+          <p class="text-xs font-semibold tracking-wide text-indigo-600 dark:text-indigo-400">
+            Networking · 128-Bit BigInt Visualizer
+          </p>
+          <h1 id="page-title" class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight [text-wrap:balance]">
+            IPv6 Subnet Calculator &amp; Address Compressor
+          </h1>
+          <p class="text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-3xl">
+            Calculate IPv6 network prefixes, usable /64 subnets, RFC 5952 canonical compression, and Modified EUI-64 link-local addresses with live 128-bit hextet visualization—100% client-side.
+          </p>
+        </div>
+      </section>
+
+      <!-- Interactive Workspace (3 Integrated Modules) -->
+      <section aria-label="Interactive IPv6 Engineering Workspace" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm overflow-hidden">
+        <!-- Workspace Tab Bar & Global Reset -->
+        <div class="border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/80 px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+          <div role="tablist" aria-label="IPv6 Tool Modules" class="flex flex-col sm:flex-row w-full sm:w-auto items-stretch sm:items-center gap-1 bg-slate-200/70 dark:bg-slate-950 p-1 rounded-lg">
+            <button
+              id="tab-subnet"
+              type="button"
+              role="tab"
+              aria-selected="true"
+              aria-controls="panel-subnet"
+              data-tab="subnet"
+              class="workspace-tab px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-md bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-300 shadow-sm border border-transparent dark:border-slate-700 text-left sm:text-center whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+            >
+              Subnet Calculator &amp; 128-Bit Map
+            </button>
+            <button
+              id="tab-compressor"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="panel-compressor"
+              data-tab="compressor"
+              class="workspace-tab px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-md border border-transparent text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-left sm:text-center whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+            >
+              RFC 5952 Compressor
+            </button>
+            <button
+              id="tab-eui64"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="panel-eui64"
+              data-tab="eui64"
+              class="workspace-tab px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-md border border-transparent text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-left sm:text-center whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+            >
+              Modified EUI-64 &amp; Multicast
+            </button>
+          </div>
+
+          <button
+            id="btn-reset-workspace"
+            type="button"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+          >
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+              <path d="M3 3v5h5"></path>
+            </svg>
+            Reset
+          </button>
+        </div>
+
+        <!-- ================================================== -->
+        <!-- MODULE A: IPv6 CIDR Subnet Calculator & Visualizer -->
+        <!-- ================================================== -->
+        <div id="panel-subnet" role="tabpanel" aria-labelledby="tab-subnet" class="p-4 sm:p-6 space-y-6">
+          <!-- Inputs & Quick Presets -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+            <div class="lg:col-span-7 space-y-2">
+              <label for="ipv6-input" class="block text-sm font-semibold text-slate-800 dark:text-slate-200">
+                IPv6 Address or CIDR Block
+              </label>
+              <div class="flex flex-col sm:flex-row gap-2.5">
+                <input
+                  id="ipv6-input"
+                  type="text"
+                  value="2001:db8:acad:1::42/64"
+                  spellcheck="false"
+                  autocomplete="off"
+                  placeholder="e.g. 2001:db8:acad:1::42/64 or ::ffff:192.0.2.128"
+                  class="w-full px-3.5 py-2.5 font-mono text-sm sm:text-base rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                />
+              </div>
+              <p class="text-xs text-slate-500 dark:text-slate-400">
+                Accepts compressed, expanded, or IPv4-embedded IPv6 with optional <code class="font-mono">/prefix</code>.
+              </p>
+            </div>
+
+            <div class="lg:col-span-5 space-y-2">
+              <div class="flex items-center justify-between gap-2">
+                <label for="cidr-select" class="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                  CIDR Prefix Length
+                </label>
+                <select
+                  id="cidr-select"
+                  aria-label="CIDR Prefix Length Dropdown"
+                  class="px-3 py-1.5 font-mono text-sm font-semibold rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-indigo-600 dark:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                ></select>
+              </div>
+              <input
+                id="cidr-slider"
+                type="range"
+                min="0"
+                max="128"
+                value="64"
+                aria-label="CIDR Prefix Length Slider"
+                class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg cursor-pointer"
+              />
+              <div class="flex items-center justify-between gap-1 text-[11px] font-mono text-slate-500 dark:text-slate-400">
+                <button type="button" class="cidr-marker hover:text-indigo-600 dark:hover:text-indigo-400 font-medium px-1 py-0.5 rounded" data-prefix="32">/32</button>
+                <button type="button" class="cidr-marker hover:text-indigo-600 dark:hover:text-indigo-400 font-medium px-1 py-0.5 rounded" data-prefix="48">/48</button>
+                <button type="button" class="cidr-marker hover:text-indigo-600 dark:hover:text-indigo-400 font-medium px-1 py-0.5 rounded" data-prefix="56">/56</button>
+                <button type="button" class="cidr-marker hover:text-indigo-600 dark:hover:text-indigo-400 font-medium px-1 py-0.5 rounded" data-prefix="64">/64</button>
+                <button type="button" class="cidr-marker hover:text-indigo-600 dark:hover:text-indigo-400 font-medium px-1 py-0.5 rounded" data-prefix="127">/127</button>
+                <button type="button" class="cidr-marker hover:text-indigo-600 dark:hover:text-indigo-400 font-medium px-1 py-0.5 rounded" data-prefix="128">/128</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Presets -->
+          <div class="flex flex-wrap items-center gap-1.5">
+            <span class="text-xs font-medium text-slate-500 dark:text-slate-400 mr-1">Quick Presets:</span>
+            <button type="button" class="subnet-preset px-2.5 py-1 text-xs font-mono rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-slate-700 dark:text-slate-200 hover:border-indigo-400 dark:hover:border-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap shrink-0" data-value="2001:db8:acad:1::42/64">
+              2001:db8:acad:1::42/64
+            </button>
+            <button type="button" class="subnet-preset px-2.5 py-1 text-xs font-mono rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-slate-700 dark:text-slate-200 hover:border-indigo-400 dark:hover:border-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap shrink-0" data-value="2001:db8:85a3::/48">
+              2001:db8:85a3::/48 (Enterprise)
+            </button>
+            <button type="button" class="subnet-preset px-2.5 py-1 text-xs font-mono rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-slate-700 dark:text-slate-200 hover:border-indigo-400 dark:hover:border-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap shrink-0" data-value="fd12:3456:789a::/56">
+              fd12:3456:789a::/56 (ULA Site)
+            </button>
+            <button type="button" class="subnet-preset px-2.5 py-1 text-xs font-mono rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-slate-700 dark:text-slate-200 hover:border-indigo-400 dark:hover:border-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap shrink-0" data-value="fe80::1ff:fe23:4567:890a/64">
+              fe80::1ff:fe23:4567:890a/64 (Link-Local)
+            </button>
+          </div>
+
+          <!-- Inline Validation Banner -->
+          <div
+            id="subnet-error-banner"
+            role="alert"
+            aria-live="polite"
+            class="hidden rounded-lg border border-red-300 dark:border-red-800 bg-red-50 dark:bg-red-950/60 px-4 py-3 text-sm text-red-800 dark:text-red-200 flex items-start gap-2.5"
+          >
+            <svg class="w-5 h-5 shrink-0 text-red-600 dark:text-red-400 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <div>
+              <span class="font-semibold">Invalid IPv6 Input:</span>
+              <span id="subnet-error-message">Please verify address syntax and prefix length.</span>
+            </div>
+          </div>
+
+          <!-- Interactive 8-Hextet (128-Bit) Visual Map -->
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h2 class="text-sm font-semibold text-slate-900 dark:text-white">
+                  128-Bit Hextet Architecture Map
+                </h2>
+                <p id="bit-counter-summary" class="text-xs font-mono tabular-nums text-slate-600 dark:text-slate-300 mt-0.5">
+                  Prefix Bits: 48 | Subnet ID Bits: 16 | Interface ID Bits: 64
+                </p>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-4">
+                <!-- Legend -->
+                <div class="flex flex-wrap items-center gap-3 text-xs text-slate-600 dark:text-slate-300">
+                  <span class="inline-flex items-center gap-1.5">
+                    <span class="w-3 h-3 rounded-sm bg-indigo-600 dark:bg-indigo-500 inline-block" aria-hidden="true"></span>
+                    Global Routing Prefix (0–47)
+                  </span>
+                  <span class="inline-flex items-center gap-1.5">
+                    <span class="w-3 h-3 rounded-sm bg-emerald-600 dark:bg-emerald-500 inline-block" aria-hidden="true"></span>
+                    Subnet ID (48–63)
+                  </span>
+                  <span class="inline-flex items-center gap-1.5">
+                    <span class="w-3 h-3 rounded-sm bg-slate-300 dark:bg-slate-600 inline-block" aria-hidden="true"></span>
+                    Interface ID / Host Bits
+                  </span>
+                </div>
+
+                <button
+                  id="toggle-binary-nibbles"
+                  type="button"
+                  aria-pressed="false"
+                  class="px-3 py-1.5 text-xs font-semibold rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors whitespace-nowrap shrink-0"
+                >
+                  Show Binary Nibbles
+                </button>
+              </div>
+            </div>
+
+            <!-- 8 Hextet Grid -->
+            <div id="hextet-visualizer-grid" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5" data-testid="hextet-grid">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <!-- Calculated Output Cards -->
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <h2 class="text-sm font-semibold text-slate-900 dark:text-white">
+                Calculated Subnet Breakdown
+              </h2>
+              <div class="flex items-center gap-2 text-xs">
+                <span class="text-slate-500 dark:text-slate-400">Scope &amp; Type:</span>
+                <span
+                  id="out-scope-badge"
+                  class="inline-flex items-center px-2.5 py-1 rounded-md border border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 font-medium"
+                >
+                  Documentation (2001:db8::/32 · RFC 3849)
+                </span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+              <!-- Canonical Compressed -->
+              <div class="p-3.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-950/60 flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                  <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Canonical Compressed Address (RFC 5952)</div>
+                  <div id="out-canonical" class="mt-1 font-mono text-sm sm:text-base font-semibold text-slate-900 dark:text-white break-all tabular-nums">
+                    2001:db8:acad:1::42
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  data-copy-target="out-canonical"
+                  aria-label="Copy canonical compressed address"
+                  class="copy-btn px-2.5 py-1.5 text-xs font-semibold rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap shrink-0"
+                >
+                  Copy
+                </button>
+              </div>
+
+              <!-- Full Expanded -->
+              <div class="p-3.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-950/60 flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                  <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Full Expanded Address (32 Hex Digits)</div>
+                  <div id="out-expanded" class="mt-1 font-mono text-sm font-semibold text-slate-900 dark:text-white break-all tabular-nums">
+                    2001:0db8:acad:0001:0000:0000:0000:0042
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  data-copy-target="out-expanded"
+                  aria-label="Copy full expanded address"
+                  class="copy-btn px-2.5 py-1.5 text-xs font-semibold rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap shrink-0"
+                >
+                  Copy
+                </button>
+              </div>
+
+              <!-- Network Prefix / Start Address -->
+              <div class="p-3.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-950/60 flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                  <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Network Prefix / Start Address</div>
+                  <div id="out-network-start" class="mt-1 font-mono text-sm font-semibold text-slate-900 dark:text-white break-all tabular-nums">
+                    2001:0db8:acad:0001:0000:0000:0000:0000
+                  </div>
+                  <div id="out-network-start-compressed" class="mt-0.5 font-mono text-xs text-slate-500 dark:text-slate-400 break-all">
+                    2001:db8:acad:1::/64
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  data-copy-target="out-network-start-compressed"
+                  aria-label="Copy network prefix address"
+                  class="copy-btn px-2.5 py-1.5 text-xs font-semibold rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap shrink-0"
+                >
+                  Copy
+                </button>
+              </div>
+
+              <!-- Last Address in Range -->
+              <div class="p-3.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-950/60 flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                  <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Last Address in Range</div>
+                  <div id="out-network-end" class="mt-1 font-mono text-sm font-semibold text-slate-900 dark:text-white break-all tabular-nums">
+                    2001:0db8:acad:0001:ffff:ffff:ffff:ffff
+                  </div>
+                  <div id="out-network-end-compressed" class="mt-0.5 font-mono text-xs text-slate-500 dark:text-slate-400 break-all">
+                    2001:db8:acad:1:ffff:ffff:ffff:ffff
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  data-copy-target="out-network-end-compressed"
+                  aria-label="Copy last address in range"
+                  class="copy-btn px-2.5 py-1.5 text-xs font-semibold rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap shrink-0"
+                >
+                  Copy
+                </button>
+              </div>
+
+              <!-- Available /64 Subnets -->
+              <div class="p-3.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-950/60">
+                <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Available /64 Subnets</div>
+                <div id="out-subnets-64" class="mt-1 font-mono text-sm sm:text-base font-semibold text-emerald-700 dark:text-emerald-400 tabular-nums">
+                  1
+                </div>
+                <div id="out-subnets-64-sub" class="mt-0.5 text-xs font-mono text-slate-500 dark:text-slate-400 tabular-nums">
+                  2^(64 - 64) standard LAN subnets
+                </div>
+              </div>
+
+              <!-- Total Addresses in Block -->
+              <div class="p-3.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-950/60">
+                <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Total Addresses in Block</div>
+                <div id="out-total-addresses" class="mt-1 font-mono text-sm sm:text-base font-semibold text-slate-900 dark:text-white tabular-nums">
+                  ~1.84 × 10^19 (2^64)
+                </div>
+                <div id="out-total-addresses-exact" class="mt-0.5 text-xs font-mono text-slate-500 dark:text-slate-400 break-all tabular-nums">
+                  18,446,744,073,709,551,616
+                </div>
+              </div>
+
+              <!-- Reverse DNS ip6.arpa -->
+              <div class="md:col-span-2 p-3.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-950/60 flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                  <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Reverse DNS (ip6.arpa) Nibble Pointer</div>
+                  <div id="out-rdns" class="mt-1 font-mono text-xs sm:text-sm font-semibold text-slate-900 dark:text-white break-all">
+                    2.4.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.0.d.a.c.a.8.b.d.0.1.0.0.2.ip6.arpa.
+                  </div>
+                  <div id="out-rdns-zone" class="mt-1 font-mono text-xs text-slate-500 dark:text-slate-400 break-all">
+                    Zone (/64): 1.0.0.0.d.a.c.a.8.b.d.0.1.0.0.2.ip6.arpa.
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  data-copy-target="out-rdns"
+                  aria-label="Copy ip6.arpa reverse DNS pointer"
+                  class="copy-btn px-2.5 py-1.5 text-xs font-semibold rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap shrink-0"
+                >
+                  Copy
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================================================== -->
+        <!-- MODULE B: RFC 5952 Canonical Compressor & Expander -->
+        <!-- ================================================== -->
+        <div id="panel-compressor" role="tabpanel" aria-labelledby="tab-compressor" class="hidden p-4 sm:p-6 space-y-6">
+          <div class="space-y-2">
+            <label for="comp-input" class="block text-sm font-semibold text-slate-800 dark:text-slate-200">
+              Any Valid IPv6 Address (Compressed, Expanded, Uppercase, or Non-Canonical)
+            </label>
+            <input
+              id="comp-input"
+              type="text"
+              value="2001:0DB8:0000:0000:0001:0000:0000:0001"
+              spellcheck="false"
+              autocomplete="off"
+              placeholder="e.g. 2001:0DB8:0000:0000:0001:0000:0000:0001 or 2001:DB8::0:1"
+              class="w-full px-3.5 py-2.5 font-mono text-sm sm:text-base rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            />
+            <div class="flex flex-wrap items-center gap-2 pt-1">
+              <span class="text-xs font-medium text-slate-500 dark:text-slate-400 mr-1">Test Cases:</span>
+              <button type="button" class="comp-preset px-3 py-1.5 text-xs font-mono rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-slate-700 dark:text-slate-200 hover:border-indigo-400 transition-colors whitespace-nowrap shrink-0" data-value="2001:0DB8:0000:0000:0001:0000:0000:0001">
+                Tie-Breaker (Equal Zero Runs)
+              </button>
+              <button type="button" class="comp-preset px-3 py-1.5 text-xs font-mono rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-slate-700 dark:text-slate-200 hover:border-indigo-400 transition-colors whitespace-nowrap shrink-0" data-value="2001:db8:0:1:1:1:1:1">
+                Single Zero (Never ::)
+              </button>
+              <button type="button" class="comp-preset px-3 py-1.5 text-xs font-mono rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-slate-700 dark:text-slate-200 hover:border-indigo-400 transition-colors whitespace-nowrap shrink-0" data-value="2001:DB8::0:1">
+                Uppercase + Redundant Zero
+              </button>
+              <button type="button" class="comp-preset px-3 py-1.5 text-xs font-mono rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-slate-700 dark:text-slate-200 hover:border-indigo-400 transition-colors whitespace-nowrap shrink-0" data-value="::ffff:192.0.2.128">
+                IPv4-Mapped (::ffff:192.0.2.128)
+              </button>
+            </div>
+          </div>
+
+          <div
+            id="comp-error-banner"
+            role="alert"
+            aria-live="polite"
+            class="hidden rounded-lg border border-red-300 dark:border-red-800 bg-red-50 dark:bg-red-950/60 px-4 py-3 text-sm text-red-800 dark:text-red-200 flex items-start gap-2.5"
+          >
+            <svg class="w-5 h-5 shrink-0 text-red-600 dark:text-red-400 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <div>
+              <span class="font-semibold">Invalid IPv6 Address:</span>
+              <span id="comp-error-message">Enter a valid 128-bit IPv6 address.</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-4 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-950/60 flex items-start justify-between gap-3">
+              <div class="min-w-0">
+                <div class="text-xs font-medium text-slate-500 dark:text-slate-400">RFC 5952 Canonical Compressed Form</div>
+                <div id="comp-out-canonical" class="mt-1.5 font-mono text-base font-semibold text-indigo-600 dark:text-indigo-400 break-all tabular-nums">
+                  2001:db8::1:0:0:1
+                </div>
+              </div>
+              <button
+                type="button"
+                data-copy-target="comp-out-canonical"
+                aria-label="Copy RFC 5952 canonical address"
+                class="copy-btn px-2.5 py-1.5 text-xs font-semibold rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap shrink-0"
+              >
+                Copy
+              </button>
+            </div>
+
+            <div class="p-4 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-950/60 flex items-start justify-between gap-3">
+              <div class="min-w-0">
+                <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Full Uncompressed 8-Hextet Form</div>
+                <div id="comp-out-expanded" class="mt-1.5 font-mono text-sm sm:text-base font-semibold text-slate-900 dark:text-white break-all tabular-nums">
+                  2001:0db8:0000:0000:0001:0000:0000:0001
+                </div>
+              </div>
+              <button
+                type="button"
+                data-copy-target="comp-out-expanded"
+                aria-label="Copy full uncompressed 8-hextet address"
+                class="copy-btn px-2.5 py-1.5 text-xs font-semibold rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap shrink-0"
+              >
+                Copy
+              </button>
+            </div>
+          </div>
+
+          <!-- Rule Audit Log -->
+          <div class="p-4 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-950/40 space-y-2">
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              RFC 5952 Rule Audit Log
+            </h3>
+            <ul id="comp-audit-log" class="space-y-1.5 text-sm text-slate-700 dark:text-slate-300 list-disc pl-5">
+              <!-- Populated by JS -->
+            </ul>
+          </div>
+        </div>
+
+        <!-- ================================================== -->
+        <!-- MODULE C: Modified EUI-64 & Solicited-Node Multicast -->
+        <!-- ================================================== -->
+        <div id="panel-eui64" role="tabpanel" aria-labelledby="tab-eui64" class="hidden p-4 sm:p-6 space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-2">
+              <label for="mac-input" class="block text-sm font-semibold text-slate-800 dark:text-slate-200">
+                48-Bit Hardware MAC Address
+              </label>
+              <input
+                id="mac-input"
+                type="text"
+                value="00:1A:2B:3C:4D:5E"
+                spellcheck="false"
+                autocomplete="off"
+                placeholder="e.g. 00:1A:2B:3C:4D:5E, 00-1A-2B-3C-4D-5E, or 001a.2b3c.4d5e"
+                class="w-full px-3.5 py-2.5 font-mono text-sm sm:text-base rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p class="text-xs text-slate-500 dark:text-slate-400">
+                Supports colon, hyphen, Cisco dot notation, or raw 12 hex digits.
+              </p>
+            </div>
+
+            <div class="space-y-2">
+              <label for="eui-prefix-input" class="block text-sm font-semibold text-slate-800 dark:text-slate-200">
+                Custom /64 Network Prefix (Optional)
+              </label>
+              <input
+                id="eui-prefix-input"
+                type="text"
+                value="fe80::/64"
+                spellcheck="false"
+                autocomplete="off"
+                placeholder="fe80::/64 or 2001:db8:acad:1::/64"
+                class="w-full px-3.5 py-2.5 font-mono text-sm sm:text-base rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <div class="flex flex-wrap items-center gap-1.5 text-xs">
+                <span class="text-slate-500 dark:text-slate-400">Prefix:</span>
+                <button type="button" class="eui-prefix-preset font-mono px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-indigo-400" data-value="fe80::/64">fe80::/64</button>
+                <button type="button" class="eui-prefix-preset font-mono px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-indigo-400" data-value="2001:db8:acad:1::/64">2001:db8:acad:1::/64</button>
+                <button type="button" class="eui-prefix-preset font-mono px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-indigo-400" data-value="fd12:3456:789a:1::/64">fd12:3456:789a:1::/64</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-xs font-medium text-slate-500 dark:text-slate-400 mr-1">MAC Presets:</span>
+            <button type="button" class="mac-preset px-3 py-1.5 text-xs font-mono rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-slate-700 dark:text-slate-200 hover:border-indigo-400 transition-colors whitespace-nowrap shrink-0" data-value="00:1A:2B:3C:4D:5E">
+              00:1A:2B:3C:4D:5E
+            </button>
+            <button type="button" class="mac-preset px-3 py-1.5 text-xs font-mono rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-slate-700 dark:text-slate-200 hover:border-indigo-400 transition-colors whitespace-nowrap shrink-0" data-value="52:54:00:8A:1C:9F">
+              52:54:00:8A:1C:9F (KVM/QEMU)
+            </button>
+            <button type="button" class="mac-preset px-3 py-1.5 text-xs font-mono rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-slate-700 dark:text-slate-200 hover:border-indigo-400 transition-colors whitespace-nowrap shrink-0" data-value="DC:A6:32:4B:11:22">
+              DC:A6:32:4B:11:22 (Raspberry Pi)
+            </button>
+          </div>
+
+          <div
+            id="eui-error-banner"
+            role="alert"
+            aria-live="polite"
+            class="hidden rounded-lg border border-red-300 dark:border-red-800 bg-red-50 dark:bg-red-950/60 px-4 py-3 text-sm text-red-800 dark:text-red-200 flex items-start gap-2.5"
+          >
+            <svg class="w-5 h-5 shrink-0 text-red-600 dark:text-red-400 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <div>
+              <span class="font-semibold">Invalid Input:</span>
+              <span id="eui-error-message">Please verify MAC address or /64 prefix syntax.</span>
+            </div>
+          </div>
+
+          <!-- Step-by-Step Visual Transformation Card -->
+          <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 p-4 space-y-4">
+            <h2 class="text-sm font-semibold text-slate-900 dark:text-white">
+              Step-by-Step IEEE Modified EUI-64 Transformation
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="p-3.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-1.5">
+                <div class="text-xs font-semibold text-indigo-600 dark:text-indigo-400">Step 1 — Split 48-Bit MAC</div>
+                <div class="text-xs text-slate-600 dark:text-slate-300">
+                  OUI (24 bits): <code id="eui-step1-oui" class="font-mono font-semibold text-slate-900 dark:text-white">00:1A:2B</code>
+                </div>
+                <div class="text-xs text-slate-600 dark:text-slate-300">
+                  NIC Specific (24 bits): <code id="eui-step1-nic" class="font-mono font-semibold text-slate-900 dark:text-white">3C:4D:5E</code>
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-1.5">
+                <div class="text-xs font-semibold text-indigo-600 dark:text-indigo-400">Step 2 — Insert FF:FE in Middle</div>
+                <div id="eui-step2-raw" class="font-mono text-xs sm:text-sm font-semibold text-slate-900 dark:text-white break-all">
+                  00:1A:2B:<span class="text-emerald-600 dark:text-emerald-400">FF:FE</span>:3C:4D:5E
+                </div>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Expands 48-bit MAC to a 64-bit value.</p>
+              </div>
+
+              <div class="p-3.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-1.5">
+                <div class="text-xs font-semibold text-indigo-600 dark:text-indigo-400">Step 3 — Flip 7th Bit (U/L Bit)</div>
+                <div id="eui-step3-binary" class="font-mono text-xs text-slate-800 dark:text-slate-200 tabular-nums">
+                  000000<span class="font-bold text-indigo-600 dark:text-indigo-400 underline">0</span>0 → 000000<span class="font-bold text-emerald-600 dark:text-emerald-400 underline">1</span>0
+                </div>
+                <div id="eui-step3-xor" class="font-mono text-xs text-slate-600 dark:text-slate-400">
+                  0x00 ^ 0x02 = 0x02 (0 → 1: globally unique)
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- EUI-64 Outputs -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+            <div class="p-3.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-950/60 flex items-start justify-between gap-3">
+              <div class="min-w-0">
+                <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Modified EUI-64 Interface ID</div>
+                <div id="eui-out-iid" class="mt-1 font-mono text-sm sm:text-base font-semibold text-slate-900 dark:text-white break-all tabular-nums">
+                  021a:2bff:fe3c:4d5e
+                </div>
+              </div>
+              <button type="button" data-copy-target="eui-out-iid" aria-label="Copy Modified EUI-64 Interface ID" class="copy-btn px-2.5 py-1.5 text-xs font-semibold rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap shrink-0">Copy</button>
+            </div>
+
+            <div class="p-3.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-950/60 flex items-start justify-between gap-3">
+              <div class="min-w-0">
+                <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Full Link-Local IPv6 Address</div>
+                <div id="eui-out-linklocal" class="mt-1 font-mono text-sm sm:text-base font-semibold text-slate-900 dark:text-white break-all tabular-nums">
+                  fe80::21a:2bff:fe3c:4d5e
+                </div>
+              </div>
+              <button type="button" data-copy-target="eui-out-linklocal" aria-label="Copy Full Link-Local IPv6 Address" class="copy-btn px-2.5 py-1.5 text-xs font-semibold rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap shrink-0">Copy</button>
+            </div>
+
+            <div class="p-3.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-950/60 flex items-start justify-between gap-3">
+              <div class="min-w-0">
+                <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Full Global / Custom Prefix Address</div>
+                <div id="eui-out-custom" class="mt-1 font-mono text-sm sm:text-base font-semibold text-indigo-600 dark:text-indigo-400 break-all tabular-nums">
+                  fe80::21a:2bff:fe3c:4d5e
+                </div>
+              </div>
+              <button type="button" data-copy-target="eui-out-custom" aria-label="Copy Full Custom Prefix IPv6 Address" class="copy-btn px-2.5 py-1.5 text-xs font-semibold rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap shrink-0">Copy</button>
+            </div>
+
+            <div class="p-3.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-950/60 flex items-start justify-between gap-3">
+              <div class="min-w-0">
+                <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Solicited-Node Multicast Address (Last 24 Bits Highlighted)</div>
+                <div id="eui-out-multicast" class="mt-1 font-mono text-sm sm:text-base font-semibold text-slate-900 dark:text-white break-all tabular-nums">
+                  ff02::1:ff<span class="text-emerald-600 dark:text-emerald-400 underline decoration-2 underline-offset-2">3c:4d5e</span>
+                </div>
+              </div>
+              <button type="button" data-copy-target="eui-out-multicast" aria-label="Copy Solicited-Node Multicast Address" class="copy-btn px-2.5 py-1.5 text-xs font-semibold rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap shrink-0">Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================== -->
+      <!-- EDUCATIONAL GUIDES, CHEAT SHEETS & REFERENCE TABLES -->
+      <!-- ================================================== -->
+      <article class="space-y-12 border-t border-slate-200 dark:border-slate-800 pt-10">
+        <!-- 1. How to Use & Worked Enterprise Example -->
+        <section class="space-y-4">
+          <h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            How to Use the IPv6 Subnet Calculator &amp; Worked Enterprise Example
+          </h2>
+          <p class="text-slate-600 dark:text-slate-300 leading-relaxed max-w-4xl">
+            Unlike IPv4 subnetting—which forces engineers to squeeze host counts into tight power-of-two boundaries and rely on Network Address Translation (NAT)—IPv6 subnetting centers on clean hierarchical delegation across a 128-bit address space. Every calculation in this utility executes natively with JavaScript 128-bit <code class="font-mono text-sm bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">BigInt</code> bitwise operations, preventing the 53-bit floating-point precision loss that breaks legacy calculators.
+          </p>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2">
+            <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-3">
+              <h3 class="text-base font-semibold text-slate-900 dark:text-white">Step-by-Step Workflow</h3>
+              <ol class="space-y-2 text-sm text-slate-600 dark:text-slate-300 list-decimal pl-5 leading-relaxed">
+                <li><strong>Enter an IPv6 Address or Block:</strong> Paste any compressed, uncompressed, or IPv4-embedded IPv6 address into Module A, optionally including a slash prefix such as <code class="font-mono">/48</code> or <code class="font-mono">/64</code>.</li>
+                <li><strong>Adjust the CIDR Prefix Length:</strong> Drag the prefix slider or choose a standard boundary from the dropdown (<code class="font-mono">/32</code> to <code class="font-mono">/128</code>). Watch the 8-hextet map dynamically recolor bits into Global Routing Prefix (Indigo), Subnet ID (Emerald), and Interface ID (Slate).</li>
+                <li><strong>Inspect Subnet Capacity &amp; Reverse DNS:</strong> Review the canonical RFC 5952 prefix, first and last range boundaries, available <code class="font-mono">/64</code> LAN subnets, and the reversed 32-nibble <code class="font-mono">.ip6.arpa.</code> pointer for BIND or Unbound PTR records.</li>
+                <li><strong>Validate Normalization or MAC Derivation:</strong> Switch to Module B to audit RFC 5952 compliance or Module C to convert any 48-bit MAC into a Modified EUI-64 Interface ID and Solicited-Node Multicast group.</li>
+              </ol>
+            </div>
+
+            <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-3">
+              <h3 class="text-base font-semibold text-slate-900 dark:text-white">Worked Enterprise Example: <code class="font-mono text-indigo-600 dark:text-indigo-400">2001:db8:acad::/48</code></h3>
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                Suppose your organization receives a standard enterprise site allocation from the RFC 3849 documentation prefix: <code class="font-mono">2001:db8:acad::/48</code>. The first 48 bits (<code class="font-mono">2001:0db8:acad</code>, Hextets 1–3) form your immutable Global Routing Prefix. Because every standard IPv6 LAN requires a <code class="font-mono">/64</code> prefix for SLAAC, the remaining 16 bits between bit 48 and bit 64 (Hextet 4) become your dedicated <strong>Subnet ID</strong>.
+              </p>
+              <ul class="space-y-1.5 text-sm text-slate-600 dark:text-slate-300 list-disc pl-5 leading-relaxed">
+                <li><strong>Total Subnet ID Bits:</strong> <code class="font-mono">64 - 48 = 16 bits</code> (4 full hex nibbles).</li>
+                <li><strong>Usable /64 VLANs:</strong> <code class="font-mono">2¹⁶ = 65,536</code> independent <code class="font-mono">/64</code> networks.</li>
+                <li><strong>First /64 Subnet:</strong> <code class="font-mono">2001:db8:acad:0000::/64</code> (simplified to <code class="font-mono">2001:db8:acad::/64</code>).</li>
+                <li><strong>Last /64 Subnet:</strong> <code class="font-mono">2001:db8:acad:ffff::/64</code>.</li>
+                <li><strong>Per-VLAN Capacity:</strong> Each of the 65,536 VLANs holds <code class="font-mono">2⁶⁴</code> addresses—more than 18 quintillion hosts per subnet.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. IPv6 Address Scope & Reserved Prefix Reference Table -->
+        <section class="space-y-4">
+          <h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            IPv6 Address Scope &amp; Reserved Prefix Reference Table
+          </h2>
+          <p class="text-slate-600 dark:text-slate-300 leading-relaxed max-w-4xl">
+            Every IPv6 packet's forwarding behavior depends on its IANA-assigned prefix block. Unlike IPv4 classful boundaries, IPv6 embeds scope and routing rules directly in the most significant bits of the 128-bit address.
+          </p>
+          <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+            <table class="w-full text-left border-collapse text-sm">
+              <thead>
+                <tr class="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/60 text-xs font-semibold text-slate-600 dark:text-slate-300">
+                  <th class="py-3 px-4 whitespace-nowrap">Prefix</th>
+                  <th class="py-3 px-4 whitespace-nowrap">Address Scope / Type</th>
+                  <th class="py-3 px-4 whitespace-nowrap">Reference RFC</th>
+                  <th class="py-3 px-4">Engineering Purpose &amp; Routing Behavior</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-800/40">
+                  <td class="py-2.5 px-4 font-mono font-semibold text-slate-900 dark:text-white whitespace-nowrap">::/128</td>
+                  <td class="py-2.5 px-4 whitespace-nowrap">Unspecified Address</td>
+                  <td class="py-2.5 px-4 font-mono text-xs whitespace-nowrap">RFC 4291</td>
+                  <td class="py-2.5 px-4">Indicates absence of an address; used as source during Duplicate Address Detection (DAD) before SLAAC completes. Never routed.</td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-800/40">
+                  <td class="py-2.5 px-4 font-mono font-semibold text-slate-900 dark:text-white whitespace-nowrap">::1/128</td>
+                  <td class="py-2.5 px-4 whitespace-nowrap">Loopback Address</td>
+                  <td class="py-2.5 px-4 font-mono text-xs whitespace-nowrap">RFC 4291</td>
+                  <td class="py-2.5 px-4">Host-internal loopback interface equivalent to IPv4 <code class="font-mono">127.0.0.1</code>. Must never leave the local host stack.</td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-800/40">
+                  <td class="py-2.5 px-4 font-mono font-semibold text-slate-900 dark:text-white whitespace-nowrap">::ffff:0:0/96</td>
+                  <td class="py-2.5 px-4 whitespace-nowrap">IPv4-Mapped IPv6 Address</td>
+                  <td class="py-2.5 px-4 font-mono text-xs whitespace-nowrap">RFC 4291</td>
+                  <td class="py-2.5 px-4">Represents an IPv4 node inside dual-stack socket APIs (e.g., <code class="font-mono">::ffff:192.0.2.128</code>). Not transmitted on the wire as native IPv6.</td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-800/40">
+                  <td class="py-2.5 px-4 font-mono font-semibold text-slate-900 dark:text-white whitespace-nowrap">64:ff9b::/96</td>
+                  <td class="py-2.5 px-4 whitespace-nowrap">NAT64 Well-Known Prefix</td>
+                  <td class="py-2.5 px-4 font-mono text-xs whitespace-nowrap">RFC 6052</td>
+                  <td class="py-2.5 px-4">Synthesizes IPv6 addresses from IPv4 destinations for IPv6-only clients reaching legacy IPv4 servers through DNS64/NAT64 gateways.</td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-800/40">
+                  <td class="py-2.5 px-4 font-mono font-semibold text-slate-900 dark:text-white whitespace-nowrap">2000::/3</td>
+                  <td class="py-2.5 px-4 whitespace-nowrap">Global Unicast Address (GUA)</td>
+                  <td class="py-2.5 px-4 font-mono text-xs whitespace-nowrap">RFC 4291 / 3587</td>
+                  <td class="py-2.5 px-4">Publicly routable Internet unicast space (<code class="font-mono">2000::</code> through <code class="font-mono">3fff:ffff:...</code>) delegated by IANA and RIRs.</td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-800/40">
+                  <td class="py-2.5 px-4 font-mono font-semibold text-slate-900 dark:text-white whitespace-nowrap">2001:db8::/32</td>
+                  <td class="py-2.5 px-4 whitespace-nowrap">Documentation &amp; Examples</td>
+                  <td class="py-2.5 px-4 font-mono text-xs whitespace-nowrap">RFC 3849</td>
+                  <td class="py-2.5 px-4">Reserved strictly for tutorials, lab topologies, books, and documentation. Filtered on public BGP peering tables.</td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-800/40">
+                  <td class="py-2.5 px-4 font-mono font-semibold text-slate-900 dark:text-white whitespace-nowrap">fc00::/7 &amp; fd00::/8</td>
+                  <td class="py-2.5 px-4 whitespace-nowrap">Unique Local Address (ULA)</td>
+                  <td class="py-2.5 px-4 font-mono text-xs whitespace-nowrap">RFC 4193</td>
+                  <td class="py-2.5 px-4">Private internal routing across sites/VPNs. <code class="font-mono">fd00::/8</code> uses a 40-bit pseudo-random Global ID to avoid merge collisions.</td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-800/40">
+                  <td class="py-2.5 px-4 font-mono font-semibold text-slate-900 dark:text-white whitespace-nowrap">fe80::/10</td>
+                  <td class="py-2.5 px-4 whitespace-nowrap">Link-Local Unicast</td>
+                  <td class="py-2.5 px-4 font-mono text-xs whitespace-nowrap">RFC 4291</td>
+                  <td class="py-2.5 px-4">Auto-configured on every active IPv6 interface. Scoped strictly to a single Layer-2 broadcast domain; routers never forward it.</td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-800/40">
+                  <td class="py-2.5 px-4 font-mono font-semibold text-slate-900 dark:text-white whitespace-nowrap">ff00::/8</td>
+                  <td class="py-2.5 px-4 whitespace-nowrap">Multicast</td>
+                  <td class="py-2.5 px-4 font-mono text-xs whitespace-nowrap">RFC 4291 / 7346</td>
+                  <td class="py-2.5 px-4">Replaces IPv4 broadcast. Key groups: <code class="font-mono">ff02::1</code> (All Nodes), <code class="font-mono">ff02::2</code> (All Routers), <code class="font-mono">ff02::1:ff00:0/104</code> (Solicited-Node).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 3. Common IPv6 CIDR Prefix & Nibble Boundary Cheat Sheet -->
+        <section class="space-y-4">
+          <h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            Common IPv6 CIDR Prefix &amp; Nibble Boundary Cheat Sheet
+          </h2>
+          <p class="text-slate-600 dark:text-slate-300 leading-relaxed max-w-4xl">
+            Each hexadecimal character in an IPv6 address represents exactly 4 bits (one nibble). Aligning subnet delegations to 4-bit nibble boundaries (<code class="font-mono">/32</code>, <code class="font-mono">/36</code>, <code class="font-mono">/40</code>, <code class="font-mono">/44</code>, <code class="font-mono">/48</code>, <code class="font-mono">/52</code>, <code class="font-mono">/56</code>, <code class="font-mono">/60</code>, <code class="font-mono">/64</code>) keeps routing policies, ACL masks, and reverse DNS (<code class="font-mono">ip6.arpa</code>) zone delegations clean and human-readable.
+          </p>
+          <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+            <table class="w-full text-left border-collapse text-sm tabular-nums">
+              <thead>
+                <tr class="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/60 text-xs font-semibold text-slate-600 dark:text-slate-300">
+                  <th class="py-3 px-4 whitespace-nowrap">Prefix</th>
+                  <th class="py-3 px-4 whitespace-nowrap">Nibble Alignment</th>
+                  <th class="py-3 px-4 whitespace-nowrap">Available /64 Subnets</th>
+                  <th class="py-3 px-4">Standard Deployment Role</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-800/40">
+                  <td class="py-2.5 px-4 font-mono font-semibold text-indigo-600 dark:text-indigo-400">/32</td>
+                  <td class="py-2.5 px-4 whitespace-nowrap">8 nibbles (Hextets 1–2)</td>
+                  <td class="py-2.5 px-4 font-mono whitespace-nowrap">4,294,967,296 (2³²)</td>
+                  <td class="py-2.5 px-4">Minimum Regional Internet Registry (RIR) allocation to an ISP or LIR.</td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-800/40">
+                  <td class="py-2.5 px-4 font-mono font-semibold text-indigo-600 dark:text-indigo-400">/48</td>
+                  <td class="py-2.5 px-4 whitespace-nowrap">12 nibbles (Hextets 1–3)</td>
+                  <td class="py-2.5 px-4 font-mono whitespace-nowrap">65,536 (2¹⁶)</td>
+                  <td class="py-2.5 px-4">Standard enterprise campus, data center, or multi-building site allocation.</td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-800/40">
+                  <td class="py-2.5 px-4 font-mono font-semibold text-indigo-600 dark:text-indigo-400">/56</td>
+                  <td class="py-2.5 px-4 whitespace-nowrap">14 nibbles (3.5 Hextets)</td>
+                  <td class="py-2.5 px-4 font-mono whitespace-nowrap">256 (2⁸)</td>
+                  <td class="py-2.5 px-4">Recommended residential broadband and small business DHCPv6-PD delegation (BCOP-690).</td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-800/40">
+                  <td class="py-2.5 px-4 font-mono font-semibold text-indigo-600 dark:text-indigo-400">/60</td>
+                  <td class="py-2.5 px-4 whitespace-nowrap">15 nibbles (3.75 Hextets)</td>
+                  <td class="py-2.5 px-4 font-mono whitespace-nowrap">16 (2⁴)</td>
+                  <td class="py-2.5 px-4">Minimal consumer ISP prefix delegation allowing up to 16 LAN/guest VLANs.</td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-800/40">
+                  <td class="py-2.5 px-4 font-mono font-semibold text-emerald-600 dark:text-emerald-400">/64</td>
+                  <td class="py-2.5 px-4 whitespace-nowrap">16 nibbles (Hextets 1–4)</td>
+                  <td class="py-2.5 px-4 font-mono whitespace-nowrap">1 (2⁰)</td>
+                  <td class="py-2.5 px-4">Standard end-user LAN/VLAN subnet size required for SLAAC and privacy extensions.</td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-800/40">
+                  <td class="py-2.5 px-4 font-mono font-semibold text-slate-900 dark:text-white">/127</td>
+                  <td class="py-2.5 px-4 whitespace-nowrap">127 bits (1 host bit)</td>
+                  <td class="py-2.5 px-4 font-mono whitespace-nowrap">N/A (2 addresses)</td>
+                  <td class="py-2.5 px-4">Point-to-point router interconnect links (RFC 6164); prevents NDP cache exhaustion.</td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-800/40">
+                  <td class="py-2.5 px-4 font-mono font-semibold text-slate-900 dark:text-white">/128</td>
+                  <td class="py-2.5 px-4 whitespace-nowrap">32 nibbles (All 128 bits)</td>
+                  <td class="py-2.5 px-4 font-mono whitespace-nowrap">N/A (1 address)</td>
+                  <td class="py-2.5 px-4">Single host route, BGP/OSPF router loopback interface, or firewall /32-style pin.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 4. RFC 5952 Canonical Compression Rules & Pitfalls -->
+        <section class="space-y-4">
+          <h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            RFC 5952 Canonical IPv6 Compression Rules &amp; Common Pitfalls
+          </h2>
+          <p class="text-slate-600 dark:text-slate-300 leading-relaxed max-w-4xl">
+            Because a single 128-bit IPv6 address can be written in dozens of syntactically valid but visually different ways, naive string matching fails in firewall logs, TLS certificate SAN checks, and database lookups. <strong>RFC 5952</strong> establishes one deterministic canonical text representation:
+          </p>
+          <ul class="space-y-2 text-sm sm:text-base text-slate-600 dark:text-slate-300 list-disc pl-5 max-w-4xl leading-relaxed">
+            <li><strong>Suppress Leading Zeros (Section 4.1):</strong> Remove all leading zeros within every 16-bit hextet, leaving at least one digit (<code class="font-mono">0db8</code> becomes <code class="font-mono">db8</code>; <code class="font-mono">0000</code> becomes <code class="font-mono">0</code>).</li>
+            <li><strong>Compress Only Maximum Zero Runs &amp; Never a Single Zero (Section 4.2.1 &amp; 4.2.2):</strong> Replace the longest consecutive sequence of two or more all-zero hextets with <code class="font-mono">::</code>. A single isolated <code class="font-mono">0000</code> hextet MUST remain <code class="font-mono">0</code> and MUST NOT be shortened to <code class="font-mono">::</code>.</li>
+            <li><strong>Leftmost Tie-Breaker (Section 4.2.3):</strong> When an address contains two equal-length runs of consecutive zeros, always compress the leftmost run and write the remaining zero hextets explicitly.</li>
+            <li><strong>Strict Lowercase Hexadecimal (Section 4.3):</strong> Output digits <code class="font-mono">a</code> through <code class="font-mono">f</code> strictly in lowercase (<code class="font-mono">2001:db8::1</code>, never <code class="font-mono">2001:DB8::1</code>).</li>
+          </ul>
+
+          <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+            <table class="w-full text-left border-collapse text-sm">
+              <thead>
+                <tr class="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/60 text-xs font-semibold text-slate-600 dark:text-slate-300">
+                  <th class="py-3 px-4">Non-Canonical Input</th>
+                  <th class="py-3 px-4">RFC 5952 Canonical Form</th>
+                  <th class="py-3 px-4">Rule Applied</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                <tr>
+                  <td class="py-2.5 px-4 font-mono text-red-700 dark:text-red-400">2001:0DB8:0000:0000:0001:0000:0000:0001</td>
+                  <td class="py-2.5 px-4 font-mono font-semibold text-emerald-700 dark:text-emerald-400">2001:db8::1:0:0:1</td>
+                  <td class="py-2.5 px-4">Leftmost tie-breaker + lowercase + leading zeros stripped</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono text-red-700 dark:text-red-400">2001:db8::1:1:1:1:1</td>
+                  <td class="py-2.5 px-4 font-mono font-semibold text-emerald-700 dark:text-emerald-400">2001:db8:0:1:1:1:1:1</td>
+                  <td class="py-2.5 px-4">Single isolated zero hextet must not use <code class="font-mono">::</code></td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono text-red-700 dark:text-red-400">2001:db8:0:0:1::1</td>
+                  <td class="py-2.5 px-4 font-mono font-semibold text-emerald-700 dark:text-emerald-400">2001:db8::1:0:0:1</td>
+                  <td class="py-2.5 px-4">Shorter run compressed; equal-length run shifted left</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono text-red-700 dark:text-red-400">FE80:0000:0000:0000:0202:B3FF:FE1E:8329</td>
+                  <td class="py-2.5 px-4 font-mono font-semibold text-emerald-700 dark:text-emerald-400">fe80::202:b3ff:fe1e:8329</td>
+                  <td class="py-2.5 px-4">Lowercase hex + 3-hextet zero compression</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 5. Modified EUI-64 & Solicited-Node Multicast Guide -->
+        <section class="space-y-4">
+          <h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            Step-by-Step Modified EUI-64 &amp; Solicited-Node Multicast Guide
+          </h2>
+          <p class="text-slate-600 dark:text-slate-300 leading-relaxed max-w-4xl">
+            When an IPv6 router or host derives a deterministic 64-bit Interface Identifier from an Ethernet NIC's 48-bit MAC address using the Modified EUI-64 algorithm (RFC 4291 Appendix A), three mechanical bit-level transformations occur:
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-2.5">
+              <h3 class="text-base font-semibold text-slate-900 dark:text-white">Why Insert FF:FE and Flip the 7th Bit?</h3>
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                A 48-bit MAC splits cleanly into a 24-bit Organizationally Unique Identifier (OUI) and a 24-bit NIC-specific serial. Inserting the reserved 16-bit constant <code class="font-mono">0xFFFE</code> in the middle stretches the value to 64 bits. Next, IPv6 performs an exclusive-OR (<code class="font-mono">^ 0x02</code>) on the first byte to invert the Universal/Local (U/L) bit—the 7th bit from the left.
+              </p>
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                Why invert it? In IEEE 802 MACs, <code class="font-mono">0</code> indicates a globally unique vendor-burned address. Inverting <code class="font-mono">0</code> to <code class="font-mono">1</code> ensures manually typed simple addresses (such as <code class="font-mono">::1</code> or <code class="font-mono">::10</code>, where the U/L bit is <code class="font-mono">0</code>) stay safely in the local namespace without colliding with hardware-generated EUI-64 addresses.
+              </p>
+            </div>
+
+            <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-2.5">
+              <h3 class="text-base font-semibold text-slate-900 dark:text-white">How Solicited-Node Multicast Replaces ARP</h3>
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                IPv6 eliminates Layer-2 broadcasts entirely. Instead of flooding every host on a switch with IPv4 ARP broadcasts, Neighbor Discovery Protocol (NDP, RFC 4861) maps every unicast or anycast IPv6 address onto a <strong>Solicited-Node Multicast</strong> address formed by combining <code class="font-mono">ff02::1:ff00:0/104</code> with the lowest 24 bits of the target IPv6 address.
+              </p>
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                For example, an interface with <code class="font-mono">fe80::21a:2bff:fe3c:4d5e</code> automatically joins <code class="font-mono">ff02::1:ff3c:4d5e</code>. Ethernet NICs and MLD-snooping switches filter multicast frames at hardware speed, waking only the target node (and rare 24-bit collisions) during Neighbor Solicitation and Duplicate Address Detection.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. 5 IPv6 Subnetting Best Practices -->
+        <section class="space-y-4">
+          <h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            5 IPv6 Subnetting Best Practices for Network Engineers &amp; CCNA Candidates
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-1.5">
+              <h3 class="text-sm font-semibold text-slate-900 dark:text-white">1. Keep Client LAN Subnets Strictly at /64</h3>
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                Never carve LAN VLANs into <code class="font-mono">/80</code> or <code class="font-mono">/96</code> prefixes. SLAAC (RFC 4862) and OS privacy extensions depend on a 64-bit Interface Identifier.
+              </p>
+            </div>
+            <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-1.5">
+              <h3 class="text-sm font-semibold text-slate-900 dark:text-white">2. Allocate on 4-Bit Nibble Boundaries</h3>
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                Plan regions, sites, and VRFs on <code class="font-mono">/48</code>, <code class="font-mono">/52</code>, <code class="font-mono">/56</code>, <code class="font-mono">/60</code>, and <code class="font-mono">/64</code> boundaries so hex digits map cleanly to topology tiers.
+              </p>
+            </div>
+            <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-1.5">
+              <h3 class="text-sm font-semibold text-slate-900 dark:text-white">3. Use /127 on Point-to-Point Links</h3>
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                Follow RFC 6164 on router-to-router transit links to mitigate Neighbor Discovery cache exhaustion attacks and eliminate ping-pong routing loops.
+              </p>
+            </div>
+            <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-1.5">
+              <h3 class="text-sm font-semibold text-slate-900 dark:text-white">4. Use Random 40-Bit IDs for ULA Labs</h3>
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                For private internal networks under <code class="font-mono">fd00::/8</code>, always generate a pseudo-random 40-bit Global ID (RFC 4193) instead of sequential numbers like <code class="font-mono">fd00:1::/48</code>.
+              </p>
+            </div>
+            <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-1.5">
+              <h3 class="text-sm font-semibold text-slate-900 dark:text-white">5. Summarize Aggressively at Core Borders</h3>
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                Reserve contiguous <code class="font-mono">/56</code> or <code class="font-mono">/52</code> blocks per building or availability zone so OSPF/BGP tables propagate single aggregate summaries.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. Frequently Asked Questions (6 Detailed Q&As) -->
+        <section class="space-y-4">
+          <h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            Frequently Asked Questions
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-2">
+              <h3 class="text-base font-semibold text-slate-900 dark:text-white">1. Why are standard IPv6 LAN subnets always /64?</h3>
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                RFC 4291 and RFC 5375 standardize <code class="font-mono">/64</code> for end-user LAN segments because Stateless Address Autoconfiguration (SLAAC, RFC 4862) requires a full 64-bit Interface Identifier. Longer prefixes like <code class="font-mono">/80</code> or <code class="font-mono">/96</code> break SLAAC, OS privacy extensions (RFC 8981), and standard Neighbor Discovery workflows.
+              </p>
+            </div>
+
+            <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-2">
+              <h3 class="text-base font-semibold text-slate-900 dark:text-white">2. What are the exact rules for compressing an IPv6 address under RFC 5952?</h3>
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                RFC 5952 mandates four rules: strip leading zeros in every 16-bit hextet, compress only the longest consecutive run of two or more zero hextets to <code class="font-mono">::</code>, never use <code class="font-mono">::</code> for a single isolated zero hextet, break equal-length ties by compressing the leftmost run, and write all hex digits in lowercase.
+              </p>
+            </div>
+
+            <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-2">
+              <h3 class="text-base font-semibold text-slate-900 dark:text-white">3. Why does Modified EUI-64 flip the 7th bit of the MAC address?</h3>
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                In IEEE 802 MAC addresses, the 7th bit of the first byte (the U/L bit, mask <code class="font-mono">0x02</code>) is <code class="font-mono">0</code> for factory-burned universal addresses. IPv6 Modified EUI-64 inverts this bit so <code class="font-mono">1</code> means globally unique and <code class="font-mono">0</code> means locally administered, preventing manually configured host IDs like <code class="font-mono">::1</code> from colliding with hardware-derived IDs.
+              </p>
+            </div>
+
+            <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-2">
+              <h3 class="text-base font-semibold text-slate-900 dark:text-white">4. What is the difference between Global Unicast (2000::/3), Unique Local (fd00::/8), and Link-Local (fe80::/10)?</h3>
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                Global Unicast Addresses (<code class="font-mono">2000::/3</code>) are publicly routable on the Internet. Unique Local Addresses (<code class="font-mono">fc00::/7</code>, specifically <code class="font-mono">fd00::/8</code>) route privately inside organizations and site-to-site VPNs without global reachability. Link-Local Addresses (<code class="font-mono">fe80::/10</code>) are mandatory on every interface and remain strictly on the local Layer-2 link.
+              </p>
+            </div>
+
+            <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-2">
+              <h3 class="text-base font-semibold text-slate-900 dark:text-white">5. Why use /127 instead of /64 on point-to-point router links (RFC 6164)?</h3>
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                Assigning a <code class="font-mono">/64</code> on a two-router transit link exposes 2⁶⁴ unused neighbor slots to Neighbor Discovery cache exhaustion scans. Using <code class="font-mono">/127</code> (RFC 6164) restricts the link to exactly two IPv6 addresses, protecting router NDP tables and avoiding ping-pong forwarding loops.
+              </p>
+            </div>
+
+            <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-2">
+              <h3 class="text-base font-semibold text-slate-900 dark:text-white">6. Are my IPv6 prefixes or MAC addresses sent to any server?</h3>
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                No. All 128-bit BigInt arithmetic, RFC 5952 compression, <code class="font-mono">ip6.arpa</code> nibble reversal, and Modified EUI-64 transformations execute 100% locally inside your browser with zero server uploads or external API requests.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Cluster-Matched Related Utilities -->
+        <section aria-labelledby="related-tools-heading" class="space-y-4">
+          <h2 id="related-tools-heading" class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+            Related Engineering &amp; Developer Utilities
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <a
+              href="/tools/subnet-calculator/"
+              class="group p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-indigo-400 dark:hover:border-indigo-500 transition-colors space-y-1.5"
+            >
+              <div class="text-xs font-medium text-indigo-600 dark:text-indigo-400">Primary Companion · Networking</div>
+              <h3 class="text-base font-semibold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                Visual IPv4 / CIDR Subnet Calculator
+              </h3>
+              <p class="text-sm text-slate-600 dark:text-slate-400">
+                Calculate IPv4 network masks, VLSM splits, wildcard masks, and usable host ranges with binary octets.
+              </p>
+            </a>
+
+            <a
+              href="/tools/word-counter/"
+              class="group p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-indigo-400 dark:hover:border-indigo-500 transition-colors space-y-1.5"
+            >
+              <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Writing &amp; Documentation</div>
+              <h3 class="text-base font-semibold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                Advanced Word &amp; Character Counter
+              </h3>
+              <p class="text-sm text-slate-600 dark:text-slate-400">
+                Real-time word, character, sentence, and reading-time analyzer for technical RFCs and documentation.
+              </p>
+            </a>
+
+            <a
+              href="/tools/smd-decoder/"
+              class="group p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-indigo-400 dark:hover:border-indigo-500 transition-colors space-y-1.5"
+            >
+              <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Hardware &amp; Electronics</div>
+              <h3 class="text-base font-semibold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                SMD Resistor &amp; Capacitor Code Decoder
+              </h3>
+              <p class="text-sm text-slate-600 dark:text-slate-400">
+                Decode 3-digit, 4-digit, and EIA-96 surface-mount resistor markings and ceramic capacitor codes.
+              </p>
+            </a>
+          </div>
+        </section>
+      </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 mt-12">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 space-y-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8">
+          <!-- Brand Blurb -->
+          <div class="lg:col-span-4 space-y-3">
+            <a href="/" class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">Mohit Tools</a>
+            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed max-w-xs">
+              Fast, zero-bloat engineering, networking, and hardware utilities running 100% client-side in your browser.
+            </p>
+            <a
+              href="https://buymeacoffee.com/crushedcorsair"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 hover:border-indigo-400 dark:hover:border-indigo-500 transition-colors whitespace-nowrap"
+            >
+              Buy Me a Coffee
+            </a>
+          </div>
+
+          <!-- Column 1: Utilities -->
+          <div class="lg:col-span-3 space-y-2.5">
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Utilities</h3>
+            <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-300">
+              <li><a href="/tools/word-counter/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Word Counter</a></li>
+              <li><a href="/tools/subnet-calculator/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">IPv4 Subnet Calc</a></li>
+              <li><a href="/tools/ipv6-subnet-calculator/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium text-indigo-600 dark:text-indigo-400">IPv6 Subnet Calc</a></li>
+              <li><a href="/tools/safe-zone-checker/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Safe-Zone Checker</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 2: Specialized -->
+          <div class="lg:col-span-3 space-y-2.5">
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Specialized</h3>
+            <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-300">
+              <li><a href="/tools/carousel-splitter/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Carousel Splitter</a></li>
+              <li><a href="/tools/resistor-decoder/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Resistor Decoder</a></li>
+              <li><a href="/tools/smd-decoder/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">SMD Code Decoder</a></li>
+              <li><a href="/tools/ps5-storage-calculator/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">PS5 Storage Calc</a></li>
+              <li><a href="/tools/leonida-tracker/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Leonida Tracker</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 3: Platform -->
+          <div class="lg:col-span-2 space-y-2.5">
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Platform</h3>
+            <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-300">
+              <li><a href="/about.html" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">About</a></li>
+              <li><a href="/Contact.html" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Contact</a></li>
+              <li><a href="/privacy-policy.html" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Privacy Policy</a></li>
+              <li><a href="/terms.html" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Terms of Service</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="pt-6 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400">
+          <p>© 2026 Mohit Tools (mohit-tools.com). All rights reserved. Client-side processing · Zero server uploads · Static web architecture.</p>
+        </div>
+
+        <!-- Minimal non-intrusive cookie/storage notice -->
+        <div
+          id="cookie-notice"
+          class="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-600 dark:text-slate-300"
+        >
+          <p>
+            This utility uses browser <code class="font-mono">localStorage</code> solely to save your light/dark theme preference and supports anonymized aggregate analytics. All IPv6 and MAC calculations stay strictly on your device.
+          </p>
+          <button
+            id="dismiss-cookie-notice"
+            type="button"
+            class="px-3 py-1 font-semibold rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors whitespace-nowrap shrink-0"
+          >
+            Got it
+          </button>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ================================================== -->
+    <!-- PURE 128-BIT BIGINT IPv6 ENGINE (ZERO DOM / TESTABLE) -->
+    <!-- ================================================== -->
+    <script id="ipv6-core-engine">
+      (function (root) {
+        const ALL_ONES_128 = (1n << 128n) - 1n;
+
+        function parseIPv4Tail(token) {
+          const octets = token.split('.');
+          if (octets.length !== 4) {
+            return { error: 'Embedded IPv4 tail must have exactly 4 decimal octets.' };
+          }
+          const nums = [];
+          for (let i = 0; i < 4; i++) {
+            const o = octets[i];
+            if (!/^\d{1,3}$/.test(o)) {
+              return { error: 'Invalid IPv4 octet "' + o + '" in IPv4-embedded IPv6 address.' };
+            }
+            const val = Number(o);
+            if (val < 0 || val > 255) {
+              return { error: 'IPv4 octet "' + o + '" must be between 0 and 255.' };
+            }
+            nums.push(val);
+          }
+          return {
+            hextets: [(nums[0] << 8) | nums[1], (nums[2] << 8) | nums[3]],
+          };
+        }
+
+        function expandTokenList(tokens, allowIPv4Tail) {
+          const result = [];
+          for (let i = 0; i < tokens.length; i++) {
+            const tok = tokens[i];
+            if (tok.indexOf('.') !== -1) {
+              if (!allowIPv4Tail || i !== tokens.length - 1) {
+                return { error: 'Embedded IPv4 notation is only valid in the final 32 bits.' };
+              }
+              const ipv4 = parseIPv4Tail(tok);
+              if (ipv4.error) return { error: ipv4.error };
+              result.push(ipv4.hextets[0], ipv4.hextets[1]);
+            } else {
+              if (!/^[0-9a-fA-F]{1,4}$/.test(tok)) {
+                return { error: 'Invalid hextet "' + tok + '". Each group must contain 1 to 4 hex digits (0-9, a-f).' };
+              }
+              result.push(parseInt(tok, 16));
+            }
+          }
+          return { hextets: result };
+        }
+
+        function parseIPv6(rawInput) {
+          if (typeof rawInput !== 'string') {
+            return { error: 'Address input must be a string.' };
+          }
+          const trimmed = rawInput.trim();
+          if (!trimmed) {
+            return { error: 'Enter an IPv6 address to calculate.' };
+          }
+
+          let addrPart = trimmed;
+          let prefix = null;
+
+          const slashParts = trimmed.split('/');
+          if (slashParts.length > 2) {
+            return { error: 'Multiple "/" prefix delimiters detected.' };
+          }
+          if (slashParts.length === 2) {
+            addrPart = slashParts[0].trim();
+            const prefixStr = slashParts[1].trim();
+            if (!/^\d{1,3}$/.test(prefixStr)) {
+              return { error: 'CIDR prefix must be an integer between 0 and 128.' };
+            }
+            const parsedPrefix = Number(prefixStr);
+            if (parsedPrefix < 0 || parsedPrefix > 128) {
+              return { error: 'CIDR prefix "/' + parsedPrefix + '" is out of range (0–128).' };
+            }
+            prefix = parsedPrefix;
+          }
+
+          if (!addrPart) {
+            return { error: 'Missing IPv6 address before "/prefix".' };
+          }
+          if (addrPart.indexOf(':::') !== -1) {
+            return { error: 'Triple colons (":::") are invalid in IPv6 notation.' };
+          }
+
+          const doubleColonParts = addrPart.split('::');
+          if (doubleColonParts.length > 2) {
+            return { error: 'Multiple "::" zero-compression blocks are not allowed (RFC 4291).' };
+          }
+
+          let hextets = [];
+          const hasEmbeddedIPv4 = addrPart.indexOf('.') !== -1;
+
+          if (doubleColonParts.length === 2) {
+            const leftStr = doubleColonParts[0];
+            const rightStr = doubleColonParts[1];
+            const leftTokens = leftStr === '' ? [] : leftStr.split(':');
+            const rightTokens = rightStr === '' ? [] : rightStr.split(':');
+
+            const leftParsed = expandTokenList(leftTokens, false);
+            if (leftParsed.error) return { error: leftParsed.error };
+
+            const rightParsed = expandTokenList(rightTokens, true);
+            if (rightParsed.error) return { error: rightParsed.error };
+
+            const explicitCount = leftParsed.hextets.length + rightParsed.hextets.length;
+            if (explicitCount > 7) {
+              return { error: 'Too many hextets (' + explicitCount + ') alongside "::" compression.' };
+            }
+            const zeroCount = 8 - explicitCount;
+            hextets = leftParsed.hextets.concat(new Array(zeroCount).fill(0), rightParsed.hextets);
+          } else {
+            const tokens = addrPart.split(':');
+            const parsed = expandTokenList(tokens, true);
+            if (parsed.error) return { error: parsed.error };
+            if (parsed.hextets.length < 8) {
+              return { error: 'Incomplete IPv6 address: expected 8 hextets or "::" compression.' };
+            }
+            if (parsed.hextets.length > 8) {
+              return { error: 'Too many hextets (' + parsed.hextets.length + '): IPv6 addresses contain exactly 8 hextets.' };
+            }
+            hextets = parsed.hextets;
+          }
+
+          let value = 0n;
+          for (let i = 0; i < 8; i++) {
+            value = (value << 16n) | BigInt(hextets[i]);
+          }
+
+          return {
+            value: value,
+            hextets: hextets,
+            prefix: prefix,
+            hasEmbeddedIPv4: hasEmbeddedIPv4,
+            rawAddressPart: addrPart,
+          };
+        }
+
+        function bigIntToHextets(val) {
+          const out = new Array(8);
+          for (let i = 0; i < 8; i++) {
+            const shift = BigInt((7 - i) * 16);
+            out[i] = Number((val >> shift) & 0xffffn);
+          }
+          return out;
+        }
+
+        function formatExpanded(hextets) {
+          return hextets
+            .map(function (h) {
+              return h.toString(16).padStart(4, '0');
+            })
+            .join(':');
+        }
+
+        function compressRFC5952(hextets, rawInput) {
+          let bestStart = -1;
+          let bestLen = 0;
+          let curStart = -1;
+          let curLen = 0;
+          const runs = [];
+
+          for (let i = 0; i < 8; i++) {
+            if (hextets[i] === 0) {
+              if (curStart === -1) {
+                curStart = i;
+                curLen = 1;
+              } else {
+                curLen++;
+              }
+            } else {
+              if (curStart !== -1) {
+                runs.push({ start: curStart, len: curLen });
+                if (curLen >= 2 && curLen > bestLen) {
+                  bestStart = curStart;
+                  bestLen = curLen;
+                }
+                curStart = -1;
+                curLen = 0;
+              }
+            }
+          }
+          if (curStart !== -1) {
+            runs.push({ start: curStart, len: curLen });
+            if (curLen >= 2 && curLen > bestLen) {
+              bestStart = curStart;
+              bestLen = curLen;
+            }
+          }
+
+          let compressed = '';
+          if (bestLen >= 2) {
+            const left = hextets
+              .slice(0, bestStart)
+              .map(function (h) { return h.toString(16); })
+              .join(':');
+            const right = hextets
+              .slice(bestStart + bestLen)
+              .map(function (h) { return h.toString(16); })
+              .join(':');
+            compressed = left + '::' + right;
+          } else {
+            compressed = hextets
+              .map(function (h) { return h.toString(16); })
+              .join(':');
+          }
+
+          // Build Rule Audit Log
+          const auditSteps = [];
+          const cleanRaw = typeof rawInput === 'string' ? rawInput.trim().split('/')[0].trim() : '';
+
+          if (cleanRaw && /[A-F]/.test(cleanRaw)) {
+            auditSteps.push('Converted uppercase hexadecimal digits to lowercase (RFC 5952 §4.3).');
+          }
+
+          if (cleanRaw) {
+            const rawGroups = cleanRaw.replace('::', ':').split(':').filter(Boolean);
+            const hadLeadingZeros = rawGroups.some(function (g) {
+              return g.indexOf('.') === -1 && g.length > 1 && g[0] === '0';
+            });
+            if (hadLeadingZeros) {
+              auditSteps.push('Stripped leading zeros from individual 16-bit hextets (RFC 5952 §4.1).');
+            }
+          }
+
+          const multiRuns = runs.filter(function (r) { return r.len >= 2; });
+          const singleRuns = runs.filter(function (r) { return r.len === 1; });
+
+          if (bestLen >= 2) {
+            const tiedMaxRuns = multiRuns.filter(function (r) { return r.len === bestLen; });
+            const endIdx = bestStart + bestLen;
+            if (tiedMaxRuns.length > 1) {
+              const second = tiedMaxRuns[1];
+              auditSteps.push(
+                'Applied leftmost tie-breaker: compressed hextets ' +
+                  (bestStart + 1) + '–' + endIdx +
+                  ' over equal-length run at hextets ' +
+                  (second.start + 1) + '–' + (second.start + second.len) +
+                  ' (RFC 5952 §4.2.3).'
+              );
+            } else {
+              auditSteps.push(
+                'Compressed longest zero run at hextets ' +
+                  (bestStart + 1) + '–' + endIdx +
+                  ' into "::" (RFC 5952 §4.2.1).'
+              );
+            }
+          }
+
+          if (singleRuns.length > 0) {
+            auditSteps.push(
+              'Preserved single isolated zero hextet(s) as "0" rather than "::" (RFC 5952 §4.2.2).'
+            );
+          }
+
+          if (cleanRaw && cleanRaw === compressed && auditSteps.length === 0) {
+            auditSteps.push('Input already conforms strictly to RFC 5952 canonical notation.');
+          } else if (auditSteps.length === 0) {
+            auditSteps.push('Normalized to RFC 5952 canonical lowercase representation.');
+          }
+
+          return {
+            compressed: compressed,
+            zeroRunStart: bestStart,
+            zeroRunLength: bestLen,
+            auditSteps: auditSteps,
+          };
+        }
+
+        function formatIntegerWithCommas(bigIntVal) {
+          return bigIntVal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+
+        function formatPowerOfTwo(exponent) {
+          const exactVal = 1n << BigInt(exponent);
+          const exactStr = formatIntegerWithCommas(exactVal);
+          if (exponent <= 32) {
+            return {
+              primary: exactStr + ' (2^' + exponent + ')',
+              exact: exactStr,
+            };
+          }
+          // Scientific notation via BigInt string digits
+          const digits = exactVal.toString();
+          const pow10 = digits.length - 1;
+          const mantissa = digits[0] + '.' + digits.slice(1, 3);
+          return {
+            primary: '~' + mantissa + ' × 10^' + pow10 + ' (2^' + exponent + ')',
+            exact: exactStr,
+          };
+        }
+
+        function calculateIPv6Subnet(addressBigInt, prefix) {
+          const hostBits = 128 - prefix;
+          const mask = prefix === 0 ? 0n : (ALL_ONES_128 << BigInt(hostBits)) & ALL_ONES_128;
+          const networkStart = addressBigInt & mask;
+          const hostMask = ALL_ONES_128 ^ mask;
+          const networkEnd = networkStart | hostMask;
+
+          const startHextets = bigIntToHextets(networkStart);
+          const endHextets = bigIntToHextets(networkEnd);
+
+          const totalAddresses = formatPowerOfTwo(hostBits);
+          let available64 = null;
+          if (prefix <= 64) {
+            available64 = formatPowerOfTwo(64 - prefix);
+          }
+
+          return {
+            prefix: prefix,
+            networkStart: networkStart,
+            networkEnd: networkEnd,
+            startExpanded: formatExpanded(startHextets),
+            startCompressed: compressRFC5952(startHextets).compressed,
+            endExpanded: formatExpanded(endHextets),
+            endCompressed: compressRFC5952(endHextets).compressed,
+            totalAddresses: totalAddresses,
+            available64: available64,
+            prefixBits: Math.min(prefix, 48),
+            subnetIdBits: Math.max(0, Math.min(prefix, 64) - 48),
+            interfaceIdBits: hostBits,
+          };
+        }
+
+        function detectIPv6Scope(addressBigInt, prefix) {
+          if (addressBigInt === 1n && (prefix === 128 || prefix === null)) {
+            return { label: 'Loopback (::1/128 · RFC 4291)', tone: 'indigo' };
+          }
+          if (addressBigInt === 0n && prefix === 128) {
+            return { label: 'Unspecified (::/128 · RFC 4291)', tone: 'slate' };
+          }
+          if (addressBigInt === 0n && prefix === 0) {
+            return { label: 'Default Route / Unspecified (::/0)', tone: 'slate' };
+          }
+          if ((addressBigInt >> 32n) === 0xffffn) {
+            return { label: 'IPv4-Mapped IPv6 (::ffff:0:0/96 · RFC 4291)', tone: 'amber' };
+          }
+          if ((addressBigInt >> 32n) === 0x0064ff9b0000000000000000n) {
+            return { label: 'NAT64 Well-Known Prefix (64:ff9b::/96 · RFC 6052)', tone: 'amber' };
+          }
+          if ((addressBigInt >> 96n) === 0x20010db8n) {
+            return { label: 'Documentation (2001:db8::/32 · RFC 3849)', tone: 'indigo' };
+          }
+          if ((addressBigInt >> 118n) === 0x3fan) {
+            return { label: 'Link-Local Unicast (fe80::/10 · RFC 4291)', tone: 'emerald' };
+          }
+          if ((addressBigInt >> 121n) === 0x7en) {
+            const isFd = (addressBigInt >> 120n) === 0xfdn;
+            return {
+              label: isFd
+                ? 'Unique Local Address (fd00::/8 · RFC 4193)'
+                : 'Unique Local Address (fc00::/7 · RFC 4193)',
+              tone: 'emerald',
+            };
+          }
+          if ((addressBigInt >> 120n) === 0xffn) {
+            if ((addressBigInt >> 24n) === 0xff0200000000000000000001ffn) {
+              return { label: 'Solicited-Node Multicast (ff02::1:ff00:0/104)', tone: 'amber' };
+            }
+            return { label: 'Multicast (ff00::/8 · RFC 4291)', tone: 'amber' };
+          }
+          if ((addressBigInt >> 125n) === 0x1n) {
+            return { label: 'Global Unicast (2000::/3 · RFC 4291)', tone: 'indigo' };
+          }
+          if (addressBigInt === 0n) {
+            return { label: 'Unspecified (::/128 · RFC 4291)', tone: 'slate' };
+          }
+          if (addressBigInt === 1n) {
+            return { label: 'Loopback Host (::1/128 · RFC 4291)', tone: 'indigo' };
+          }
+          return { label: 'Reserved / Special-Purpose Space', tone: 'slate' };
+        }
+
+        function toReverseDNS(hextets, prefix) {
+          const fullHex = hextets
+            .map(function (h) { return h.toString(16).padStart(4, '0'); })
+            .join('');
+          const reversedNibbles = fullHex.split('').reverse().join('.');
+          const fullPtr = reversedNibbles + '.ip6.arpa.';
+
+          let zonePtr = null;
+          if (typeof prefix === 'number' && prefix > 0 && prefix < 128 && prefix % 4 === 0) {
+            const nibblesCount = prefix / 4;
+            const prefixHex = fullHex.slice(0, nibblesCount);
+            zonePtr = prefixHex.split('').reverse().join('.') + '.ip6.arpa.';
+          }
+
+          return {
+            fullPointer: fullPtr,
+            zonePointer: zonePtr,
+          };
+        }
+
+        function parseMAC(rawMac) {
+          if (typeof rawMac !== 'string') {
+            return { error: 'MAC address must be a string.' };
+          }
+          const trimmed = rawMac.trim();
+          if (!trimmed) {
+            return { error: 'Enter a 48-bit MAC address.' };
+          }
+          if (!/^[0-9a-fA-F:.\-\s]+$/.test(trimmed)) {
+            return { error: 'MAC address contains invalid characters. Use hex digits (0-9, A-F) with :, -, or . separators.' };
+          }
+          const hexOnly = trimmed.replace(/[:.\-\s]/g, '');
+          if (hexOnly.length !== 12) {
+            return { error: 'MAC address must contain exactly 12 hexadecimal digits (48 bits).' };
+          }
+          const bytes = [];
+          for (let i = 0; i < 12; i += 2) {
+            bytes.push(parseInt(hexOnly.slice(i, i + 2), 16));
+          }
+          return { bytes: bytes };
+        }
+
+        function computeEUI64(macBytes, customPrefixInput) {
+          const b0 = macBytes[0];
+          const b1 = macBytes[1];
+          const b2 = macBytes[2];
+          const b3 = macBytes[3];
+          const b4 = macBytes[4];
+          const b5 = macBytes[5];
+
+          const b0Flipped = b0 ^ 0x02;
+          const b0OrigBin = b0.toString(2).padStart(8, '0');
+          const b0FlipBin = b0Flipped.toString(2).padStart(8, '0');
+
+          const iidHextets = [
+            (b0Flipped << 8) | b1,
+            (b2 << 8) | 0xff,
+            (0xfe << 8) | b3,
+            (b4 << 8) | b5,
+          ];
+
+          const iidFormatted = formatExpanded(iidHextets);
+          const linkLocalHextets = [0xfe80, 0, 0, 0].concat(iidHextets);
+          const linkLocalAddress = compressRFC5952(linkLocalHextets).compressed;
+
+          // Custom /64 prefix resolution (defaults to fe80::/64)
+          const prefixText = (customPrefixInput || '').trim() || 'fe80::/64';
+          const parsedPrefix = parseIPv6(prefixText);
+          if (parsedPrefix.error) {
+            return { error: 'Custom prefix error: ' + parsedPrefix.error };
+          }
+          if (parsedPrefix.prefix !== null && parsedPrefix.prefix > 64) {
+            return { error: 'Custom prefix must be /64 or shorter to combine with a 64-bit EUI-64 Interface ID.' };
+          }
+
+          // Mask prefix to top 64 bits
+          const top64Mask = 0xffffffffffffffffn << 64n;
+          const net64 = parsedPrefix.value & top64Mask;
+          const netHextets = bigIntToHextets(net64).slice(0, 4);
+          const customAddress = compressRFC5952(netHextets.concat(iidHextets)).compressed;
+
+          // Solicited-Node Multicast: ff02::1:ffXX:XXXX
+          const multicastHextets = [0xff02, 0, 0, 0, 0, 1, 0xff00 | b3, (b4 << 8) | b5];
+          const multicastAddress = compressRFC5952(multicastHextets).compressed;
+          const multicastTail24 =
+            b3.toString(16).padStart(2, '0') +
+            ':' +
+            ((b4 << 8) | b5).toString(16).padStart(4, '0');
+
+          return {
+            oui: [b0, b1, b2].map(function (b) { return b.toString(16).padStart(2, '0').toUpperCase(); }).join(':'),
+            nic: [b3, b4, b5].map(function (b) { return b.toString(16).padStart(2, '0').toUpperCase(); }).join(':'),
+            b0OrigHex: '0x' + b0.toString(16).padStart(2, '0').toUpperCase(),
+            b0FlipHex: '0x' + b0Flipped.toString(16).padStart(2, '0').toUpperCase(),
+            b0OrigBin: b0OrigBin,
+            b0FlipBin: b0FlipBin,
+            flippedToUniversal: (b0 & 0x02) === 0,
+            interfaceId: iidFormatted,
+            linkLocalAddress: linkLocalAddress,
+            customAddress: customAddress,
+            multicastAddress: multicastAddress,
+            multicastTail24: multicastTail24,
+          };
+        }
+
+        root.IPv6Engine = {
+          parseIPv6: parseIPv6,
+          bigIntToHextets: bigIntToHextets,
+          formatExpanded: formatExpanded,
+          compressRFC5952: compressRFC5952,
+          formatIntegerWithCommas: formatIntegerWithCommas,
+          formatPowerOfTwo: formatPowerOfTwo,
+          calculateIPv6Subnet: calculateIPv6Subnet,
+          detectIPv6Scope: detectIPv6Scope,
+          toReverseDNS: toReverseDNS,
+          parseMAC: parseMAC,
+          computeEUI64: computeEUI64,
+        };
+      })(typeof window !== 'undefined' ? window : globalThis);
+    </script>
+
+    <!-- ================================================== -->
+    <!-- UI CONTROLLER (VANILLA JS, ZERO EXTERNAL LIBRARIES) -->
+    <!-- ================================================== -->
+    <script id="ipv6-app">
+      (function () {
+        const E = window.IPv6Engine;
+
+        // DOM Elements: Theme & Navigation
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleLabel = document.getElementById('theme-toggle-label');
+        const mobileMenuBtn = document.getElementById('mobile-menu-toggle');
+        const mobileNavPanel = document.getElementById('mobile-nav-panel');
+        const cookieNotice = document.getElementById('cookie-notice');
+        const dismissCookieBtn = document.getElementById('dismiss-cookie-notice');
+
+        // DOM Elements: Workspace Tabs & Reset
+        const tabButtons = document.querySelectorAll('.workspace-tab');
+        const tabPanels = {
+          subnet: document.getElementById('panel-subnet'),
+          compressor: document.getElementById('panel-compressor'),
+          eui64: document.getElementById('panel-eui64'),
+        };
+        const resetBtn = document.getElementById('btn-reset-workspace');
+
+        // DOM Elements: Module A (Subnet Calculator)
+        const ipv6Input = document.getElementById('ipv6-input');
+        const cidrSelect = document.getElementById('cidr-select');
+        const cidrSlider = document.getElementById('cidr-slider');
+        const subnetErrorBanner = document.getElementById('subnet-error-banner');
+        const subnetErrorMessage = document.getElementById('subnet-error-message');
+        const hextetGrid = document.getElementById('hextet-visualizer-grid');
+        const bitCounterSummary = document.getElementById('bit-counter-summary');
+        const toggleBinaryBtn = document.getElementById('toggle-binary-nibbles');
+
+        const outScopeBadge = document.getElementById('out-scope-badge');
+        const outCanonical = document.getElementById('out-canonical');
+        const outExpanded = document.getElementById('out-expanded');
+        const outNetworkStart = document.getElementById('out-network-start');
+        const outNetworkStartComp = document.getElementById('out-network-start-compressed');
+        const outNetworkEnd = document.getElementById('out-network-end');
+        const outNetworkEndComp = document.getElementById('out-network-end-compressed');
+        const outSubnets64 = document.getElementById('out-subnets-64');
+        const outSubnets64Sub = document.getElementById('out-subnets-64-sub');
+        const outTotalAddresses = document.getElementById('out-total-addresses');
+        const outTotalAddressesExact = document.getElementById('out-total-addresses-exact');
+        const outRdns = document.getElementById('out-rdns');
+        const outRdnsZone = document.getElementById('out-rdns-zone');
+
+        // DOM Elements: Module B (Compressor)
+        const compInput = document.getElementById('comp-input');
+        const compErrorBanner = document.getElementById('comp-error-banner');
+        const compErrorMessage = document.getElementById('comp-error-message');
+        const compOutCanonical = document.getElementById('comp-out-canonical');
+        const compOutExpanded = document.getElementById('comp-out-expanded');
+        const compAuditLog = document.getElementById('comp-audit-log');
+
+        // DOM Elements: Module C (EUI-64)
+        const macInput = document.getElementById('mac-input');
+        const euiPrefixInput = document.getElementById('eui-prefix-input');
+        const euiErrorBanner = document.getElementById('eui-error-banner');
+        const euiErrorMessage = document.getElementById('eui-error-message');
+        const euiStep1Oui = document.getElementById('eui-step1-oui');
+        const euiStep1Nic = document.getElementById('eui-step1-nic');
+        const euiStep2Raw = document.getElementById('eui-step2-raw');
+        const euiStep3Binary = document.getElementById('eui-step3-binary');
+        const euiStep3Xor = document.getElementById('eui-step3-xor');
+        const euiOutIid = document.getElementById('eui-out-iid');
+        const euiOutLinkLocal = document.getElementById('eui-out-linklocal');
+        const euiOutCustom = document.getElementById('eui-out-custom');
+        const euiOutMulticast = document.getElementById('eui-out-multicast');
+
+        let activeTab = 'subnet';
+        let showBinaryNibbles = false;
+        let lastValidHextets = [0x2001, 0x0db8, 0xacad, 0x0001, 0, 0, 0, 0x0042];
+        let currentPrefix = 64;
+
+        // ----------------------------------------
+        // Theme Persistence
+        // ----------------------------------------
+        function syncThemeButtonLabel() {
+          const isDark = document.documentElement.classList.contains('dark');
+          themeToggleLabel.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+        }
+        syncThemeButtonLabel();
+
+        themeToggleBtn.addEventListener('click', function () {
+          document.documentElement.classList.add('no-theme-transition');
+          const isDark = document.documentElement.classList.toggle('dark');
+          void document.documentElement.offsetHeight;
+          document.documentElement.classList.remove('no-theme-transition');
+          try {
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+          } catch (err) {}
+          syncThemeButtonLabel();
+        });
+
+        // Mobile Nav Drawer
+        mobileMenuBtn.addEventListener('click', function () {
+          const expanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+          mobileMenuBtn.setAttribute('aria-expanded', String(!expanded));
+          mobileNavPanel.classList.toggle('hidden');
+        });
+
+        // Cookie / Storage Notice
+        try {
+          if (localStorage.getItem('cookie_notice_dismissed') === '1' && cookieNotice) {
+            cookieNotice.classList.add('hidden');
+          }
+        } catch (err) {}
+
+        if (dismissCookieBtn && cookieNotice) {
+          dismissCookieBtn.addEventListener('click', function () {
+            cookieNotice.classList.add('hidden');
+            try {
+              localStorage.setItem('cookie_notice_dismissed', '1');
+            } catch (err) {}
+          });
+        }
+
+        // ----------------------------------------
+        // Populate CIDR Select (/0 to /128)
+        // ----------------------------------------
+        for (let p = 0; p <= 128; p++) {
+          const opt = document.createElement('option');
+          opt.value = String(p);
+          opt.textContent = '/' + p;
+          if (p === 64) opt.selected = true;
+          cidrSelect.appendChild(opt);
+        }
+
+        // ----------------------------------------
+        // Workspace Tab Switching
+        // ----------------------------------------
+        function switchTab(targetTab) {
+          activeTab = targetTab;
+          tabButtons.forEach(function (btn) {
+            const isTarget = btn.getAttribute('data-tab') === targetTab;
+            btn.setAttribute('aria-selected', String(isTarget));
+            if (isTarget) {
+              btn.classList.add('bg-white', 'dark:bg-slate-800', 'text-indigo-600', 'dark:text-indigo-300', 'shadow-sm', 'dark:border-slate-700');
+              btn.classList.remove('text-slate-600', 'dark:text-slate-300');
+            } else {
+              btn.classList.remove('bg-white', 'dark:bg-slate-800', 'text-indigo-600', 'dark:text-indigo-300', 'shadow-sm', 'dark:border-slate-700');
+              btn.classList.add('text-slate-600', 'dark:text-slate-300');
+            }
+          });
+          Object.keys(tabPanels).forEach(function (key) {
+            if (key === targetTab) {
+              tabPanels[key].classList.remove('hidden');
+            } else {
+              tabPanels[key].classList.add('hidden');
+            }
+          });
+        }
+
+        tabButtons.forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            switchTab(btn.getAttribute('data-tab'));
+          });
+        });
+
+        // ----------------------------------------
+        // Copy Button Handler
+        // ----------------------------------------
+        document.querySelectorAll('.copy-btn').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            const targetId = btn.getAttribute('data-copy-target');
+            const targetEl = document.getElementById(targetId);
+            if (!targetEl) return;
+            const textToCopy = targetEl.textContent.trim();
+
+            function showCopied() {
+              const prev = btn.textContent;
+              btn.textContent = 'Copied!';
+              btn.classList.add('text-emerald-600', 'dark:text-emerald-400', 'border-emerald-400');
+              setTimeout(function () {
+                btn.textContent = prev === 'Copied!' ? 'Copy' : prev;
+                btn.classList.remove('text-emerald-600', 'dark:text-emerald-400', 'border-emerald-400');
+              }, 1400);
+            }
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(textToCopy).then(showCopied).catch(function () {
+                fallbackCopy(textToCopy);
+                showCopied();
+              });
+            } else {
+              fallbackCopy(textToCopy);
+              showCopied();
+            }
+          });
+        });
+
+        function fallbackCopy(text) {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          try { document.execCommand('copy'); } catch (err) {}
+          document.body.removeChild(ta);
+        }
+
+        // ----------------------------------------
+        // Module A: Render 8-Hextet Visualizer
+        // ----------------------------------------
+        function getBitRoleColorClass(bitIndex, prefix) {
+          if (bitIndex < prefix) {
+            if (bitIndex < 48) {
+              return 'bg-indigo-600 dark:bg-indigo-500 text-white';
+            }
+            if (bitIndex < 64) {
+              return 'bg-emerald-600 dark:bg-emerald-500 text-white';
+            }
+            // Bits >= 64 that are still inside a longer prefix (/65../128)
+            return 'bg-indigo-600 dark:bg-indigo-500 text-white';
+          }
+          return 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300';
+        }
+
+        function getHextetRoleLabel(hextetIndex, prefix) {
+          const startBit = hextetIndex * 16;
+          const endBit = startBit + 15;
+          if (endBit < prefix) {
+            if (hextetIndex < 3) return 'Routing Prefix';
+            if (hextetIndex === 3) return 'Subnet ID';
+            return 'Extended Prefix';
+          }
+          if (startBit >= prefix) {
+            return 'Interface ID';
+          }
+          return 'Split Boundary';
+        }
+
+        function renderHextetVisualizer(hextets, prefix) {
+          hextetGrid.innerHTML = '';
+
+          for (let hIdx = 0; hIdx < 8; hIdx++) {
+            const val = hextets[hIdx];
+            const hexStr = val.toString(16).padStart(4, '0');
+            const binStr = val.toString(2).padStart(16, '0');
+            const startBit = hIdx * 16;
+            const endBit = startBit + 15;
+            const roleLabel = getHextetRoleLabel(hIdx, prefix);
+
+            const card = document.createElement('div');
+            card.className = 'p-2.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/70 flex flex-col gap-2 transition-colors';
+            card.title = 'Hextet ' + (hIdx + 1) + ' (Bits ' + startBit + '–' + endBit + '): ' + binStr.match(/.{1,4}/g).join(' ');
+
+            const header = document.createElement('div');
+            header.className = 'flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400';
+            header.innerHTML =
+              '<span class="font-semibold text-slate-700 dark:text-slate-300">H' + (hIdx + 1) + '</span>' +
+              '<span class="font-mono tabular-nums">' + startBit + '–' + endBit + '</span>';
+
+            const hexDisplay = document.createElement('div');
+            hexDisplay.className = 'font-mono text-base font-bold tracking-wider text-center text-slate-900 dark:text-white tabular-nums';
+            hexDisplay.textContent = hexStr;
+
+            // 16-bit segmented bar (always visible)
+            const bitBar = document.createElement('div');
+            bitBar.className = 'grid grid-cols-16 gap-px h-2 rounded-sm overflow-hidden';
+            bitBar.style.gridTemplateColumns = 'repeat(16, minmax(0, 1fr))';
+            for (let b = 0; b < 16; b++) {
+              const bitEl = document.createElement('span');
+              const globalBit = startBit + b;
+              bitEl.className = getBitRoleColorClass(globalBit, prefix).split(' ').slice(0, 2).join(' ');
+              bitBar.appendChild(bitEl);
+            }
+
+            const roleEl = document.createElement('div');
+            roleEl.className = 'text-[11px] text-center font-medium text-slate-600 dark:text-slate-400 truncate';
+            roleEl.textContent = roleLabel;
+
+            card.appendChild(header);
+            card.appendChild(hexDisplay);
+            card.appendChild(bitBar);
+
+            if (showBinaryNibbles) {
+              const nibbleBox = document.createElement('div');
+              nibbleBox.className = 'grid grid-cols-2 gap-1 pt-1 border-t border-slate-200 dark:border-slate-800';
+              for (let n = 0; n < 4; n++) {
+                const nib = document.createElement('div');
+                nib.className = 'flex items-center justify-center gap-px font-mono text-[10px] leading-tight tabular-nums';
+                for (let b = 0; b < 4; b++) {
+                  const globalBit = startBit + n * 4 + b;
+                  const bitChar = binStr[n * 4 + b];
+                  const span = document.createElement('span');
+                  span.textContent = bitChar;
+                  if (globalBit < prefix) {
+                    if (globalBit >= 48 && globalBit < 64) {
+                      span.className = 'text-emerald-700 dark:text-emerald-400 font-semibold';
+                    } else {
+                      span.className = 'text-indigo-700 dark:text-indigo-400 font-semibold';
+                    }
+                  } else {
+                    span.className = 'text-slate-500 dark:text-slate-400';
+                  }
+                  nib.appendChild(span);
+                }
+                nibbleBox.appendChild(nib);
+              }
+              card.appendChild(nibbleBox);
+            }
+
+            card.appendChild(roleEl);
+            hextetGrid.appendChild(card);
+          }
+        }
+
+        // ----------------------------------------
+        // Module A: Update Calculation
+        // ----------------------------------------
+        function updateSubnetModule(syncPrefixFromInput) {
+          const raw = ipv6Input.value;
+          const parsed = E.parseIPv6(raw);
+
+          if (parsed.error) {
+            subnetErrorMessage.textContent = parsed.error;
+            subnetErrorBanner.classList.remove('hidden');
+            return;
+          }
+          subnetErrorBanner.classList.add('hidden');
+
+          if (syncPrefixFromInput && parsed.prefix !== null) {
+            currentPrefix = parsed.prefix;
+            cidrSelect.value = String(currentPrefix);
+            cidrSlider.value = String(currentPrefix);
+          }
+
+          lastValidHextets = parsed.hextets;
+          const calc = E.calculateIPv6Subnet(parsed.value, currentPrefix);
+          const canonical = E.compressRFC5952(parsed.hextets, raw);
+          const scope = E.detectIPv6Scope(parsed.value, currentPrefix);
+          const rdns = E.toReverseDNS(parsed.hextets, currentPrefix);
+
+          // Bit counter summary
+          const hostBits = 128 - currentPrefix;
+          const routingBits = Math.min(currentPrefix, 48);
+          const subnetIdBits = Math.max(0, Math.min(currentPrefix, 64) - 48);
+          const extendedBits = Math.max(0, currentPrefix - 64);
+
+          if (extendedBits > 0) {
+            bitCounterSummary.textContent =
+              'Prefix Bits: ' + routingBits + ' | Subnet ID Bits: ' + subnetIdBits + ' | Extended Host Prefix: ' + extendedBits + ' | Interface ID Bits: ' + hostBits;
+          } else {
+            bitCounterSummary.textContent =
+              'Prefix Bits: ' + routingBits + ' | Subnet ID Bits: ' + subnetIdBits + ' | Interface ID Bits: ' + hostBits;
+          }
+
+          renderHextetVisualizer(parsed.hextets, currentPrefix);
+
+          // Scope badge styling
+          outScopeBadge.textContent = scope.label;
+          outScopeBadge.className = 'inline-flex items-center px-2.5 py-1 rounded-md border text-xs font-medium ';
+          if (scope.tone === 'emerald') {
+            outScopeBadge.className += 'border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300';
+          } else if (scope.tone === 'amber') {
+            outScopeBadge.className += 'border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300';
+          } else if (scope.tone === 'slate') {
+            outScopeBadge.className += 'border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300';
+          } else {
+            outScopeBadge.className += 'border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300';
+          }
+
+          outCanonical.textContent = canonical.compressed;
+          outExpanded.textContent = E.formatExpanded(parsed.hextets);
+          outNetworkStart.textContent = calc.startExpanded;
+          outNetworkStartComp.textContent = calc.startCompressed + '/' + currentPrefix;
+          outNetworkEnd.textContent = calc.endExpanded;
+          outNetworkEndComp.textContent = calc.endCompressed;
+
+          if (calc.available64) {
+            outSubnets64.textContent = calc.available64.primary;
+            outSubnets64Sub.textContent = 'Exact count: ' + calc.available64.exact + ' /64 LAN subnets';
+          } else {
+            outSubnets64.textContent = 'N/A (prefix > /64)';
+            outSubnets64Sub.textContent = 'Longer than standard /64 SLAAC boundary';
+          }
+
+          outTotalAddresses.textContent = calc.totalAddresses.primary;
+          outTotalAddressesExact.textContent = calc.totalAddresses.exact;
+
+          outRdns.textContent = rdns.fullPointer;
+          outRdnsZone.textContent = rdns.zonePointer
+            ? 'Delegated Zone (/' + currentPrefix + '): ' + rdns.zonePointer
+            : 'Full 128-bit host PTR record (32 reversed nibbles)';
+
+          document.querySelectorAll('.cidr-marker').forEach(function (btn) {
+            const isActive = Number(btn.getAttribute('data-prefix')) === currentPrefix;
+            if (isActive) {
+              btn.classList.add('text-indigo-600', 'dark:text-indigo-400', 'font-bold');
+            } else {
+              btn.classList.remove('text-indigo-600', 'dark:text-indigo-400', 'font-bold');
+            }
+          });
+        }
+
+        function setCidrPrefix(newPrefix) {
+          currentPrefix = newPrefix;
+          cidrSelect.value = String(newPrefix);
+          cidrSlider.value = String(newPrefix);
+          // Sync /prefix inside ipv6-input if input already contains /prefix
+          const raw = ipv6Input.value.trim();
+          if (raw.indexOf('/') !== -1) {
+            ipv6Input.value = raw.split('/')[0].trim() + '/' + newPrefix;
+          }
+          updateSubnetModule(false);
+        }
+
+        ipv6Input.addEventListener('input', function () {
+          updateSubnetModule(true);
+        });
+        cidrSelect.addEventListener('change', function () {
+          setCidrPrefix(Number(cidrSelect.value));
+        });
+        cidrSlider.addEventListener('input', function () {
+          setCidrPrefix(Number(cidrSlider.value));
+        });
+
+        document.querySelectorAll('.cidr-marker').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            setCidrPrefix(Number(btn.getAttribute('data-prefix')));
+          });
+        });
+
+        document.querySelectorAll('.subnet-preset').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            ipv6Input.value = btn.getAttribute('data-value');
+            updateSubnetModule(true);
+          });
+        });
+
+        toggleBinaryBtn.addEventListener('click', function () {
+          showBinaryNibbles = !showBinaryNibbles;
+          toggleBinaryBtn.setAttribute('aria-pressed', String(showBinaryNibbles));
+          toggleBinaryBtn.textContent = showBinaryNibbles ? 'Hide Binary Nibbles' : 'Show Binary Nibbles';
+          renderHextetVisualizer(lastValidHextets, currentPrefix);
+        });
+
+        // ----------------------------------------
+        // Module B: RFC 5952 Compressor & Expander
+        // ----------------------------------------
+        function updateCompressorModule() {
+          const raw = compInput.value;
+          const parsed = E.parseIPv6(raw);
+          if (parsed.error) {
+            compErrorMessage.textContent = parsed.error;
+            compErrorBanner.classList.remove('hidden');
+            return;
+          }
+          compErrorBanner.classList.add('hidden');
+
+          const comp = E.compressRFC5952(parsed.hextets, raw);
+          const expanded = E.formatExpanded(parsed.hextets);
+          const suffix = parsed.prefix !== null ? '/' + parsed.prefix : '';
+
+          compOutCanonical.textContent = comp.compressed + suffix;
+          compOutExpanded.textContent = expanded + suffix;
+
+          compAuditLog.innerHTML = '';
+          comp.auditSteps.forEach(function (step) {
+            const li = document.createElement('li');
+            li.textContent = step;
+            compAuditLog.appendChild(li);
+          });
+        }
+
+        compInput.addEventListener('input', updateCompressorModule);
+        document.querySelectorAll('.comp-preset').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            compInput.value = btn.getAttribute('data-value');
+            updateCompressorModule();
+          });
+        });
+
+        // ----------------------------------------
+        // Module C: Modified EUI-64 & Multicast
+        // ----------------------------------------
+        function updateEui64Module() {
+          const parsedMac = E.parseMAC(macInput.value);
+          if (parsedMac.error) {
+            euiErrorMessage.textContent = parsedMac.error;
+            euiErrorBanner.classList.remove('hidden');
+            return;
+          }
+
+          const res = E.computeEUI64(parsedMac.bytes, euiPrefixInput.value);
+          if (res.error) {
+            euiErrorMessage.textContent = res.error;
+            euiErrorBanner.classList.remove('hidden');
+            return;
+          }
+          euiErrorBanner.classList.add('hidden');
+
+          euiStep1Oui.textContent = res.oui;
+          euiStep1Nic.textContent = res.nic;
+          euiStep2Raw.innerHTML =
+            res.oui + ':<span class="text-emerald-600 dark:text-emerald-400">FF:FE</span>:' + res.nic;
+
+          const origBefore = res.b0OrigBin.slice(0, 6);
+          const origBit7 = res.b0OrigBin[6];
+          const origAfter = res.b0OrigBin[7];
+          const flipBefore = res.b0FlipBin.slice(0, 6);
+          const flipBit7 = res.b0FlipBin[6];
+          const flipAfter = res.b0FlipBin[7];
+
+          euiStep3Binary.innerHTML =
+            origBefore + '<span class="font-bold text-indigo-600 dark:text-indigo-400 underline">' + origBit7 + '</span>' + origAfter +
+            ' → ' +
+            flipBefore + '<span class="font-bold text-emerald-600 dark:text-emerald-400 underline">' + flipBit7 + '</span>' + flipAfter;
+
+          euiStep3Xor.textContent =
+            res.b0OrigHex + ' ^ 0x02 = ' + res.b0FlipHex +
+            (res.flippedToUniversal ? ' (0 → 1: globally unique)' : ' (1 → 0: locally administered)');
+
+          euiOutIid.textContent = res.interfaceId;
+          euiOutLinkLocal.textContent = res.linkLocalAddress;
+          euiOutCustom.textContent = res.customAddress;
+
+          // Highlight last 24 bits of Solicited-Node Multicast
+          const mcast = res.multicastAddress;
+          const tail = res.multicastTail24;
+          if (mcast.endsWith(tail)) {
+            const head = mcast.slice(0, mcast.length - tail.length);
+            euiOutMulticast.innerHTML =
+              head + '<span class="text-emerald-600 dark:text-emerald-400 underline decoration-2 underline-offset-2">' + tail + '</span>';
+          } else {
+            euiOutMulticast.textContent = mcast;
+          }
+        }
+
+        macInput.addEventListener('input', updateEui64Module);
+        euiPrefixInput.addEventListener('input', updateEui64Module);
+
+        document.querySelectorAll('.mac-preset').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            macInput.value = btn.getAttribute('data-value');
+            updateEui64Module();
+          });
+        });
+        document.querySelectorAll('.eui-prefix-preset').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            euiPrefixInput.value = btn.getAttribute('data-value');
+            updateEui64Module();
+          });
+        });
+
+        // ----------------------------------------
+        // Reset Button
+        // ----------------------------------------
+        resetBtn.addEventListener('click', function () {
+          ipv6Input.value = '2001:db8:acad:1::42/64';
+          currentPrefix = 64;
+          cidrSelect.value = '64';
+          cidrSlider.value = '64';
+          showBinaryNibbles = false;
+          toggleBinaryBtn.setAttribute('aria-pressed', 'false');
+          toggleBinaryBtn.textContent = 'Show Binary Nibbles';
+          updateSubnetModule(true);
+
+          compInput.value = '2001:0DB8:0000:0000:0001:0000:0000:0001';
+          updateCompressorModule();
+
+          macInput.value = '00:1A:2B:3C:4D:5E';
+          euiPrefixInput.value = 'fe80::/64';
+          updateEui64Module();
+        });
+
+        // Initial render for all 3 modules
+        updateSubnetModule(true);
+        updateCompressorModule();
+        updateEui64Module();
+      })();
+    </script>
+  </body>
+</html>
+
