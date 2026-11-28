@@ -32,7 +32,7 @@
     },
     {
       id: 'subnet-calculator',
-      title: 'Visual IPv4 / CIDR Subnet Calculator',
+      title: 'IPv4 Subnet Calculator & CIDR Visualizer',
       shortTitle: 'IPv4 Subnet Calc',
       category: 'Networking',
       description:
